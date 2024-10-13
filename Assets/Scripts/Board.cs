@@ -358,6 +358,10 @@ public class Board : MonoBehaviour
         { 
             HighlightGems(FindPotentialMatches());
         }
+        else
+        {
+            Debug.Log("Hamle Kalmadı Tahtayı Shuffle Et");
+        }
         
     }
 
@@ -375,25 +379,25 @@ public class Board : MonoBehaviour
                     if (CanSwapAndMatch(x, y, x + 1, y) != null) 
                     {
                         Debug.Log("Sağdaki"+" "+x+" "+y);
-                        return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y);
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y, allGems[x,y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y + 1) != null) 
                     {
                         Debug.Log("Üstteki" + " " + x + " " + y);
-                        return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1);
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1, allGems[x, y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x-1, y) != null) 
                     {
                         Debug.Log("Soldaki" + " " + x + " " + y);
-                        return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y);
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y, allGems[x, y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y-1) != null) 
                     {
                         Debug.Log("Alttaki" + " " + x + " " + y);
-                        return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1);
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1, allGems[x, y]);
                         
                     }
                 }
@@ -403,7 +407,7 @@ public class Board : MonoBehaviour
         return null;
     }
 
-    private List<Gem> returnGemsAccDir(string direction,int x2,int y2)
+    private List<Gem> returnGemsAccDir(string direction,int x2,int y2,Gem gemToAdd)
     {
         List<Gem> returnGems = new List<Gem>();
         switch (direction)
@@ -411,21 +415,25 @@ public class Board : MonoBehaviour
             case "left":
                 returnGems = matchFind.GetHorizontalGemsLeft(x2, y2);
                 returnGems.RemoveAt(0);
+                returnGems.Add(gemToAdd);
                 return returnGems;
        
             case "right":
                 returnGems = matchFind.GetHorizontalGemsRight(x2, y2);
                 returnGems.RemoveAt(0);
+                returnGems.Add(gemToAdd);
                 return returnGems;
 
             case "above":
                 returnGems = matchFind.GetVerticalGemsAbove(x2, y2);
                 returnGems.RemoveAt(0);
+                returnGems.Add(gemToAdd);
                 return returnGems;
 
             case "under":
                 returnGems = matchFind.GetVerticalGemsUnder(x2, y2);
                 returnGems.RemoveAt(0);
+                returnGems.Add(gemToAdd);
                 return returnGems;
 
             default:
