@@ -577,20 +577,13 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                   
                     int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
                     int iterations = 0;
-                    Vector2Int startPos = new Vector2Int(x, y);
-                    while ((MatchesAtSame(startPos, gems[gemToUse])) && iterations < 100)
+                    while (MatchesAtSame(new Vector2Int(x, y), gemsFromBoard[gemToUse]) && iterations < 100 && gemsFromBoard.Count > 1)
                     {
                         gemToUse = Random.Range(0, gemsFromBoard.Count);
                         iterations++;
-
-                        if (iterations == 99)
-                        {
-                            Debug.Log("sıçıyor");
-                        }
                     }
 
                     gemsFromBoard[gemToUse].SetupGem(new Vector2Int(x, y), this);
