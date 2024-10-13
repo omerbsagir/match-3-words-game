@@ -95,7 +95,7 @@ public class Board : MonoBehaviour
                     }
                 }
                 
-                SpawnGem(new Vector2Int(x,y),gems[gemToUse]);
+                SpawnGem(startPos,gems[gemToUse]);
                
             }
         }
@@ -241,7 +241,7 @@ public class Board : MonoBehaviour
         }
 
         // 2. 3 saniye boyunca bekleme (animasyon)
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         // 3. Eşleşen taşları yok etme
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
@@ -289,13 +289,13 @@ public class Board : MonoBehaviour
     // Tahtayı doldur
     private IEnumerator FillBoardCo()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.25f);
         RefillBoard();
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.25f);
         matchFind.FindAllMatches();
         if (matchFind.currentMatches.Count > 0)
         {
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.25f);
             DestroyMatches();
         }
         else
@@ -313,8 +313,22 @@ public class Board : MonoBehaviour
             {
                 if (allGems[x, y] == null)
                 {
-                    int letterToUse = Random.Range(0, gems.Length);
-                    SpawnGem(new Vector2Int(x, y), gems[letterToUse]);
+                    int letterToUse = letterSelector.GetRandomLetter();
+
+                    int iterations = 0;
+                    Vector2Int startPos = new Vector2Int(x, y);
+                    while ((MatchesAtSame(startPos, gems[letterToUse]) ) && iterations < 20)
+                    {
+                        letterToUse = letterSelector.GetRandomLetter();
+                        iterations++;
+
+                        if (iterations == 19)
+                        {
+                            Debug.Log("sıçıyor refill");
+                        }
+                    }
+
+                    SpawnGem(startPos, gems[letterToUse]);
                 }
             }
         }
@@ -386,25 +400,25 @@ public class Board : MonoBehaviour
                     
                     if (CanSwapAndMatch(x, y, x + 1, y) != null) 
                     {
-                        Debug.Log("Sağdaki"+" "+x+" "+y);
+                        //Debug.Log("Sağdaki"+" "+x+" "+y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y, allGems[x,y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y + 1) != null) 
                     {
-                        Debug.Log("Üstteki" + " " + x + " " + y);
+                        //Debug.Log("Üstteki" + " " + x + " " + y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1, allGems[x, y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x-1, y) != null) 
                     {
-                        Debug.Log("Soldaki" + " " + x + " " + y);
+                        //Debug.Log("Soldaki" + " " + x + " " + y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y, allGems[x, y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y-1) != null) 
                     {
-                        Debug.Log("Alttaki" + " " + x + " " + y);
+                        //Debug.Log("Alttaki" + " " + x + " " + y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1, allGems[x, y]);
                         
                     }
