@@ -166,7 +166,7 @@ public class Board : MonoBehaviour
 
 
 
-        if (IsValidWord(wordH) || IsValidWord(wordV) || IsValidWord(wordRH) || IsValidWord(wordRV))
+        if (matchFind.IsValidWord(wordH) || matchFind.IsValidWord(wordV) || matchFind.IsValidWord(wordRH) || matchFind.IsValidWord(wordRV))
         {
             return true;
         }
@@ -198,12 +198,6 @@ public class Board : MonoBehaviour
         }
 
         return word;
-    }
-
-
-    bool IsValidWord(string word)
-    {
-        return wordDatabase.Contains(word.ToLower());
     }
 
 
@@ -359,7 +353,12 @@ public class Board : MonoBehaviour
 
     private void ShowPotentialMatch()
     {
-        HighlightGems(FindPotentialMatches());
+        List<Gem> potGems = FindPotentialMatches();
+        if (potGems != null)
+        { 
+            HighlightGems(FindPotentialMatches());
+        }
+        
     }
 
     private List<Gem> FindPotentialMatches()
@@ -375,27 +374,32 @@ public class Board : MonoBehaviour
                     
                     if (CanSwapAndMatch(x, y, x + 1, y) != null) 
                     {
+                        Debug.Log("Sağdaki"+" "+x+" "+y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y + 1) != null) 
                     {
+                        Debug.Log("Üstteki" + " " + x + " " + y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x-1, y) != null) 
                     {
+                        Debug.Log("Soldaki" + " " + x + " " + y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y-1) != null) 
                     {
+                        Debug.Log("Alttaki" + " " + x + " " + y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1);
                         
                     }
                 }
             }
         }
+        
         return null;
     }
 
@@ -428,25 +432,25 @@ public class Board : MonoBehaviour
                 return null;
         }
     }
-    private string CanSwapAndMatch(int x1, int y1, int x2, int y2)
+    private string CanSwapAndMatch(int x1, int y1, int x2, int y2) // 0 0 -> 1 0
     {
         if (x2 >= width || y2 >= height || x2 < 0 || y2 < 0) return null;
 
-        // Taşları geçici olarak yer değiştir
         Gem temp = allGems[x1, y1];
         allGems[x1, y1] = allGems[x2, y2];
         allGems[x2, y2] = temp;
 
-        List<Gem> potLeftMatch = matchFind.GetHorizontalGemsLeft(x2, y2);
-        List<Gem> potRightMatch = matchFind.GetHorizontalGemsRight(x2, y2);
-        List<Gem> potAboveMatch = matchFind.GetVerticalGemsAbove(x2, y2);
-        List<Gem> potUnderMatch = matchFind.GetVerticalGemsUnder(x2, y2);
+        List<Gem> potLeftMatch = matchFind.GetHorizontalGemsLeft(x2, y2); //null
+        List<Gem> potRightMatch = matchFind.GetHorizontalGemsRight(x2, y2); // 1 2 3 4
+        List<Gem> potAboveMatch = matchFind.GetVerticalGemsAbove(x2, y2); // 1 2 3 4
+        List<Gem> potUnderMatch = matchFind.GetVerticalGemsUnder(x2, y2); //
 
         string wordL = matchFind.GetWordFromGems(potLeftMatch);
         string wordR = matchFind.GetWordFromGems(potRightMatch);
         string wordA = matchFind.GetWordFromGems(potAboveMatch);
         string wordU = matchFind.GetWordFromGems(potUnderMatch);
 
+      
 
         // Taşları eski yerlerine geri koy
         temp = allGems[x1, y1];
@@ -454,23 +458,23 @@ public class Board : MonoBehaviour
         allGems[x2, y2] = temp;
 
 
-        if (IsValidWord(wordL))
+        if (matchFind.IsValidWord(wordL))
         {
-            
             return "left";
         }
-        else if (IsValidWord(wordR))
+        else if (matchFind.IsValidWord(wordR))
         {
-            
+
             return "right";
         }
-        else if (IsValidWord(wordA))
+        else if (matchFind.IsValidWord(wordA))
         {
-            
+
             return "above";
         }
-        else if (IsValidWord(wordU))
+        else if (matchFind.IsValidWord(wordU))
         {
+
             return "under";
         }
         else
