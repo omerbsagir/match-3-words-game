@@ -84,7 +84,7 @@ public class MatchFinder : MonoBehaviour
     }
 
     
-    private List<Gem> GetHorizontalGemsRight(int startX, int y)
+    public List<Gem> GetHorizontalGemsRight(int startX, int y)
     {
 
         if ((startX + letterCountForMatch) < board.width)
@@ -99,7 +99,7 @@ public class MatchFinder : MonoBehaviour
         return null;
         
     }
-    private List<Gem> GetHorizontalGemsLeft(int startX, int y)
+    public List<Gem> GetHorizontalGemsLeft(int startX, int y)
     {
 
         if ((startX - letterCountForMatch) >= 0)
@@ -114,7 +114,7 @@ public class MatchFinder : MonoBehaviour
         return null;
     }
 
-    private List<Gem> GetVerticalGemsAbove(int x, int startY)
+    public List<Gem> GetVerticalGemsAbove(int x, int startY)
     {
         if ((startY + letterCountForMatch) < board.height)
         {
@@ -127,7 +127,7 @@ public class MatchFinder : MonoBehaviour
         }
         return null;
     }
-    private List<Gem> GetVerticalGemsUnder(int x, int startY)
+    public List<Gem> GetVerticalGemsUnder(int x, int startY)
     {
         if ((startY - letterCountForMatch) >= 0)
         {
@@ -142,7 +142,7 @@ public class MatchFinder : MonoBehaviour
     }
 
 
-    private string GetWordFromGems(List<Gem> gems)
+    public string GetWordFromGems(List<Gem> gems)
     {
         string word = "";
 

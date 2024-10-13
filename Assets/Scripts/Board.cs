@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public class Board : MonoBehaviour
 {
@@ -26,7 +27,8 @@ public class Board : MonoBehaviour
 
     public int letterCountFM;
 
-
+    private float idleTime = 0f;
+    private float maxIdleTime = 3f;
 
 
 
@@ -45,6 +47,23 @@ public class Board : MonoBehaviour
         letterCountFM = matchFind.letterCountForMatch;
         allGems = new Gem[width, height];
         Setup();    
+    }
+
+    private void Update()
+    {
+        if (UserMovedGem())
+        {
+            idleTime = 0f; // Kullanıcı bir hamle yaptıysa zamanlayıcıyı sıfırla
+        }
+        else
+        {
+            idleTime += Time.deltaTime; // Kullanıcı hareketsizse süreyi artır
+            if (idleTime >= maxIdleTime)
+            {
+                ShowPotentialMatch(); // Belirlenen süreyi geçince potansiyel eşleşmeyi göster
+                idleTime = 0f; // Potansiyel eşleşmeyi gösterdikten sonra zamanlayıcıyı sıfırla
+            }
+        }
     }
 
     private void Setup()
@@ -320,6 +339,152 @@ public class Board : MonoBehaviour
         foreach (Gem g in foundGems)
         {
             Destroy(g.gameObject);
+        }
+    }
+
+
+    private bool UserMovedGem()
+    {
+        if (currentState == BoardState.wait)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+
+    private void ShowPotentialMatch()
+    {
+        HighlightGems(FindPotentialMatches());
+    }
+
+    private List<Gem> FindPotentialMatches()
+    {
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Gem currentGem = allGems[x, y];
+                if (currentGem != null)
+                {
+                    
+                    if (CanSwapAndMatch(x, y, x + 1, y) != null) 
+                    {
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y);
+                        
+                    }
+                    else if (CanSwapAndMatch(x, y, x, y + 1) != null) 
+                    {
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1);
+                        
+                    }
+                    else if (CanSwapAndMatch(x, y, x-1, y) != null) 
+                    {
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y);
+                        
+                    }
+                    else if (CanSwapAndMatch(x, y, x, y-1) != null) 
+                    {
+                        return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1);
+                        
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private List<Gem> returnGemsAccDir(string direction,int x2,int y2)
+    {
+        List<Gem> returnGems = new List<Gem>();
+        switch (direction)
+        {
+            case "left":
+                returnGems = matchFind.GetHorizontalGemsLeft(x2, y2);
+                returnGems.RemoveAt(0);
+                return returnGems;
+       
+            case "right":
+                returnGems = matchFind.GetHorizontalGemsRight(x2, y2);
+                returnGems.RemoveAt(0);
+                return returnGems;
+
+            case "above":
+                returnGems = matchFind.GetVerticalGemsAbove(x2, y2);
+                returnGems.RemoveAt(0);
+                return returnGems;
+
+            case "under":
+                returnGems = matchFind.GetVerticalGemsUnder(x2, y2);
+                returnGems.RemoveAt(0);
+                return returnGems;
+
+            default:
+                return null;
+        }
+    }
+    private string CanSwapAndMatch(int x1, int y1, int x2, int y2)
+    {
+        if (x2 >= width || y2 >= height || x2 < 0 || y2 < 0) return null;
+
+        // Taşları geçici olarak yer değiştir
+        Gem temp = allGems[x1, y1];
+        allGems[x1, y1] = allGems[x2, y2];
+        allGems[x2, y2] = temp;
+
+        List<Gem> potLeftMatch = matchFind.GetHorizontalGemsLeft(x2, y2);
+        List<Gem> potRightMatch = matchFind.GetHorizontalGemsRight(x2, y2);
+        List<Gem> potAboveMatch = matchFind.GetVerticalGemsAbove(x2, y2);
+        List<Gem> potUnderMatch = matchFind.GetVerticalGemsUnder(x2, y2);
+
+        string wordL = matchFind.GetWordFromGems(potLeftMatch);
+        string wordR = matchFind.GetWordFromGems(potRightMatch);
+        string wordA = matchFind.GetWordFromGems(potAboveMatch);
+        string wordU = matchFind.GetWordFromGems(potUnderMatch);
+
+
+        // Taşları eski yerlerine geri koy
+        temp = allGems[x1, y1];
+        allGems[x1, y1] = allGems[x2, y2];
+        allGems[x2, y2] = temp;
+
+
+        if (IsValidWord(wordL))
+        {
+            
+            return "left";
+        }
+        else if (IsValidWord(wordR))
+        {
+            
+            return "right";
+        }
+        else if (IsValidWord(wordA))
+        {
+            
+            return "above";
+        }
+        else if (IsValidWord(wordU))
+        {
+            return "under";
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
+    void HighlightGems(List<Gem> gems)
+    {
+        foreach(Gem g in gems)
+        {
+            g.GetComponent<SpriteRenderer>().color = Color.blue;
         }
     }
 
