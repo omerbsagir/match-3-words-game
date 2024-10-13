@@ -157,7 +157,7 @@ public class MatchFinder : MonoBehaviour
         return word;
     }
 
-    private bool IsValidWord(string word)
+    public bool IsValidWord(string word)
     {
         return wordDatabase.Contains(word.ToLower()); // Küçük harfe çevirip kontrol et
     }

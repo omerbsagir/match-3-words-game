@@ -165,7 +165,6 @@ public class Board : MonoBehaviour
             word += allGems[x, startPos.y].letterValue;
         }
 
-        
         return word;
     }
     string GetWordFromPositionsVertical(Vector2Int startPos, Vector2Int endPos, Gem gemToCheck)
@@ -183,8 +182,8 @@ public class Board : MonoBehaviour
 
     bool IsValidWord(string word)
     {
-        Debug.Log(word + " " + (wordDatabase.Contains(word.ToLower())));
-        return wordDatabase.Contains(word.ToLower());  
+        
+        return wordDatabase.Contains(word.ToLower());
     }
 
 
