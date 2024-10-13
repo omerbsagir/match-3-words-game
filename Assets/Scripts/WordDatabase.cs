@@ -6,7 +6,7 @@ public class WordDatabase : MonoBehaviour
     [HideInInspector]
     public List<string> wordList;
 
-    void Start()
+    void Awake()
     {
         TextAsset wordFile = Resources.Load<TextAsset>("words");
         if (wordFile != null)

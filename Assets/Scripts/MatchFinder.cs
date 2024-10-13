@@ -22,6 +22,7 @@ public class MatchFinder : MonoBehaviour
     private void Start()
     {
         wordDatabase = wd.wordList;
+        
     }
 
     public void FindAllMatches()
