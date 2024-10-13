@@ -157,7 +157,8 @@ public class Board : MonoBehaviour
     
     string GetWordFromPositionsHorizontal(Vector2Int startPos, Vector2Int endPos, Gem gemToCheck)
     {
-        string word = gemToCheck.letterValue;
+        string word = "";
+        word += gemToCheck.letterValue;
 
         // Yatay bir kelime oluşturma
         for (int x = startPos.x-1; x >= endPos.x; x--)
@@ -169,7 +170,8 @@ public class Board : MonoBehaviour
     }
     string GetWordFromPositionsVertical(Vector2Int startPos, Vector2Int endPos, Gem gemToCheck)
     {
-        string word = gemToCheck.letterValue;
+        string word = "";
+        word += gemToCheck.letterValue;
 
         for (int y = startPos.y-1; y >= endPos.y; y--)
         {
@@ -182,7 +184,6 @@ public class Board : MonoBehaviour
 
     bool IsValidWord(string word)
     {
-        
         return wordDatabase.Contains(word.ToLower());
     }
 

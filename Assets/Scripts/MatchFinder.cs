@@ -153,7 +153,7 @@ public class MatchFinder : MonoBehaviour
                 word += gem.letterValue; // 'letter' taşın temsil ettiği harf
             }
         }
-        
+
         return word;
     }
 
