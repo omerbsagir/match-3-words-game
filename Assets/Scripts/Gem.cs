@@ -26,7 +26,9 @@ public class Gem : MonoBehaviour
     private Vector2Int previousPos;
 
     public GameObject destroyEffect;
-    
+
+    //public int blastSize = 2;
+
 
     void Start()
     {

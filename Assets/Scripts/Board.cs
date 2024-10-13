@@ -25,12 +25,15 @@ public class Board : MonoBehaviour
     public enum BoardState { wait, move }
     public BoardState currentState = BoardState.move;
 
+    //public Gem bomb;
+    //public float bombChance = 2f;
+
     public int letterCountFM;
 
     private float idleTime = 0f;
-    private float maxIdleTime = 3f;
+    public float maxIdleTime = 3f;
 
-
+    private bool isDestroying=false;
 
 
     private void Awake()
@@ -55,6 +58,11 @@ public class Board : MonoBehaviour
     {
         if (UserMovedGem())
         {
+            if (!isDestroying)
+            {
+                DeHighlightGems();
+            }
+            
             idleTime = 0f; // Kullanıcı bir hamle yaptıysa zamanlayıcıyı sıfırla
         }
         else
@@ -103,6 +111,8 @@ public class Board : MonoBehaviour
 
     void SpawnGem(Vector2Int pos,Gem gemToSpawn)
     {
+       
+
         Gem gem = Instantiate(gemToSpawn, new Vector3(pos.x, pos.y+height, 0f), Quaternion.identity);
         gem.transform.parent = transform;
         gem.name = "Gem - " + pos.x + ", " + pos.y;
@@ -231,6 +241,7 @@ public class Board : MonoBehaviour
 
     private IEnumerator HandleMatchesCoroutine()
     {
+        isDestroying = true;
         // 1. Eşleşen taşları yeşile boyama
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
@@ -241,7 +252,7 @@ public class Board : MonoBehaviour
         }
 
         // 2. 3 saniye boyunca bekleme (animasyon)
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         // 3. Eşleşen taşları yok etme
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
@@ -251,6 +262,8 @@ public class Board : MonoBehaviour
                 DestroyMatchedLetterAt(matchFind.currentMatches[i].posIndex);
             }
         }
+
+        isDestroying = false;
 
         // 4. Satırları azaltma (yok edilen taşlardan sonra düşen taşlar)
         StartCoroutine(DecreaseRowCo());
@@ -382,7 +395,8 @@ public class Board : MonoBehaviour
         }
         else
         {
-            Debug.Log("Hamle Kalmadı Tahtayı Shuffle Et");
+            Debug.Log("Hamle Kalmadı Tahta Shuffle Ediliyor");
+            ShuffleBoard();
         }
         
     }
@@ -523,7 +537,69 @@ public class Board : MonoBehaviour
     {
         foreach(Gem g in gems)
         {
-            g.GetComponent<SpriteRenderer>().color = Color.blue;
+            if (g != null)
+            {
+                g.GetComponent<SpriteRenderer>().color = Color.blue;
+            }
+        }
+
+    }
+    void DeHighlightGems()
+    {
+        foreach (Gem g in allGems)
+        {
+            if (g != null)
+            {
+                g.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }
+
+    }
+
+    public void ShuffleBoard()
+    {
+        if (currentState != BoardState.wait)
+        {
+            currentState = BoardState.wait;
+
+            List<Gem> gemsFromBoard = new List<Gem>();
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    gemsFromBoard.Add(allGems[x, y]);
+                    allGems[x, y] = null;
+                }
+            }
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                   
+                    int gemToUse = Random.Range(0, gemsFromBoard.Count);
+
+                    int iterations = 0;
+                    Vector2Int startPos = new Vector2Int(x, y);
+                    while ((MatchesAtSame(startPos, gems[gemToUse])) && iterations < 100)
+                    {
+                        gemToUse = Random.Range(0, gemsFromBoard.Count);
+                        iterations++;
+
+                        if (iterations == 99)
+                        {
+                            Debug.Log("sıçıyor");
+                        }
+                    }
+
+                    gemsFromBoard[gemToUse].SetupGem(new Vector2Int(x, y), this);
+                    allGems[x, y] = gemsFromBoard[gemToUse];
+                    gemsFromBoard.RemoveAt(gemToUse);
+                }
+            }
+
+            StartCoroutine(FillBoardCo());
         }
     }
 

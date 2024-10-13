@@ -323,10 +323,13 @@ MonoBehaviour:
   - {fileID: 5219401000564420796, guid: f65fb84db8d30424d9ad8214f12ef797, type: 3}
   - {fileID: 7443014014236345905, guid: f975c8be6e9af4a9d8cb15b21bd8f826, type: 3}
   - {fileID: 3201782477045796786, guid: d00796c88108b430eafd5cd3dcafe64e, type: 3}
+  - {fileID: 4031018568515847642, guid: 57cf5cf8652ee407abd81b97fd09fbf3, type: 3}
   gemSpeed: 20
   matchFind: {fileID: 0}
   letterSelector: {fileID: 0}
   currentState: 1
+  letterCountFM: 0
+  maxIdleTime: 5
 --- !u!4 &934488873
 Transform:
   m_ObjectHideFlags: 0
