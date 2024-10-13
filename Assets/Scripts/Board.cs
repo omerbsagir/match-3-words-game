@@ -147,7 +147,10 @@ public class Board : MonoBehaviour
 
             if (endPosH != null)
             {
-                wordH = GetWordFromPositionsHorizontal(startPos, endPosH,gemToCheck);
+                //wordH = GetWordFromPositionsHorizontal(startPos, endPosH,gemToCheck);
+
+                List<Gem> gems = matchFind.GetHorizontalGemsLeft(startPos.x, startPos.y);
+                wordH = matchFind.GetWordFromGems(gems);
                 wordRH = new string(wordH.Reverse().ToArray());
             }
         }
@@ -159,7 +162,10 @@ public class Board : MonoBehaviour
 
             if (endPosH != null)
             {
-                wordV = GetWordFromPositionsVertical(startPos, endPosV,gemToCheck);
+                //wordV = GetWordFromPositionsVertical(startPos, endPosV,gemToCheck);
+
+                List<Gem> gems = matchFind.GetVerticalGemsUnder(startPos.x, startPos.y);
+                wordV = matchFind.GetWordFromGems(gems);
                 wordRV = new string(wordV.Reverse().ToArray());
             }
         }
@@ -458,7 +464,12 @@ public class Board : MonoBehaviour
         string wordA = matchFind.GetWordFromGems(potAboveMatch);
         string wordU = matchFind.GetWordFromGems(potUnderMatch);
 
-      
+        string rWordL = new string(wordL.Reverse().ToArray());
+        string rWordR = new string(wordR.Reverse().ToArray());
+        string rWordA = new string(wordA.Reverse().ToArray());
+        string rWordU = new string(wordU.Reverse().ToArray());
+
+
 
         // Taşları eski yerlerine geri koy
         temp = allGems[x1, y1];
@@ -466,21 +477,21 @@ public class Board : MonoBehaviour
         allGems[x2, y2] = temp;
 
 
-        if (matchFind.IsValidWord(wordL))
+        if (matchFind.IsValidWord(wordL) || matchFind.IsValidWord(rWordL))
         {
             return "left";
         }
-        else if (matchFind.IsValidWord(wordR))
+        else if (matchFind.IsValidWord(wordR) || matchFind.IsValidWord(rWordR))
         {
 
             return "right";
         }
-        else if (matchFind.IsValidWord(wordA))
+        else if (matchFind.IsValidWord(wordA) || matchFind.IsValidWord(rWordA))
         {
 
             return "above";
         }
-        else if (matchFind.IsValidWord(wordU))
+        else if (matchFind.IsValidWord(wordU) || matchFind.IsValidWord(rWordU))
         {
 
             return "under";
