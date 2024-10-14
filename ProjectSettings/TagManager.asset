@@ -38,15 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: BG
     uniqueID: 1171885311
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: GEMS
     uniqueID: 284800905
     locked: 0
+  - name: COVER
+    uniqueID: 1520058231
+    locked: 0
   - name: EFFECTS
-    uniqueID: 2348030119
+    uniqueID: 1802056009
     locked: 0

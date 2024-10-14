@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
 
     private Gem otherGem;
 
-    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb }
+    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb,glass }
     public GemType type;
     public string letterValue;
 
@@ -29,12 +29,16 @@ public class Gem : MonoBehaviour
 
     public int blastSize = 2;
 
+    public bool hasCover = false;
+
     private void Awake()
     {
         if (type != GemType.bomb)
         {
             blastSize = 0;
         }
+        
+        
     }
     void Start()
     {
@@ -84,13 +88,17 @@ public class Gem : MonoBehaviour
 
     private void CalculateAngle()
     {
-        swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
-        swipeAngle = swipeAngle * 180 / Mathf.PI;
-
-        if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
+        if (type != GemType.glass)
         {
-            MovePieces();
+            swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
+            swipeAngle = swipeAngle * 180 / Mathf.PI;
+
+            if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
+            {
+                MovePieces();
+            }
         }
+        
     }
 
     private void MovePieces()

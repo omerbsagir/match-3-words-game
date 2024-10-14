@@ -38,6 +38,9 @@ public class Board : MonoBehaviour
 
     List<Gem> movedBombs = new List<Gem>();
 
+    public Gem glass;
+    public float glassChance = 2f;
+
 
     private void Awake()
     {
@@ -107,6 +110,12 @@ public class Board : MonoBehaviour
                 }
                 
                 SpawnGem(startPos,gems[gemToUse]);
+
+                int willBeGlass = Random.Range(0, 100);
+                if (willBeGlass < glassChance)
+                {
+                    SpawnGlass(startPos);
+                }
                
             }
         }
@@ -125,6 +134,20 @@ public class Board : MonoBehaviour
         allGems[pos.x, pos.y] = gem;
 
         gem.SetupGem(pos, this);
+    }
+    void SpawnGlass(Vector2Int pos)
+    {
+        if(allGems[pos.x, pos.y].type != Gem.GemType.bomb)
+        {
+            Gem gem = Instantiate(glass, new Vector3(pos.x, pos.y, 0f), Quaternion.identity);
+            gem.transform.parent = transform;
+            gem.name = "Glass - " + pos.x + ", " + pos.y;
+            allGems[pos.x, pos.y].hasCover = true;
+
+            gem.SetupGem(pos, this);
+
+        }
+        
     }
 
     bool MatchesAtSame(Vector2Int posToCheck, Gem gemToCheck)
@@ -389,7 +412,11 @@ public class Board : MonoBehaviour
 
         foreach (Gem g in foundGems)
         {
-            Destroy(g.gameObject);
+            if(g.type != Gem.GemType.glass)
+            {
+                Destroy(g.gameObject);
+            }
+            
         }
     }
 

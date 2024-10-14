@@ -332,6 +332,8 @@ MonoBehaviour:
   bombChance: 3
   letterCountFM: 0
   maxIdleTime: 3
+  glass: {fileID: -6250577837387913103, guid: b0b7f50d1db63440db0993cf4474aec3, type: 3}
+  glassChance: 5
 --- !u!4 &934488873
 Transform:
   m_ObjectHideFlags: 0
