@@ -41,13 +41,14 @@ public class Board : MonoBehaviour
     public Gem glass;
     public float glassChance = 2f;
 
+    public Gem[,] allGlasses;
 
     private void Awake()
     {
         wd = FindObjectOfType<WordDatabase>();
         matchFind = FindObjectOfType<MatchFinder>();
         letterSelector = FindObjectOfType<LetterSelector>();
-        
+
     }
 
     void Start()
@@ -55,6 +56,7 @@ public class Board : MonoBehaviour
         wordDatabase = wd.wordList;
         letterCountFM = matchFind.letterCountForMatch;
         allGems = new Gem[width, height];
+        allGlasses = new Gem[width, height];
         Setup();
 
         
@@ -88,6 +90,8 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
+                allGlasses[x, y] = null;
+
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(tilePrefab, pos, Quaternion.identity);
                 bgTile.transform.parent = transform;
@@ -143,6 +147,7 @@ public class Board : MonoBehaviour
             gem.transform.parent = transform;
             gem.name = "Glass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasCover = true;
+            allGlasses[pos.x, pos.y] = glass;
 
             gem.SetupGem(pos, this);
 
@@ -230,6 +235,7 @@ public class Board : MonoBehaviour
         for (int x = startPos.x-1; x >= endPos.x; x--)
         {
             word += allGems[x, startPos.y].letterValue;
+
         }
 
         return word;
@@ -242,6 +248,7 @@ public class Board : MonoBehaviour
         for (int y = startPos.y-1; y >= endPos.y; y--)
         {
             word += allGems[startPos.x, y].letterValue;
+
         }
 
         return word;
@@ -255,6 +262,13 @@ public class Board : MonoBehaviour
         {
             if (allGems[pos.x, pos.y].isMatched)
             {
+
+                if (allGems[pos.x, pos.y].hasCover)
+                {
+                    Destroy(allGlasses[pos.x, pos.y].gameObject);
+                    allGlasses[pos.x, pos.y] = null;
+                }
+
                 //Instantiate(allGems[pos.x, pos.y].destroyEffect, new Vector2(pos.x, pos.y), Quaternion.identity);
 
                 Destroy(allGems[pos.x, pos.y].gameObject);
@@ -669,4 +683,5 @@ public class Board : MonoBehaviour
             }
         }
     }
+    
 }

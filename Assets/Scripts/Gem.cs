@@ -29,7 +29,7 @@ public class Gem : MonoBehaviour
 
     public int blastSize = 2;
 
-    public bool hasCover = false;
+    public bool hasCover;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class Gem : MonoBehaviour
     }
     void Start()
     {
-        
+        hasCover = false;
     }
 
     
@@ -88,7 +88,7 @@ public class Gem : MonoBehaviour
 
     private void CalculateAngle()
     {
-        if (type != GemType.glass)
+        if (type != GemType.glass && hasCover==false)
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
             swipeAngle = swipeAngle * 180 / Mathf.PI;
@@ -108,27 +108,46 @@ public class Gem : MonoBehaviour
         if (swipeAngle < 45 && swipeAngle > -45 && posIndex.x < board.width - 1)
         {
             otherGem = board.allGems[posIndex.x + 1, posIndex.y];
-            otherGem.posIndex.x--;
-            posIndex.x++;
+
+            if (board.allGlasses[posIndex.x + 1 ,posIndex.y] == null) {
+                
+                Debug.Log("ife girdi");
+                otherGem.posIndex.x--;
+                posIndex.x++;
+            }
+            
+            
         }
         else if (swipeAngle > 45 && swipeAngle <= 135 && posIndex.y < board.height - 1)
         {
-            otherGem = board.allGems[posIndex.x, posIndex.y + 1];
-            otherGem.posIndex.y--;
-            posIndex.y++;
+            if (!otherGem.hasCover)
+            {
+                otherGem = board.allGems[posIndex.x, posIndex.y + 1];
+                otherGem.posIndex.y--;
+                posIndex.y++;
+            }
+            
         }
         else if (swipeAngle < -45 && swipeAngle >= -135 && posIndex.y > 0)
         {
-            otherGem = board.allGems[posIndex.x, posIndex.y - 1];
-            otherGem.posIndex.y++;
-            posIndex.y--;
+            if (!otherGem.hasCover)
+            {
+                otherGem = board.allGems[posIndex.x, posIndex.y - 1];
+                otherGem.posIndex.y++;
+                posIndex.y--;
+            }
+            
         }
         else if (swipeAngle > 135 || swipeAngle < -135)
         {
             if (posIndex.x > 0) {
-                otherGem = board.allGems[posIndex.x - 1, posIndex.y];
-                otherGem.posIndex.x++;
-                posIndex.x--;
+                if (!otherGem.hasCover)
+                {
+                    otherGem = board.allGems[posIndex.x - 1, posIndex.y];
+                    otherGem.posIndex.x++;
+                    posIndex.x--;
+                }
+                
             }
             
         }
