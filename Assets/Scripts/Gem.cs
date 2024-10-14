@@ -178,42 +178,46 @@ public class Gem : MonoBehaviour
         }
         else
         {
-            List<Gem> gems = new List<Gem>();
-            gems.Add(this);
-            HashSet<Gem> processedBombs = new HashSet<Gem>(); // İşlenmiş bombaları kontrol etmek için
-            Queue<Gem> bombQueue = new Queue<Gem>(); // Bombaların tetiklenmesi için bir kuyruk
-
-            bombQueue.Enqueue(this); // İlk bombayı kuyruğa ekle
-            processedBombs.Add(this); // İşaretle
-
-            this.isMatched = true;
-
-            while (bombQueue.Count > 0)
-            {
-                Gem currentBomb = bombQueue.Dequeue();
-                int x = currentBomb.posIndex.x;
-                int y = currentBomb.posIndex.y;
-
-                // Çevresindeki taşları ekle
-                AddNeighboringGems(gems, x, y);
-
-                // Eğer çevresindeki bir taş bomba ise, onu da tetiklenecekler arasına ekle
-                foreach (Gem gem in gems)
-                {
-                    if (gem.type == GemType.bomb && !processedBombs.Contains(gem))
-                    {
-                        bombQueue.Enqueue(gem);
-                        processedBombs.Add(gem);
-                    }
-                }
-            }
-
-            // Çevredeki tüm bombalar ve taşlar eşleşmiş olarak işaretlendi
-            board.matchFind.MarkGemsAsMatched(gems);
+            MarkBeforeExplodeBomb();
             board.DestroyMatches();
         }
     }
+    public void MarkBeforeExplodeBomb()
+    {
+        List<Gem> gems = new List<Gem>();
+        gems.Add(this);
+        HashSet<Gem> processedBombs = new HashSet<Gem>(); // İşlenmiş bombaları kontrol etmek için
+        Queue<Gem> bombQueue = new Queue<Gem>(); // Bombaların tetiklenmesi için bir kuyruk
 
+        bombQueue.Enqueue(this); // İlk bombayı kuyruğa ekle
+        processedBombs.Add(this); // İşaretle
+
+        this.isMatched = true;
+
+        while (bombQueue.Count > 0)
+        {
+            Gem currentBomb = bombQueue.Dequeue();
+            int x = currentBomb.posIndex.x;
+            int y = currentBomb.posIndex.y;
+
+            // Çevresindeki taşları ekle
+            AddNeighboringGems(gems, x, y);
+
+            // Eğer çevresindeki bir taş bomba ise, onu da tetiklenecekler arasına ekle
+            foreach (Gem gem in gems)
+            {
+                if (gem.type == GemType.bomb && !processedBombs.Contains(gem))
+                {
+                    bombQueue.Enqueue(gem);
+                    processedBombs.Add(gem);
+                }
+            }
+        }
+
+        // Çevredeki tüm bombalar ve taşlar eşleşmiş olarak işaretlendi
+        board.matchFind.MarkGemsAsMatched(gems);
+        
+    }
     // Çevredeki taşları ekleyip listeye dahil eden yardımcı fonksiyon
     private void AddNeighboringGems(List<Gem> gems, int x, int y)
     {

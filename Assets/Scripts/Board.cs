@@ -35,6 +35,8 @@ public class Board : MonoBehaviour
 
     private bool isDestroying=false;
 
+    List<Gem> movedBombs = new List<Gem>();
+
 
     private void Awake()
     {
@@ -280,6 +282,7 @@ public class Board : MonoBehaviour
         yield return new WaitForSeconds(.2f);
 
         int nullCounter = 0;
+        
 
         for (int x = 0; x < width; x++)
         {
@@ -291,6 +294,10 @@ public class Board : MonoBehaviour
                 }
                 else if (nullCounter > 0)
                 {
+                    if (allGems[x, y].type == Gem.GemType.bomb)
+                    {
+                        movedBombs.Add(allGems[x, y]);
+                    }
                     allGems[x, y].posIndex.y -= nullCounter;
                     allGems[x, y - nullCounter] = allGems[x, y];
                     allGems[x, y] = null;
@@ -298,7 +305,7 @@ public class Board : MonoBehaviour
             }
             nullCounter = 0;
         }
-
+        
         StartCoroutine(FillBoardCo());
     }
 
@@ -308,7 +315,16 @@ public class Board : MonoBehaviour
         yield return new WaitForSeconds(.25f);
         RefillBoard();
         yield return new WaitForSeconds(.25f);
+        
         matchFind.FindAllMatches();
+        if (movedBombs.Count > 0)
+        {
+            foreach (Gem g in movedBombs)
+            {
+                g.MarkBeforeExplodeBomb();
+            }
+            movedBombs.Clear();
+        }
         if (matchFind.currentMatches.Count > 0)
         {
             yield return new WaitForSeconds(.25f);
@@ -349,6 +365,8 @@ public class Board : MonoBehaviour
             }
         }
         CheckMisplacedGems();
+
+        
     }
 
     private void CheckMisplacedGems()
