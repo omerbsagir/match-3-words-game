@@ -138,6 +138,8 @@ public class Board : MonoBehaviour
         allGems[pos.x, pos.y] = gem;
 
         gem.SetupGem(pos, this);
+
+
     }
     void SpawnGlass(Vector2Int pos)
     {
@@ -254,29 +256,6 @@ public class Board : MonoBehaviour
         return word;
     }
 
-
-    // Anlamlı kelimeleri yok et
-    private void DestroyMatchedLetterAt(Vector2Int pos)
-    {
-        if (allGems[pos.x, pos.y] != null)
-        {
-            if (allGems[pos.x, pos.y].isMatched)
-            {
-
-                if (allGems[pos.x, pos.y].hasCover)
-                {
-                    Destroy(allGlasses[pos.x, pos.y].gameObject);
-                    allGlasses[pos.x, pos.y] = null;
-                }
-
-                //Instantiate(allGems[pos.x, pos.y].destroyEffect, new Vector2(pos.x, pos.y), Quaternion.identity);
-
-                Destroy(allGems[pos.x, pos.y].gameObject);
-                allGems[pos.x, pos.y] = null;
-            }
-        }
-    }
-
     public void DestroyMatches()
     {
         StartCoroutine(HandleMatchesCoroutine());
@@ -311,6 +290,31 @@ public class Board : MonoBehaviour
         // 4. Satırları azaltma (yok edilen taşlardan sonra düşen taşlar)
         StartCoroutine(DecreaseRowCo());
     }
+
+    private void DestroyMatchedLetterAt(Vector2Int pos)
+    {
+        if (allGems[pos.x, pos.y] != null)
+        {
+            if (allGems[pos.x, pos.y].isMatched)
+            {
+
+                if (allGems[pos.x, pos.y].hasCover)
+                {
+                    Destroy(allGlasses[pos.x, pos.y].gameObject);
+                    allGlasses[pos.x, pos.y] = null;
+                }
+
+                //Instantiate(allGems[pos.x, pos.y].destroyEffect, new Vector2(pos.x, pos.y), Quaternion.identity);
+
+                Destroy(allGems[pos.x, pos.y].gameObject);
+                allGems[pos.x, pos.y] = null;
+            }
+        }
+    }
+
+    
+
+    
 
 
 
@@ -402,7 +406,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        CheckMisplacedGems();
+        //CheckMisplacedGems();
 
         
     }
@@ -486,25 +490,25 @@ public class Board : MonoBehaviour
                 if (currentGem != null && currentGem.type!=Gem.GemType.bomb)
                 {
                     
-                    if (CanSwapAndMatch(x, y, x + 1, y) != null) 
+                    if (CanSwapAndMatch(x, y, x + 1, y) != null && allGlasses[x + 1, y] == null) 
                     {
-                        //Debug.Log("Sağdaki"+" "+x+" "+y);
+                     
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y, allGems[x,y]);
                         
                     }
-                    else if (CanSwapAndMatch(x, y, x, y + 1) != null) 
+                    else if (CanSwapAndMatch(x, y, x, y + 1) != null && allGlasses[x, y + 1] == null) 
                     {
-                        //Debug.Log("Üstteki" + " " + x + " " + y);
+                       
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1, allGems[x, y]);
                         
                     }
-                    else if (CanSwapAndMatch(x, y, x-1, y) != null) 
+                    else if (CanSwapAndMatch(x, y, x-1, y) != null && allGlasses[x - 1, y] == null)
                     {
-                        //Debug.Log("Soldaki" + " " + x + " " + y);
+
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y, allGems[x, y]);
                         
                     }
-                    else if (CanSwapAndMatch(x, y, x, y-1) != null) 
+                    else if (CanSwapAndMatch(x, y, x, y-1) != null && allGlasses[x, y - 1] == null) 
                     {
                         //Debug.Log("Alttaki" + " " + x + " " + y);
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1, allGems[x, y]);
@@ -683,5 +687,6 @@ public class Board : MonoBehaviour
             }
         }
     }
+
     
 }

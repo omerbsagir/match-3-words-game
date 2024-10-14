@@ -29,7 +29,7 @@ public class Gem : MonoBehaviour
 
     public int blastSize = 2;
 
-    public bool hasCover;
+    public bool hasCover=false;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class Gem : MonoBehaviour
     }
     void Start()
     {
-        hasCover = false;
+        
     }
 
     
@@ -57,7 +57,15 @@ public class Gem : MonoBehaviour
         else
         {
             transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
-            board.allGems[posIndex.x, posIndex.y] = this;
+            if (type == GemType.glass)
+            {
+                board.allGlasses[posIndex.x, posIndex.y] = this;
+            }
+            else
+            {
+                board.allGems[posIndex.x, posIndex.y] = this;
+            }
+            
         }
 
         if (mousePressed && Input.GetMouseButtonUp(0))
@@ -107,11 +115,9 @@ public class Gem : MonoBehaviour
 
         if (swipeAngle < 45 && swipeAngle > -45 && posIndex.x < board.width - 1)
         {
-            otherGem = board.allGems[posIndex.x + 1, posIndex.y];
-
             if (board.allGlasses[posIndex.x + 1 ,posIndex.y] == null) {
-                
-                Debug.Log("ife girdi");
+
+                otherGem = board.allGems[posIndex.x + 1, posIndex.y];
                 otherGem.posIndex.x--;
                 posIndex.x++;
             }
@@ -120,7 +126,7 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle > 45 && swipeAngle <= 135 && posIndex.y < board.height - 1)
         {
-            if (!otherGem.hasCover)
+            if (board.allGlasses[posIndex.x, posIndex.y+1] == null)
             {
                 otherGem = board.allGems[posIndex.x, posIndex.y + 1];
                 otherGem.posIndex.y--;
@@ -130,7 +136,7 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle < -45 && swipeAngle >= -135 && posIndex.y > 0)
         {
-            if (!otherGem.hasCover)
+            if (board.allGlasses[posIndex.x, posIndex.y-1] == null)
             {
                 otherGem = board.allGems[posIndex.x, posIndex.y - 1];
                 otherGem.posIndex.y++;
@@ -141,7 +147,7 @@ public class Gem : MonoBehaviour
         else if (swipeAngle > 135 || swipeAngle < -135)
         {
             if (posIndex.x > 0) {
-                if (!otherGem.hasCover)
+                if (board.allGlasses[posIndex.x - 1, posIndex.y] == null)
                 {
                     otherGem = board.allGems[posIndex.x - 1, posIndex.y];
                     otherGem.posIndex.x++;
@@ -155,10 +161,17 @@ public class Gem : MonoBehaviour
         board.allGems[posIndex.x, posIndex.y] = this;
         if (otherGem != null) {
             board.allGems[otherGem.posIndex.x, otherGem.posIndex.y] = otherGem;
+
+            
+            StartCoroutine(CheckMoveCo());
+        }
+        else
+        {
+            Debug.Log("othergem is null");
         }
         
 
-        StartCoroutine(CheckMoveCo());
+        
     }
 
     private void OnMouseDown()
@@ -180,6 +193,7 @@ public class Gem : MonoBehaviour
 
         if (type != GemType.bomb)
         {
+
             board.matchFind.FindAllMatches();
 
             if (otherGem != null)
