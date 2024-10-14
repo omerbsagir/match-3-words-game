@@ -82,6 +82,11 @@ public class Board : MonoBehaviour
                 idleTime = 0f; // Potansiyel eşleşmeyi gösterdikten sonra zamanlayıcıyı sıfırla
             }
         }
+
+        /*if (Input.GetKeyDown(KeyCode.S))
+        {
+            ShuffleBoard();
+        }*/
     }
 
     private void Setup()
@@ -654,8 +659,12 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    gemsFromBoard.Add(allGems[x, y]);
-                    allGems[x, y] = null;
+                    if (allGlasses[x, y] == null)
+                    {
+                        gemsFromBoard.Add(allGems[x, y]);
+                        allGems[x, y] = null;
+                    }
+                    
                 }
             }
 
@@ -663,18 +672,23 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
-                    int iterations = 0;
-                    while (MatchesAtSame(new Vector2Int(x, y), gemsFromBoard[gemToUse]) && iterations < 100 && gemsFromBoard.Count > 1)
+                    if (allGlasses[x, y] == null)
                     {
-                        gemToUse = Random.Range(0, gemsFromBoard.Count);
-                        iterations++;
-                    }
+                        int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
-                    gemsFromBoard[gemToUse].SetupGem(new Vector2Int(x, y), this);
-                    allGems[x, y] = gemsFromBoard[gemToUse];
-                    gemsFromBoard.RemoveAt(gemToUse);
+                        int iterations = 0;
+                        while (MatchesAtSame(new Vector2Int(x, y), gemsFromBoard[gemToUse]) && iterations < 100 && gemsFromBoard.Count > 1)
+                        {
+                            gemToUse = Random.Range(0, gemsFromBoard.Count);
+                            iterations++;
+                        }
+
+                        gemsFromBoard[gemToUse].SetupGem(new Vector2Int(x, y), this);
+                        allGems[x, y] = gemsFromBoard[gemToUse];
+                        gemsFromBoard.RemoveAt(gemToUse);
+                    }
+                    
                 }
             }
 
