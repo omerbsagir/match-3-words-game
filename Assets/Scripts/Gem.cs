@@ -31,6 +31,7 @@ public class Gem : MonoBehaviour
 
     public bool hasCover=false;
 
+
     private void Awake()
     {
         if (type != GemType.bomb)
@@ -50,13 +51,21 @@ public class Gem : MonoBehaviour
     {
 
 
-        if (Vector2.Distance(transform.position, posIndex) > .01f)
+        if (Vector2.Distance(transform.position, posIndex) > .01f && !board.isHighlighting)
         {
+            
             transform.position = Vector2.Lerp(transform.position, posIndex, board.gemSpeed * Time.deltaTime);
         }
         else
         {
-            transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
+            
+            if (!board.isHighlighting)
+            {
+                
+                transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
+            }
+            
+
             if (type == GemType.glass)
             {
                 board.allGlasses[posIndex.x, posIndex.y] = this;

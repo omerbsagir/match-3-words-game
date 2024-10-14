@@ -43,6 +43,12 @@ public class Board : MonoBehaviour
 
     public Gem[,] allGlasses;
 
+    private string potentialMoveDir=null;
+
+    public bool isHighlighting = false;
+
+
+
     private void Awake()
     {
         wd = FindObjectOfType<WordDatabase>();
@@ -79,7 +85,12 @@ public class Board : MonoBehaviour
             if (idleTime >= maxIdleTime)
             {
                 ShowPotentialMatch(); // Belirlenen süreyi geçince potansiyel eşleşmeyi göster
-                idleTime = 0f; // Potansiyel eşleşmeyi gösterdikten sonra zamanlayıcıyı sıfırla
+                if (idleTime > maxIdleTime * 2)
+                {
+                    DeHighlightGems();
+                    idleTime = 0f;
+                }
+                
             }
         }
 
@@ -471,7 +482,8 @@ public class Board : MonoBehaviour
         List<Gem> potGems = FindPotentialMatches();
         if (potGems != null)
         { 
-            HighlightGems(FindPotentialMatches());
+            HighlightGems(potGems,potentialMoveDir);
+            
         }
         else
         {
@@ -505,32 +517,34 @@ public class Board : MonoBehaviour
                     
                     if (CanSwapAndMatch(x, y, x + 1, y) != null && allGlasses[x + 1, y] == null) 
                     {
-                     
+                        potentialMoveDir = "right";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y, allGems[x,y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y + 1) != null && allGlasses[x, y + 1] == null) 
                     {
-                       
+                        potentialMoveDir = "above";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1, allGems[x, y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x-1, y) != null && allGlasses[x - 1, y] == null)
                     {
-
+                        potentialMoveDir = "left";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y, allGems[x, y]);
                         
                     }
                     else if (CanSwapAndMatch(x, y, x, y-1) != null && allGlasses[x, y - 1] == null) 
                     {
-                        //Debug.Log("Alttaki" + " " + x + " " + y);
+                        potentialMoveDir = "under";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1, allGems[x, y]);
                         
                     }
                 }
             }
         }
-        
+
+        potentialMoveDir = null;
+
         return null;
     }
 
@@ -624,26 +638,48 @@ public class Board : MonoBehaviour
 
     }
 
-    void HighlightGems(List<Gem> gems)
+    void HighlightGems(List<Gem> gems, string potMoveDirection)
     {
-        foreach(Gem g in gems)
+        Gem firstGem = gems[gems.Count - 1];
+        float x1 = firstGem.posIndex.x;
+        float y1 = firstGem.posIndex.y;
+        float x2 = firstGem.posIndex.x;
+        float y2 = firstGem.posIndex.y;
+
+        switch (potMoveDirection)
         {
-            if (g != null)
-            {
-                g.GetComponent<SpriteRenderer>().color = Color.blue;
-            }
+            case "right":
+                x2 += 0.12f;
+                break;
+            case "left":
+                x2 -= 0.12f;
+                break;
+            case "above":
+                y2 += 0.12f;
+                break;
+            case "under":
+                y2 -= 0.12f;
+                break;
+            default:
+                break;
         }
 
+        // PingPong fonksiyonunu kullanarak gemi iki nokta arasında yumuşak bir şekilde hareket ettir
+        float t = Mathf.PingPong(Time.time * 2.0f, 1.0f); // Zamanla iki nokta arasında gidip gelen bir t değeri üretir
+
+        isHighlighting = true;
+
+        firstGem.transform.position = Vector2.Lerp(new Vector2(x1, y1), new Vector2(x2, y2), t);
+
+        
+
+        Debug.Log("Highlight " + isHighlighting);
     }
+
+
     void DeHighlightGems()
     {
-        foreach (Gem g in allGems)
-        {
-            if (g != null)
-            {
-                g.GetComponent<SpriteRenderer>().color = Color.white;
-            }
-        }
+        isHighlighting = false;
 
     }
 
