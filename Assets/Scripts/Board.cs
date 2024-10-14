@@ -25,8 +25,8 @@ public class Board : MonoBehaviour
     public enum BoardState { wait, move }
     public BoardState currentState = BoardState.move;
 
-    //public Gem bomb;
-    //public float bombChance = 2f;
+    public Gem bomb;
+    public float bombChance = 2f;
 
     public int letterCountFM;
 
@@ -111,7 +111,10 @@ public class Board : MonoBehaviour
 
     void SpawnGem(Vector2Int pos,Gem gemToSpawn)
     {
-       
+        if (Random.Range(0f, 100f) < bombChance)
+        {
+            gemToSpawn = bomb;
+        }
 
         Gem gem = Instantiate(gemToSpawn, new Vector3(pos.x, pos.y+height, 0f), Quaternion.identity);
         gem.transform.parent = transform;
@@ -409,7 +412,7 @@ public class Board : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 Gem currentGem = allGems[x, y];
-                if (currentGem != null)
+                if (currentGem != null && currentGem.type!=Gem.GemType.bomb)
                 {
                     
                     if (CanSwapAndMatch(x, y, x + 1, y) != null) 

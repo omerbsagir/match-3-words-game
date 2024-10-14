@@ -163,7 +163,7 @@ public class MatchFinder : MonoBehaviour
         return wordDatabase.Contains(word.ToLower()); // Küçük harfe çevirip kontrol et
     }
 
-    private void MarkGemsAsMatched(List<Gem> gems)
+    public void MarkGemsAsMatched(List<Gem> gems)
     {
         foreach (Gem gem in gems)
         {
