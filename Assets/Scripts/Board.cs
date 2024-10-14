@@ -340,9 +340,17 @@ public class Board : MonoBehaviour
                     {
                         movedBombs.Add(allGems[x, y]);
                     }
-                    allGems[x, y].posIndex.y -= nullCounter;
-                    allGems[x, y - nullCounter] = allGems[x, y];
-                    allGems[x, y] = null;
+                    if (allGlasses[x, y] != null)
+                    {
+                        nullCounter = 0;
+                    }
+                    else
+                    {
+                        allGems[x, y].posIndex.y -= nullCounter;
+                        allGems[x, y - nullCounter] = allGems[x, y];
+                        allGems[x, y] = null;
+                    }
+                    
                 }
             }
             nullCounter = 0;
