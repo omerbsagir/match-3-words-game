@@ -34,6 +34,7 @@ public class Board : MonoBehaviour
     public float maxIdleTime = 3f;
 
     private bool isDestroying=false;
+    private bool isThereAnyBomb = false;
 
     List<Gem> movedBombs = new List<Gem>();
 
@@ -416,8 +417,19 @@ public class Board : MonoBehaviour
         }
         else
         {
-            Debug.Log("Hamle Kalmadı Tahta Shuffle Ediliyor");
-            ShuffleBoard();
+            CheckBomb();
+            if (!isThereAnyBomb)
+            {
+                Debug.Log("Hamle Kalmadı Tahta Shuffle Ediliyor");
+                ShuffleBoard();
+            }
+            else
+            {
+                Debug.Log("Hamle Kalmadı Ama Bomba Var");
+            }
+            
+
+            isThereAnyBomb = false;
         }
         
     }
@@ -617,4 +629,17 @@ public class Board : MonoBehaviour
         }
     }
 
+    private void CheckBomb()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (allGems[x,y].type == Gem.GemType.bomb)
+                {
+                    isThereAnyBomb = true;
+                }
+            }
+        }
+    }
 }
