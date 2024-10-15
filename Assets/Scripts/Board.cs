@@ -673,7 +673,7 @@ public class Board : MonoBehaviour
 
         
 
-        Debug.Log("Highlight " + isHighlighting);
+       
     }
 
 
