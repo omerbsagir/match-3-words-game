@@ -49,6 +49,10 @@ public class Board : MonoBehaviour
 
 
 
+
+
+
+
     private void Awake()
     {
         wd = FindObjectOfType<WordDatabase>();
@@ -85,9 +89,10 @@ public class Board : MonoBehaviour
             if (idleTime >= maxIdleTime)
             {
                 ShowPotentialMatch(); // Belirlenen süreyi geçince potansiyel eşleşmeyi göster
-                if (idleTime > maxIdleTime * 2)
+                
+                if (idleTime >= maxIdleTime*2)
                 {
-                    DeHighlightGems();
+                    isHighlighting = false;
                     idleTime = 0f;
                 }
                 
@@ -512,7 +517,7 @@ public class Board : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 Gem currentGem = allGems[x, y];
-                if (currentGem != null && currentGem.type!=Gem.GemType.bomb)
+                if (currentGem != null && currentGem.type!=Gem.GemType.bomb && allGlasses[x,y]==null)
                 {
                     
                     if (CanSwapAndMatch(x, y, x + 1, y) != null && allGlasses[x + 1, y] == null) 
@@ -640,6 +645,9 @@ public class Board : MonoBehaviour
 
     void HighlightGems(List<Gem> gems, string potMoveDirection)
     {
+
+        SetupGemsPosition();
+
         Gem firstGem = gems[gems.Count - 1];
         float x1 = firstGem.posIndex.x;
         float y1 = firstGem.posIndex.y;
@@ -671,9 +679,8 @@ public class Board : MonoBehaviour
 
         firstGem.transform.position = Vector2.Lerp(new Vector2(x1, y1), new Vector2(x2, y2), t);
 
-        
 
-       
+
     }
 
 
@@ -746,5 +753,17 @@ public class Board : MonoBehaviour
         }
     }
 
-    
+    private void SetupGemsPosition()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (allGems[x,y] != null)
+                {
+                    allGems[x, y].SetupGem(new Vector2Int(x, y), this);
+                }
+            }
+        }
+    }
 }
