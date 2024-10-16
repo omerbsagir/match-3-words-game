@@ -49,7 +49,7 @@ public class Board : MonoBehaviour
     public Gem grass;
     public Gem[,] allGrasses;
 
-
+    
 
 
     private void Awake()
@@ -57,11 +57,14 @@ public class Board : MonoBehaviour
         wd = FindObjectOfType<WordDatabase>();
         matchFind = FindObjectOfType<MatchFinder>();
         letterSelector = FindObjectOfType<LetterSelector>();
+        
 
     }
 
     void Start()
     {
+        
+
         wordDatabase = wd.wordList;
         letterCountFM = matchFind.letterCountForMatch;
         allGems = new Gem[width, height];
@@ -105,6 +108,7 @@ public class Board : MonoBehaviour
         }*/
     }
 
+    
     private void Setup()
     {
         for(int x = 0; x < width; x++)
@@ -112,7 +116,6 @@ public class Board : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 allGlasses[x, y] = null;
-
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(tilePrefab, pos, Quaternion.identity);
                 bgTile.transform.parent = transform;
@@ -122,9 +125,9 @@ public class Board : MonoBehaviour
 
                 int iterations = 0;
                 Vector2Int startPos = new Vector2Int(x, y);
-                while ((MatchesAtSame(startPos, gems[gemToUse]) || MatchesAtWord(startPos, gems[gemToUse]) ) && iterations < 100)
+                while ((MatchesAtSame(startPos, gems[gemToUse]) || MatchesAtWord(startPos, gems[gemToUse])) && iterations < 100)
                 {
-                    
+
                     gemToUse = letterSelector.GetRandomLetter();
                     iterations++;
 
@@ -133,8 +136,8 @@ public class Board : MonoBehaviour
                         Debug.Log("sıçıyor");
                     }
                 }
-                
-                SpawnGem(startPos,gems[gemToUse]);
+
+                SpawnGem(startPos, gems[gemToUse]);
 
                 int willBeGlass = Random.Range(0, 100);
                 if (willBeGlass < glassChance)
@@ -142,15 +145,19 @@ public class Board : MonoBehaviour
                     SpawnGlass(startPos);
                 }
 
-                if((x == 0 && y<height/2) || (x == width-1 && y < height / 2))
+                if ((x == 0 && y < height / 2) || (x == width - 1 && y < height / 2))
                 {
                     SpawnGrass(startPos);
                 }
+                
+               
                
             }
         }
         
+        
     }
+    
 
     void SpawnGem(Vector2Int pos,Gem gemToSpawn)
     {
@@ -199,6 +206,7 @@ public class Board : MonoBehaviour
 
     }
 
+    
 
     bool MatchesAtSame(Vector2Int posToCheck, Gem gemToCheck)
     {
