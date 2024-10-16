@@ -40,15 +40,14 @@ public class Board : MonoBehaviour
 
     public Gem glass;
     public float glassChance = 2f;
-
     public Gem[,] allGlasses;
 
     private string potentialMoveDir=null;
 
     public bool isHighlighting = false;
 
-
-
+    public Gem grass;
+    public Gem[,] allGrasses;
 
 
 
@@ -67,6 +66,7 @@ public class Board : MonoBehaviour
         letterCountFM = matchFind.letterCountForMatch;
         allGems = new Gem[width, height];
         allGlasses = new Gem[width, height];
+        allGrasses = new Gem[width, height];
         Setup();
 
         
@@ -141,9 +141,15 @@ public class Board : MonoBehaviour
                 {
                     SpawnGlass(startPos);
                 }
+
+                if((x == 0 && y<height/2) || (x == width-1 && y < height / 2))
+                {
+                    SpawnGrass(startPos);
+                }
                
             }
         }
+        
     }
 
     void SpawnGem(Vector2Int pos,Gem gemToSpawn)
@@ -177,6 +183,22 @@ public class Board : MonoBehaviour
         }
         
     }
+    void SpawnGrass(Vector2Int pos)
+    {
+        if (allGems[pos.x, pos.y].type != Gem.GemType.bomb && allGlasses[pos.x,pos.y]==null)
+        {
+            Gem gem = Instantiate(grass, new Vector3(pos.x, pos.y, 0f), Quaternion.identity);
+            gem.transform.parent = transform;
+            gem.name = "Grass - " + pos.x + ", " + pos.y;
+            allGems[pos.x, pos.y].hasHidden = true;
+            allGrasses[pos.x, pos.y] = grass;
+
+            gem.SetupGem(pos, this);
+
+        }
+
+    }
+
 
     bool MatchesAtSame(Vector2Int posToCheck, Gem gemToCheck)
     {
@@ -323,6 +345,11 @@ public class Board : MonoBehaviour
                 {
                     Destroy(allGlasses[pos.x, pos.y].gameObject);
                     allGlasses[pos.x, pos.y] = null;
+                }
+                if (allGems[pos.x, pos.y].hasHidden)
+                {
+                    Destroy(allGrasses[pos.x, pos.y].gameObject);
+                    allGrasses[pos.x, pos.y] = null;
                 }
 
                 //Instantiate(allGems[pos.x, pos.y].destroyEffect, new Vector2(pos.x, pos.y), Quaternion.identity);
