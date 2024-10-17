@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static UnityEditor.PlayerSettings;
 
 public class Board : MonoBehaviour
 {
@@ -139,6 +140,10 @@ public class Board : MonoBehaviour
                 {
                     SpawnGem(startPos, layoutGems[x,y]);
                 }
+                else if (layoutGems[x, y] != null && layoutGems[x, y].type == Gem.GemType.bomb)
+                {
+                    SpawnBomb(startPos);
+                }
                 else
                 {
                     int gemToUse = letterSelector.GetRandomLetter();
@@ -157,7 +162,10 @@ public class Board : MonoBehaviour
                         }
                     }
 
+                    
                     SpawnGem(startPos, gems[gemToUse]);
+
+
                 }
 
 
@@ -170,7 +178,7 @@ public class Board : MonoBehaviour
                     SpawnGrass(startPos);
                 }
 
-
+                
             }
         }
         
@@ -180,10 +188,7 @@ public class Board : MonoBehaviour
 
     void SpawnGem(Vector2Int pos,Gem gemToSpawn)
     {
-        if (Random.Range(0f, 100f) < bombChance && !((pos.x == 0 && pos.y < height / 2) || (pos.x == width - 1 && pos.y < height / 2)))
-        {
-            gemToSpawn = bomb;
-        }
+        
 
         Gem gem = Instantiate(gemToSpawn, new Vector3(pos.x, pos.y+height, 0f), Quaternion.identity);
         gem.transform.parent = transform;
@@ -194,6 +199,20 @@ public class Board : MonoBehaviour
 
 
     }
+    void SpawnBomb(Vector2Int pos)
+    {
+        
+        Gem gem = Instantiate(bomb, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
+        gem.transform.parent = transform;
+        gem.name = "Gem - " + pos.x + ", " + pos.y;
+        allGems[pos.x, pos.y] = gem;
+
+        gem.SetupGem(pos, this);
+
+
+    }
+
+
     void SpawnGlass(Vector2Int pos)
     {
         if(allGems[pos.x, pos.y].type != Gem.GemType.bomb)
@@ -494,55 +513,39 @@ public class Board : MonoBehaviour
             {
                 if (allGems[x, y] == null)
                 {
-                    int letterToUse = letterSelector.GetRandomLetter();
 
-                    int iterations = 0;
                     Vector2Int startPos = new Vector2Int(x, y);
-                    while ((MatchesAtSame(startPos, gems[letterToUse]) ) && iterations < 20)
+
+                    if (Random.Range(0f, 100f) < bombChance)
                     {
-                        letterToUse = letterSelector.GetRandomLetter();
-                        iterations++;
-
-                        if (iterations == 19)
-                        {
-                            Debug.Log("sıçıyor refill");
-                        }
+                        SpawnBomb(startPos);
                     }
+                    else
+                    {
+                        int letterToUse = letterSelector.GetRandomLetter();
 
-                    SpawnGem(startPos, gems[letterToUse]);
+                        int iterations = 0;
+
+                        while ((MatchesAtSame(startPos, gems[letterToUse])) && iterations < 20)
+                        {
+                            letterToUse = letterSelector.GetRandomLetter();
+                            iterations++;
+
+                            if (iterations == 19)
+                            {
+                                Debug.Log("sıçıyor refill");
+                            }
+                        }
+
+                        SpawnGem(startPos, gems[letterToUse]);
+                    }
+                    
                 }
             }
         }
-        //CheckMisplacedGems();
+       
 
         
-    }
-
-    private void CheckMisplacedGems()
-    {
-        List<Gem> foundGems = new List<Gem>();
-
-        foundGems.AddRange(FindObjectsOfType<Gem>());
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (foundGems.Contains(allGems[x, y]))
-                {
-                    foundGems.Remove(allGems[x, y]);
-                }
-            }
-        }
-
-        foreach (Gem g in foundGems)
-        {
-            if(g.type != Gem.GemType.glass)
-            {
-                Destroy(g.gameObject);
-            }
-            
-        }
     }
 
 
