@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour
         return wAndH;
     }
 
-
+    [System.Serializable]
     public class LevelSize
     {
         public int w;
