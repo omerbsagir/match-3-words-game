@@ -116,6 +116,8 @@ public class Board : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 allGlasses[x, y] = null;
+                allGrasses[x, y] = null;
+
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(tilePrefab, pos, Quaternion.identity);
                 bgTile.transform.parent = transform;
@@ -139,19 +141,21 @@ public class Board : MonoBehaviour
 
                 SpawnGem(startPos, gems[gemToUse]);
 
-                int willBeGlass = Random.Range(0, 100);
-                if (willBeGlass < glassChance)
-                {
-                    SpawnGlass(startPos);
-                }
-
+                
+                
                 if ((x == 0 && y < height / 2) || (x == width - 1 && y < height / 2))
                 {
                     SpawnGrass(startPos);
                 }
-                
-               
-               
+
+                int willBeGlass = Random.Range(0, 100);
+
+                if (willBeGlass < glassChance && allGrasses[x,y]==null)
+                {
+                    SpawnGlass(startPos);
+                }
+
+
             }
         }
         
@@ -161,7 +165,7 @@ public class Board : MonoBehaviour
 
     void SpawnGem(Vector2Int pos,Gem gemToSpawn)
     {
-        if (Random.Range(0f, 100f) < bombChance)
+        if (Random.Range(0f, 100f) < bombChance && !((pos.x == 0 && pos.y < height / 2) || (pos.x == width - 1 && pos.y < height / 2)))
         {
             gemToSpawn = bomb;
         }
@@ -349,12 +353,12 @@ public class Board : MonoBehaviour
             if (allGems[pos.x, pos.y].isMatched)
             {
 
-                if (allGems[pos.x, pos.y].hasCover)
+                if (allGlasses[pos.x, pos.y] != null)
                 {
                     Destroy(allGlasses[pos.x, pos.y].gameObject);
                     allGlasses[pos.x, pos.y] = null;
                 }
-                if (allGems[pos.x, pos.y].hasHidden)
+                if (allGrasses[pos.x, pos.y] != null)
                 {
                     Destroy(allGrasses[pos.x, pos.y].gameObject);
                     allGrasses[pos.x, pos.y] = null;
@@ -390,23 +394,47 @@ public class Board : MonoBehaviour
                 {
                     nullCounter++;
                 }
-                else if (nullCounter > 0)
+                else
                 {
-                    if (allGems[x, y].type == Gem.GemType.bomb)
+
+                    if (nullCounter > 0)
                     {
-                        movedBombs.Add(allGems[x, y]);
+
+                        if(allGlasses[x, y] != null)
+                        {
+                            nullCounter = 0;
+                        }
+                        
+                        else
+                        {
+                            if (allGems[x, y].type == Gem.GemType.bomb)
+                            {
+                                movedBombs.Add(allGems[x, y]);
+
+                            }
+
+                            if (allGrasses[x, y - nullCounter] != null)
+                            {
+                                allGems[x, y].hasHidden = true;
+                            }
+                            else
+                            {
+                                allGems[x, y].hasHidden = false;
+                            }
+
+                            allGems[x, y].posIndex.y -= nullCounter;
+                            allGems[x, y - nullCounter] = allGems[x, y];
+                            allGems[x, y] = null;
+
+                            
+                        }
+
+                        
+
                     }
-                    if (allGlasses[x, y] != null)
-                    {
-                        nullCounter = 0;
-                    }
-                    else
-                    {
-                        allGems[x, y].posIndex.y -= nullCounter;
-                        allGems[x, y - nullCounter] = allGems[x, y];
-                        allGems[x, y] = null;
-                    }
-                    
+
+
+
                 }
             }
             nullCounter = 0;
@@ -737,7 +765,7 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (allGlasses[x, y] == null)
+                    if (allGlasses[x, y] == null && allGrasses[x, y] == null)
                     {
                         gemsFromBoard.Add(allGems[x, y]);
                         allGems[x, y] = null;
@@ -751,7 +779,7 @@ public class Board : MonoBehaviour
                 for (int y = 0; y < height; y++)
                 {
 
-                    if (allGlasses[x, y] == null)
+                    if (allGlasses[x, y] == null&& allGrasses[x, y] == null)
                     {
                         int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
