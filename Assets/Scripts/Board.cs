@@ -18,6 +18,8 @@ public class Board : MonoBehaviour
     public MatchFinder matchFind;
     [HideInInspector]
     public LetterSelector letterSelector;
+    [HideInInspector]
+    public LevelManager levelManager;
 
     private List<string> wordDatabase = new List<string>();
     private WordDatabase wd;
@@ -49,6 +51,7 @@ public class Board : MonoBehaviour
     public Gem grass;
     public Gem[,] allGrasses;
 
+    public Gem[,] layoutGems;
     
 
 
@@ -57,13 +60,17 @@ public class Board : MonoBehaviour
         wd = FindObjectOfType<WordDatabase>();
         matchFind = FindObjectOfType<MatchFinder>();
         letterSelector = FindObjectOfType<LetterSelector>();
+        levelManager = FindObjectOfType<LevelManager>();
         
 
     }
 
     void Start()
     {
-        
+        width = levelManager.GetLevelDimensions()[0];
+        height = levelManager.GetLevelDimensions()[1];
+        layoutGems = levelManager.GetLevelLayout();
+
 
         wordDatabase = wd.wordList;
         letterCountFM = matchFind.letterCountForMatch;
@@ -115,6 +122,7 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
+
                 allGlasses[x, y] = null;
                 allGrasses[x, y] = null;
 
@@ -123,36 +131,43 @@ public class Board : MonoBehaviour
                 bgTile.transform.parent = transform;
                 bgTile.name = "BG Tile - " + x + ", " + y;
 
-                int gemToUse = letterSelector.GetRandomLetter();
 
-                int iterations = 0;
                 Vector2Int startPos = new Vector2Int(x, y);
-                while ((MatchesAtSame(startPos, gems[gemToUse]) || MatchesAtWord(startPos, gems[gemToUse])) && iterations < 100)
+
+
+                if (layoutGems[x, y] != null && layoutGems[x, y].type != Gem.GemType.glass && layoutGems[x, y].type != Gem.GemType.grass && layoutGems[x, y].type != Gem.GemType.bomb)
                 {
+                    SpawnGem(startPos, layoutGems[x,y]);
+                }
+                else
+                {
+                    int gemToUse = letterSelector.GetRandomLetter();
 
-                    gemToUse = letterSelector.GetRandomLetter();
-                    iterations++;
+                    int iterations = 0;
 
-                    if (iterations == 99)
+                    while ((MatchesAtSame(startPos, gems[gemToUse]) || MatchesAtWord(startPos, gems[gemToUse])) && iterations < 100)
                     {
-                        Debug.Log("sıçıyor");
+
+                        gemToUse = letterSelector.GetRandomLetter();
+                        iterations++;
+
+                        if (iterations == 99)
+                        {
+                            Debug.Log("sıçıyor");
+                        }
                     }
+
+                    SpawnGem(startPos, gems[gemToUse]);
                 }
 
-                SpawnGem(startPos, gems[gemToUse]);
 
-                
-                
-                if ((x == 0 && y < height / 2) || (x == width - 1 && y < height / 2))
-                {
-                    SpawnGrass(startPos);
-                }
-
-                int willBeGlass = Random.Range(0, 100);
-
-                if (willBeGlass < glassChance && allGrasses[x,y]==null)
+                if (layoutGems[x, y] != null && layoutGems[x, y].type == Gem.GemType.glass)
                 {
                     SpawnGlass(startPos);
+                }
+                else if (layoutGems[x, y] != null && layoutGems[x, y].type == Gem.GemType.grass)
+                {
+                    SpawnGrass(startPos);
                 }
 
 
