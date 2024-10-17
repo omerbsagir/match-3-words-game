@@ -11,13 +11,6 @@ public class LevelManager : MonoBehaviour
     public LevelSize[] widthAndHeights;
     public LayoutSO[] allLayouts;
 
-    private void Awake()
-    {
-        widthAndHeights = new LevelSize[totalLevelCounts];
-        allLayouts = new LayoutSO[totalLevelCounts];
-        
-    }
-
 
     public Gem[,] GetLevelLayout()
     {
