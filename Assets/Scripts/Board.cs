@@ -61,17 +61,17 @@ public class Board : MonoBehaviour
         matchFind = FindObjectOfType<MatchFinder>();
         letterSelector = FindObjectOfType<LetterSelector>();
         levelManager = FindObjectOfType<LevelManager>();
-        
 
-    }
-
-    void Start()
-    {
         width = levelManager.GetLevelDimensions()[0];
         height = levelManager.GetLevelDimensions()[1];
         layoutGems = levelManager.GetLevelLayout();
 
 
+    }
+
+    void Start()
+    {
+        
         wordDatabase = wd.wordList;
         letterCountFM = matchFind.letterCountForMatch;
         allGems = new Gem[width, height];
