@@ -310,6 +310,22 @@ public class Gem : MonoBehaviour
                 gems.Add(board.allGems[x + 1, y - 1]);
             }
         }
+        if(y+1 < board.height - 1)
+        {
+            gems.Add(board.allGems[x, y + 2]);
+        }
+        if (y-1 > 0)
+        {
+            gems.Add(board.allGems[x, y - 2]);
+        }
+        if (x + 1 < board.height - 1)
+        {
+            gems.Add(board.allGems[x+2, y]);
+        }
+        if (x - 1 > 0)
+        {
+            gems.Add(board.allGems[x-2, y]);
+        }
     }
 
 }

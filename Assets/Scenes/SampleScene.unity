@@ -330,7 +330,7 @@ MonoBehaviour:
   levelManager: {fileID: 0}
   currentState: 1
   bomb: {fileID: 4746503529716403414, guid: 47b30bf13b09f4b78acccfcbd0bb489d, type: 3}
-  bombChance: 40
+  bombChance: 10
   letterCountFM: 0
   maxIdleTime: 3
   glass: {fileID: 99940956368895492, guid: b0b7f50d1db63440db0993cf4474aec3, type: 3}
