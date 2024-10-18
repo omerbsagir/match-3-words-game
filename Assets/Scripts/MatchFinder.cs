@@ -81,7 +81,7 @@ public class MatchFinder : MonoBehaviour
             currentMatches = currentMatches.Distinct().ToList();
         }
 
-        //CheckForBombs();
+        CheckForGlasses();
     }
 
     
@@ -169,6 +169,64 @@ public class MatchFinder : MonoBehaviour
         {
             gem.isMatched = true;
             currentMatches.Add(gem);
+        }
+    }
+
+    public void CheckForGlasses()
+    {
+        List<Gem> glassGems = new List<Gem>();
+
+        for (int i = 0; i < currentMatches.Count; i++)
+        {
+            Gem gem = currentMatches[i];
+            int x = gem.posIndex.x;
+            int y = gem.posIndex.y;
+
+
+            // Sol tarafa bak (x - 1)
+            if (x > 0 && board.allGlasses[x - 1, y] != null && board.allGems[x - 1, y] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x - 1, y]))
+                {
+                    board.allGems[x - 1, y].isMatched = true;
+                    glassGems.Add(board.allGems[x - 1, y]);
+                }
+            }
+
+            // Sağ tarafa bak (x + 1)
+            if (x < board.width - 1 && board.allGlasses[x + 1, y] != null && board.allGems[x + 1, y] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x + 1, y]))
+                {
+                    board.allGems[x + 1, y].isMatched = true;
+                    glassGems.Add(board.allGems[x + 1, y]);
+                }
+            }
+
+            // Yukarı bak (y - 1)
+            if (y > 0 && board.allGlasses[x, y - 1] != null && board.allGems[x, y - 1] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x, y - 1]))
+                {
+                    board.allGems[x, y-1].isMatched = true;
+                    glassGems.Add(board.allGems[x, y - 1]);
+                }
+            }
+
+            // Aşağı bak (y + 1)
+            if (y < board.height - 1 && board.allGlasses[x, y + 1] != null && board.allGems[x, y + 1] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x, y + 1]))
+                {
+                    board.allGems[x, y+1].isMatched = true;
+                    glassGems.Add(board.allGems[x, y + 1]);
+                }
+            }
+        }
+
+        foreach(Gem g in glassGems)
+        {
+            currentMatches.Add(g);
         }
     }
 
