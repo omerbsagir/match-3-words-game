@@ -52,6 +52,9 @@ public class Board : MonoBehaviour
     public Gem grass;
     public Gem[,] allGrasses;
 
+    public Gem wood;
+    public Gem[,] allWoods;
+
     public Gem[,] layoutWoods;
     public Gem[,] layoutGlasses;
     public Gem[,] layoutGems;
@@ -87,6 +90,8 @@ public class Board : MonoBehaviour
         allGems = new Gem[width, height];
         allGlasses = new Gem[width, height];
         allGrasses = new Gem[width, height];
+        allWoods = new Gem[width, height];
+
         Setup();
 
         
@@ -131,14 +136,48 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    private void LayoutSetup(int x , int y)
+    private void LayoutSetupFirst(int x , int y)
     {
-        if(layoutCovers[x, y] != null)
+
+        Vector2Int pos = new Vector2Int(x, y);
+
+        if(layoutWoods[x, y] != null)
         {
-            //Cover neyse onu spawnla şuan 
+            SpawnWood(pos);
         }
+        else
+        {
+            if (layoutGems[x, y] != null)
+            {
+                if (layoutGems[x, y].type == Gem.GemType.bomb)
+                {
+                    SpawnBomb(pos);
+                }
+                else
+                {
+                    SpawnGem(pos, layoutGems[x, y]);
+                }   
+            }
+        }
+
     }
-    
+    private void LayoutSetupSecond(int x, int y)
+    {
+
+        Vector2Int pos = new Vector2Int(x, y);
+
+        if (layoutGrasses[x, y] != null)
+        {
+            SpawnGrass(pos);
+            //SpawnHidden(pos);
+        }
+        if (layoutGlasses[x, y] != null)
+        {
+            SpawnGlass(pos);
+        }
+
+    }
+
     private void Setup()
     {
         for(int x = 0; x < width; x++)
@@ -158,13 +197,9 @@ public class Board : MonoBehaviour
                 Vector2Int startPos = new Vector2Int(x, y);
 
 
-                if (layoutGems[x, y] != null && layoutGems[x, y].type != Gem.GemType.glass && layoutGems[x, y].type != Gem.GemType.grass && layoutGems[x, y].type != Gem.GemType.bomb)
+                if (!isAllLayoutsEmpty(x,y))
                 {
-                    SpawnGem(startPos, layoutGems[x,y]);
-                }
-                else if (layoutGems[x, y] != null && layoutGems[x, y].type == Gem.GemType.bomb)
-                {
-                    SpawnBomb(startPos);
+                    LayoutSetupFirst(x,y);
                 }
                 else
                 {
@@ -190,17 +225,8 @@ public class Board : MonoBehaviour
 
                 }
 
+                LayoutSetupSecond(x,y);
 
-                if (layoutGems[x, y] != null && layoutGems[x, y].type == Gem.GemType.glass)
-                {
-                    SpawnGlass(startPos);
-                }
-                else if (layoutGems[x, y] != null && layoutGems[x, y].type == Gem.GemType.grass)
-                {
-                    SpawnGrass(startPos);
-                }
-
-                
             }
         }
         
@@ -233,8 +259,6 @@ public class Board : MonoBehaviour
 
 
     }
-
-
     void SpawnGlass(Vector2Int pos)
     {
         if(allGems[pos.x, pos.y].type != Gem.GemType.bomb)
@@ -265,8 +289,17 @@ public class Board : MonoBehaviour
         }
 
     }
+    void SpawnWood(Vector2Int pos)
+    {
+        Gem gem = Instantiate(wood, new Vector3(pos.x, pos.y, 0f), Quaternion.identity);
+        gem.transform.parent = transform;
+        gem.name = "Wood - " + pos.x + ", " + pos.y;
+        allWoods[pos.x, pos.y] = glass;
 
-    
+        gem.SetupGem(pos, this);
+
+    }
+
 
     bool MatchesAtSame(Vector2Int posToCheck, Gem gemToCheck)
     {
