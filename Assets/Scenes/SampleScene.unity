@@ -337,6 +337,7 @@ MonoBehaviour:
   glassChance: 5
   isHighlighting: 0
   grass: {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
+  wood: {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
 --- !u!4 &934488873
 Transform:
   m_ObjectHideFlags: 0

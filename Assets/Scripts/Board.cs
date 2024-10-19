@@ -126,42 +126,8 @@ public class Board : MonoBehaviour
 
     }
 
-    private bool isAllLayoutsEmpty(int x , int y)
-    {
-        if (layoutWoods[x, y] == null && layoutGlasses[x, y] == null && layoutGems[x, y] == null && layoutGrasses[x, y] == null && layoutHiddens[x, y] == null)
-        {
-            return true;
-        }
-        
-        return false;
-    }
-
-    private void LayoutSetupFirst(int x , int y)
-    {
-
-        Vector2Int pos = new Vector2Int(x, y);
-
-        if(layoutWoods[x, y] != null)
-        {
-            SpawnWood(pos);
-        }
-        else
-        {
-            if (layoutGems[x, y] != null)
-            {
-                if (layoutGems[x, y].type == Gem.GemType.bomb)
-                {
-                    SpawnBomb(pos);
-                }
-                else
-                {
-                    SpawnGem(pos, layoutGems[x, y]);
-                }   
-            }
-        }
-
-    }
-    private void LayoutSetupSecond(int x, int y)
+    
+    private void LayoutSetupLast(int x, int y)
     {
 
         Vector2Int pos = new Vector2Int(x, y);
@@ -184,9 +150,10 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-
+                allGems[x, y] = null;
                 allGlasses[x, y] = null;
                 allGrasses[x, y] = null;
+                allWoods[x, y] = null;
 
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(tilePrefab, pos, Quaternion.identity);
@@ -197,35 +164,53 @@ public class Board : MonoBehaviour
                 Vector2Int startPos = new Vector2Int(x, y);
 
 
-                if (!isAllLayoutsEmpty(x,y))
+                if (layoutWoods[x, y] != null)
                 {
-                    LayoutSetupFirst(x,y);
+                    SpawnWood(startPos);
                 }
                 else
                 {
-                    int gemToUse = letterSelector.GetRandomLetter();
-
-                    int iterations = 0;
-
-                    while ((MatchesAtSame(startPos, gems[gemToUse]) || MatchesAtWord(startPos, gems[gemToUse])) && iterations < 100)
+                    if (layoutGems[x,y] != null)
                     {
-
-                        gemToUse = letterSelector.GetRandomLetter();
-                        iterations++;
-
-                        if (iterations == 99)
+                        if (layoutGems[x, y].type == Gem.GemType.bomb)
                         {
-                            Debug.Log("sıçıyor");
+                            SpawnBomb(startPos);
                         }
-                    }
+                        else
+                        {
+                            SpawnGem(startPos, layoutGems[x, y]);
+                            
+                        }
 
+                    }
+                    else
+                    {
+                        int gemToUse = letterSelector.GetRandomLetter();
+
+                        int iterations = 0;
+
+                        while ((MatchesAtSame(startPos, gems[gemToUse]) || MatchesAtWord(startPos, gems[gemToUse])) && iterations < 100)
+                        {
+
+                            gemToUse = letterSelector.GetRandomLetter();
+                            iterations++;
+
+                            if (iterations == 99)
+                            {
+                                Debug.Log("sıçıyor");
+                            }
+                        }
+
+
+                        SpawnGem(startPos, gems[gemToUse]);
+                    }
                     
-                    SpawnGem(startPos, gems[gemToUse]);
+                    LayoutSetupLast(x, y);
 
 
                 }
 
-                LayoutSetupSecond(x,y);
+                
 
             }
         }
@@ -263,7 +248,7 @@ public class Board : MonoBehaviour
     {
         if(allGems[pos.x, pos.y].type != Gem.GemType.bomb)
         {
-            Gem gem = Instantiate(glass, new Vector3(pos.x, pos.y, 0f), Quaternion.identity);
+            Gem gem = Instantiate(glass, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
             gem.transform.parent = transform;
             gem.name = "Glass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasCover = true;
@@ -278,7 +263,7 @@ public class Board : MonoBehaviour
     {
         if (allGems[pos.x, pos.y].type != Gem.GemType.bomb && allGlasses[pos.x,pos.y]==null)
         {
-            Gem gem = Instantiate(grass, new Vector3(pos.x, pos.y, 0f), Quaternion.identity);
+            Gem gem = Instantiate(grass, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
             gem.transform.parent = transform;
             gem.name = "Grass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasHidden = true;
@@ -291,7 +276,7 @@ public class Board : MonoBehaviour
     }
     void SpawnWood(Vector2Int pos)
     {
-        Gem gem = Instantiate(wood, new Vector3(pos.x, pos.y, 0f), Quaternion.identity);
+        Gem gem = Instantiate(wood, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
         gem.transform.parent = transform;
         gem.name = "Wood - " + pos.x + ", " + pos.y;
         allWoods[pos.x, pos.y] = glass;
@@ -303,7 +288,7 @@ public class Board : MonoBehaviour
 
     bool MatchesAtSame(Vector2Int posToCheck, Gem gemToCheck)
     {
-        if (posToCheck.x > 0)
+        if (posToCheck.x > 0 && allGems[posToCheck.x - 1, posToCheck.y] != null)
         {
             if (allGems[posToCheck.x - 1, posToCheck.y].type == gemToCheck.type) //&& allGems[posToCheck.x - 2, posToCheck.y].type == gemToCheck.type
             {
@@ -311,7 +296,7 @@ public class Board : MonoBehaviour
             }
         }
 
-        if (posToCheck.y > 0)
+        if (posToCheck.y > 0 && allGems[posToCheck.x, posToCheck.y - 1] != null)
         {
             if (allGems[posToCheck.x, posToCheck.y - 1].type == gemToCheck.type) //&& allGems[posToCheck.x, posToCheck.y - 2].type == gemToCheck.type
             {
@@ -380,8 +365,11 @@ public class Board : MonoBehaviour
         // Yatay bir kelime oluşturma
         for (int x = startPos.x-1; x >= endPos.x; x--)
         {
-            word += allGems[x, startPos.y].letterValue;
-
+            if (allWoods[x,startPos.y] == null)
+            {
+                word += allGems[x, startPos.y].letterValue;
+            }
+            
         }
 
         return word;
@@ -393,7 +381,12 @@ public class Board : MonoBehaviour
 
         for (int y = startPos.y-1; y >= endPos.y; y--)
         {
-            word += allGems[startPos.x, y].letterValue;
+
+            if (allWoods[startPos.x, y] == null)
+            {
+                
+                word += allGems[startPos.x, y].letterValue;
+            }
 
         }
 
@@ -489,11 +482,11 @@ public class Board : MonoBehaviour
                     if (nullCounter > 0)
                     {
 
-                        if(allGlasses[x, y] != null)
+                        if(allGlasses[x, y] != null || allWoods[x,y] != null)
                         {
                             nullCounter = 0;
                         }
-                        
+
                         else
                         {
                             if (allGems[x, y].type == Gem.GemType.bomb)
@@ -566,7 +559,7 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (allGems[x, y] == null)
+                if (allGems[x, y] == null && allWoods[x,y] == null)
                 {
 
                     Vector2Int startPos = new Vector2Int(x, y);

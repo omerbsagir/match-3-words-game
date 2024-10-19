@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
 
     private Gem otherGem;
 
-    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb,glass,grass }
+    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb,glass,grass,wood }
     public GemType type;
     public string letterValue;
 
@@ -76,6 +76,10 @@ public class Gem : MonoBehaviour
             {
                 board.allGrasses[posIndex.x, posIndex.y] = this;
             }
+            else if (type == GemType.wood)
+            {
+                board.allWoods[posIndex.x, posIndex.y] = this;
+            }
             else
             {
                 board.allGems[posIndex.x, posIndex.y] = this;
@@ -111,7 +115,7 @@ public class Gem : MonoBehaviour
 
     private void CalculateAngle()
     {
-        if (type != GemType.glass && hasCover==false && type!=GemType.grass)
+        if (type != GemType.glass && hasCover==false && type!=GemType.grass && type!= GemType.wood)
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
             swipeAngle = swipeAngle * 180 / Mathf.PI;
@@ -130,7 +134,7 @@ public class Gem : MonoBehaviour
 
         if (swipeAngle < 45 && swipeAngle > -45 && posIndex.x < board.width - 1)
         {
-            if (board.allGlasses[posIndex.x + 1 ,posIndex.y] == null) {
+            if (board.allGlasses[posIndex.x + 1 ,posIndex.y] == null && board.allWoods[posIndex.x + 1, posIndex.y] == null) {
 
                 otherGem = board.allGems[posIndex.x + 1, posIndex.y];
                 otherGem.posIndex.x--;
@@ -141,7 +145,7 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle > 45 && swipeAngle <= 135 && posIndex.y < board.height - 1)
         {
-            if (board.allGlasses[posIndex.x, posIndex.y+1] == null)
+            if (board.allGlasses[posIndex.x, posIndex.y+1] == null && board.allWoods[posIndex.x, posIndex.y+1] == null)
             {
                 otherGem = board.allGems[posIndex.x, posIndex.y + 1];
                 otherGem.posIndex.y--;
@@ -151,7 +155,7 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle < -45 && swipeAngle >= -135 && posIndex.y > 0)
         {
-            if (board.allGlasses[posIndex.x, posIndex.y-1] == null)
+            if (board.allGlasses[posIndex.x, posIndex.y-1] == null && board.allWoods[posIndex.x, posIndex.y-1] == null)
             {
                 otherGem = board.allGems[posIndex.x, posIndex.y - 1];
                 otherGem.posIndex.y++;
@@ -162,7 +166,7 @@ public class Gem : MonoBehaviour
         else if (swipeAngle > 135 || swipeAngle < -135)
         {
             if (posIndex.x > 0) {
-                if (board.allGlasses[posIndex.x - 1, posIndex.y] == null)
+                if (board.allGlasses[posIndex.x - 1, posIndex.y] == null && board.allWoods[posIndex.x - 1, posIndex.y] == null)
                 {
                     otherGem = board.allGems[posIndex.x - 1, posIndex.y];
                     otherGem.posIndex.x++;
