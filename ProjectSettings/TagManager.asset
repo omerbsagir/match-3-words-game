@@ -47,6 +47,9 @@ TagManager:
   - name: HIDDEN
     uniqueID: 3784695889
     locked: 0
+  - name: GRASS
+    uniqueID: 3708487509
+    locked: 0
   - name: GEMS
     uniqueID: 284800905
     locked: 0

@@ -52,8 +52,12 @@ public class Board : MonoBehaviour
     public Gem grass;
     public Gem[,] allGrasses;
 
+    public Gem[,] layoutWoods;
+    public Gem[,] layoutGlasses;
     public Gem[,] layoutGems;
-    
+    public Gem[,] layoutGrasses;
+    public Gem[,] layoutHiddens;
+
 
 
     private void Awake()
@@ -65,7 +69,12 @@ public class Board : MonoBehaviour
 
         width = levelManager.GetLevelDimensions()[0];
         height = levelManager.GetLevelDimensions()[1];
-        layoutGems = levelManager.GetLevelLayout();
+
+        layoutWoods = levelManager.GetLevelLayoutWood();
+        layoutGlasses = levelManager.GetLevelLayoutGlass();
+        layoutGems = levelManager.GetLevelLayoutGems();
+        layoutGrasses = levelManager.GetLevelLayoutGrass();
+        layoutHiddens = levelManager.GetLevelLayoutHidden();
 
 
     }
@@ -110,12 +119,25 @@ public class Board : MonoBehaviour
             }
         }
 
-        /*if (Input.GetKeyDown(KeyCode.S))
-        {
-            ShuffleBoard();
-        }*/
     }
 
+    private bool isAllLayoutsEmpty(int x , int y)
+    {
+        if (layoutWoods[x, y] == null && layoutGlasses[x, y] == null && layoutGems[x, y] == null && layoutGrasses[x, y] == null && layoutHiddens[x, y] == null)
+        {
+            return true;
+        }
+        
+        return false;
+    }
+
+    private void LayoutSetup(int x , int y)
+    {
+        if(layoutCovers[x, y] != null)
+        {
+            //Cover neyse onu spawnla şuan 
+        }
+    }
     
     private void Setup()
     {

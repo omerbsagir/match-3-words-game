@@ -5,21 +5,114 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class LayoutSO : ScriptableObject
 {
-    public LayoutRow[] allRows;
+    public LayoutRow[] allRowsWood;
+    public LayoutRow[] allRowsGlass;
+    public LayoutRow[] allRowsGems;
+    public LayoutRow[] allRowsGrass;
+    public LayoutRow[] allRowsHidden;
 
-    public Gem[,] GetLayout()
+
+    public Gem[,] GetLayoutWood()
     {
-        Gem[,] theLayout = new Gem[allRows[0].gemsInRow.Length, allRows.Length];
+        Gem[,] theLayout = new Gem[allRowsWood[0].gemsInRow.Length, allRowsWood.Length];
 
-        for (int y = 0; y < allRows.Length; y++)
+        for (int y = 0; y < allRowsWood.Length; y++)
         {
-            for (int x = 0; x < allRows[y].gemsInRow.Length; x++)
+            for (int x = 0; x < allRowsWood[y].gemsInRow.Length; x++)
             {
                 if (x < theLayout.GetLength(0))
                 {
-                    if (allRows[y].gemsInRow[x] != null)
+                    if (allRowsWood[y].gemsInRow[x] != null)
                     {
-                        theLayout[x, allRows.Length - 1 - y] = allRows[y].gemsInRow[x];
+                        theLayout[x, allRowsWood.Length - 1 - y] = allRowsWood[y].gemsInRow[x];
+                    }
+                }
+            }
+        }
+
+
+
+        return theLayout;
+    }
+    public Gem[,] GetLayoutGlass()
+    {
+        Gem[,] theLayout = new Gem[allRowsGlass[0].gemsInRow.Length, allRowsGlass.Length];
+
+        for (int y = 0; y < allRowsGlass.Length; y++)
+        {
+            for (int x = 0; x < allRowsGlass[y].gemsInRow.Length; x++)
+            {
+                if (x < theLayout.GetLength(0))
+                {
+                    if (allRowsGlass[y].gemsInRow[x] != null)
+                    {
+                        theLayout[x, allRowsGlass.Length - 1 - y] = allRowsGlass[y].gemsInRow[x];
+                    }
+                }
+            }
+        }
+
+
+
+        return theLayout;
+    }
+    public Gem[,] GetLayoutGems()
+    {
+        Gem[,] theLayout = new Gem[allRowsGems[0].gemsInRow.Length, allRowsGems.Length];
+
+        for (int y = 0; y < allRowsGems.Length; y++)
+        {
+            for (int x = 0; x < allRowsGems[y].gemsInRow.Length; x++)
+            {
+                if (x < theLayout.GetLength(0))
+                {
+                    if (allRowsGems[y].gemsInRow[x] != null)
+                    {
+                        theLayout[x, allRowsGems.Length - 1 - y] = allRowsGems[y].gemsInRow[x];
+                    }
+                }
+            }
+        }
+
+
+
+        return theLayout;
+    }
+    public Gem[,] GetLayoutGrass()
+    {
+        Gem[,] theLayout = new Gem[allRowsGrass[0].gemsInRow.Length, allRowsGrass.Length];
+
+        for (int y = 0; y < allRowsGrass.Length; y++)
+        {
+            for (int x = 0; x < allRowsGrass[y].gemsInRow.Length; x++)
+            {
+                if (x < theLayout.GetLength(0))
+                {
+                    if (allRowsGrass[y].gemsInRow[x] != null)
+                    {
+                        theLayout[x, allRowsGrass.Length - 1 - y] = allRowsGrass[y].gemsInRow[x];
+                    }
+                }
+            }
+        }
+
+
+
+        return theLayout;
+    }
+    public Gem[,] GetLayoutHidden()
+    {
+        Gem[,] theLayout = new Gem[allRowsHidden[0].gemsInRow.Length, allRowsHidden.Length];
+
+        for (int y = 0; y < allRowsHidden.Length; y++)
+        {
+            for (int x = 0; x < allRowsHidden[y].gemsInRow.Length; x++)
+            {
+                if (x < theLayout.GetLength(0))
+                {
+                    if (allRowsHidden[y].gemsInRow[x] != null)
+                    {
+                        theLayout[x, allRowsHidden.Length - 1 - y] = allRowsHidden[y].gemsInRow[x];
                     }
                 }
             }

@@ -11,10 +11,25 @@ public class LevelManager : MonoBehaviour
     public LevelSize[] widthAndHeights;
     public LayoutSO[] allLayouts;
 
-
-    public Gem[,] GetLevelLayout()
+    public Gem[,] GetLevelLayoutWood()
     {
-        return allLayouts[level - 1].GetLayout();
+        return allLayouts[level - 1].GetLayoutWood();
+    }
+    public Gem[,] GetLevelLayoutGlass()
+    {
+        return allLayouts[level - 1].GetLayoutGlass();
+    }
+    public Gem[,] GetLevelLayoutGems()
+    {
+        return allLayouts[level - 1].GetLayoutGems();
+    }
+    public Gem[,] GetLevelLayoutGrass()
+    {
+        return allLayouts[level - 1].GetLayoutGrass();
+    }
+    public Gem[,] GetLevelLayoutHidden()
+    {
+        return allLayouts[level - 1].GetLayoutHidden();
     }
 
     public int[] GetLevelDimensions()
