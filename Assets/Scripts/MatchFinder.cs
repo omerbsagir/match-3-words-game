@@ -180,8 +180,8 @@ public class MatchFinder : MonoBehaviour
         for (int i = 0; i < currentMatches.Count; i++)
         {
             Gem gem = currentMatches[i];
-            int x = gem.posIndex.x;
-            int y = gem.posIndex.y;
+            int x = (int)gem.posIndex.x;
+            int y = (int)gem.posIndex.y;
 
 
             // Sol tarafa bak (x - 1)
@@ -237,8 +237,8 @@ public class MatchFinder : MonoBehaviour
         for (int i = 0; i < currentMatches.Count; i++)
         {
             Gem gem = currentMatches[i];
-            int x = gem.posIndex.x;
-            int y = gem.posIndex.y;
+            int x = (int)gem.posIndex.x;
+            int y = (int)gem.posIndex.y;
 
 
             // Sol tarafa bak (x - 1)

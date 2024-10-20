@@ -312,6 +312,7 @@ public class Board : MonoBehaviour
         float posX = ( baseGrass.x + upGrass.x + rightGrass.x + crossGrass.x ) / 4;
         float posY = (baseGrass.y + upGrass.y + rightGrass.y + crossGrass.y) / 4;
 
+        Vector2 realPos = new Vector2(posX,posY);
 
         Gem gem = Instantiate(hidden, new Vector3(posX, posY, 0f), Quaternion.identity);
         gem.transform.parent = transform;
@@ -325,7 +326,7 @@ public class Board : MonoBehaviour
 
         allHiddens[pos.x, pos.y] = hidden;
 
-        gem.SetupGem(pos, this);
+        gem.SetupGem(realPos, this);
 
     }
     void SpawnWood(Vector2Int pos)
@@ -460,7 +461,7 @@ public class Board : MonoBehaviour
         {
             if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood && matchFind.currentMatches[i].type != Gem.GemType.hidden && matchFind.currentMatches[i].type != Gem.GemType.grass && matchFind.currentMatches[i].type != Gem.GemType.glass)
             {
-                allGems[matchFind.currentMatches[i].posIndex.x, matchFind.currentMatches[i].posIndex.y].GetComponent<SpriteRenderer>().color = Color.green;
+                allGems[(int)matchFind.currentMatches[i].posIndex.x, (int)matchFind.currentMatches[i].posIndex.y].GetComponent<SpriteRenderer>().color = Color.green;
             }
         }
 
@@ -476,7 +477,7 @@ public class Board : MonoBehaviour
             }
         }
 
-        CheckHiddens();
+        
 
         isDestroying = false;
 
@@ -484,39 +485,40 @@ public class Board : MonoBehaviour
         StartCoroutine(DecreaseRowCo());
     }
 
-    private void DestroyMatchedLetterAt(Vector2Int pos)
+    private void DestroyMatchedLetterAt(Vector2 pos)
     {
-        if (allGems[pos.x, pos.y] != null)
+        if (allGems[(int)pos.x, (int)pos.y] != null)
         {
-            if (allGems[pos.x, pos.y].isMatched)
+            if (allGems[(int)pos.x, (int)pos.y].isMatched)
             {
 
-                if (allGlasses[pos.x, pos.y] != null)
+                if (allGlasses[(int)pos.x, (int)pos.y] != null)
                 {
-                    Destroy(allGlasses[pos.x, pos.y].gameObject);
-                    allGlasses[pos.x, pos.y] = null;
+                    Destroy(allGlasses[(int)pos.x, (int)pos.y].gameObject);
+                    allGlasses[(int)pos.x, (int)pos.y] = null;
 
                 }
                 
 
                 //Instantiate(allGems[pos.x, pos.y].destroyEffect, new Vector2(pos.x, pos.y), Quaternion.identity);
 
-                Destroy(allGems[pos.x, pos.y].gameObject);
-                allGems[pos.x, pos.y] = null;
+                Destroy(allGems[(int)pos.x, (int)pos.y].gameObject);
+                allGems[(int)pos.x, (int)pos.y] = null;
 
-                if (allGrasses[pos.x, pos.y] != null)
+                if (allGrasses[(int)pos.x, (int)pos.y] != null)
                 {
-                    Destroy(allGrasses[pos.x, pos.y].gameObject);
-                    allGrasses[pos.x, pos.y] = null;
+                    Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
+                    allGrasses[(int)pos.x, (int)pos.y] = null;
 
                 }
             }
-            
+            CheckHiddens();
+
         }
-        else if (allWoods[pos.x, pos.y] != null)
+        else if (allWoods[(int)pos.x, (int)pos.y] != null)
         {
-            Destroy(allWoods[pos.x, pos.y].gameObject);
-            allWoods[pos.x, pos.y] = null;
+            Destroy(allWoods[(int)pos.x, (int)pos.y].gameObject);
+            allWoods[(int)pos.x, (int)pos.y] = null;
         }
 
         
@@ -995,9 +997,12 @@ public class Board : MonoBehaviour
 
                     if (isClear)
                     {
+                        Debug.Log("Silinmeli");
                         layoutHiddens[x, y].isMatched = true;
                         matchFind.currentMatches.Add(layoutHiddens[x, y]);
+                        DestroyMatches();
                     }
+
                     
                 }
             }

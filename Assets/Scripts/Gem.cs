@@ -6,7 +6,7 @@ public class Gem : MonoBehaviour
 {
 
     //[HideInInspector]
-    public Vector2Int posIndex;
+    public Vector2 posIndex;
     [HideInInspector] public Board board;
 
     private Vector2 firstTouchPosition;
@@ -23,7 +23,7 @@ public class Gem : MonoBehaviour
 
     public bool isMatched;
 
-    private Vector2Int previousPos;
+    private Vector2 previousPos;
 
     public GameObject destroyEffect;
 
@@ -31,7 +31,7 @@ public class Gem : MonoBehaviour
 
     public bool hasCover=false;
 
-    public bool hasHidden;
+    public bool hasHidden=false;
 
     
 
@@ -42,7 +42,7 @@ public class Gem : MonoBehaviour
         {
             blastSize = 0;
         }
-        hasHidden = false;
+        
         
     }
     void Start()
@@ -54,41 +54,42 @@ public class Gem : MonoBehaviour
     void Update()
     {
 
-        if(type != GemType.hidden)
+        if (Vector2.Distance(transform.position, posIndex) > .01f && !board.isHighlighting)
         {
-            if (Vector2.Distance(transform.position, posIndex) > .01f && !board.isHighlighting)
+
+            transform.position = Vector2.Lerp(transform.position, posIndex, board.gemSpeed * Time.deltaTime);
+        }
+        else
+        {
+
+            if (!board.isHighlighting)
             {
 
-                transform.position = Vector2.Lerp(transform.position, posIndex, board.gemSpeed * Time.deltaTime);
+                transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
+            }
+
+
+            if (type == GemType.glass)
+            {
+                board.allGlasses[(int)posIndex.x, (int)posIndex.y] = this;
+            }
+            else if (type == GemType.grass)
+            {
+                board.allGrasses[(int)posIndex.x, (int)posIndex.y] = this;
+            }
+            else if (type == GemType.wood)
+            {
+                board.allWoods[(int)posIndex.x, (int)posIndex.y] = this;
+            }
+            else if (type == GemType.wood)
+            {
+                board.allHiddens[(int)posIndex.x, (int)posIndex.y] = this;
             }
             else
             {
-
-                if (!board.isHighlighting)
-                {
-
-                    transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
-                }
-
-
-                if (type == GemType.glass)
-                {
-                    board.allGlasses[posIndex.x, posIndex.y] = this;
-                }
-                else if (type == GemType.grass)
-                {
-                    board.allGrasses[posIndex.x, posIndex.y] = this;
-                }
-                else if (type == GemType.wood)
-                {
-                    board.allWoods[posIndex.x, posIndex.y] = this;
-                }
-                else
-                {
-                    board.allGems[posIndex.x, posIndex.y] = this;
-                }
-
+                board.allGems[(int)posIndex.x, (int)posIndex.y] = this;
             }
+
         }
         
 
@@ -112,7 +113,7 @@ public class Gem : MonoBehaviour
         }
     }
 
-    public void SetupGem(Vector2Int pos , Board theBoard)
+    public void SetupGem(Vector2 pos , Board theBoard)
     {
         posIndex = pos;
         board = theBoard;
@@ -139,9 +140,9 @@ public class Gem : MonoBehaviour
 
         if (swipeAngle < 45 && swipeAngle > -45 && posIndex.x < board.width - 1)
         {
-            if (board.allGlasses[posIndex.x + 1 ,posIndex.y] == null && board.allWoods[posIndex.x + 1, posIndex.y] == null) {
+            if (board.allGlasses[(int)posIndex.x + 1 , (int)posIndex.y] == null && board.allWoods[(int)posIndex.x + 1, (int)posIndex.y] == null) {
 
-                otherGem = board.allGems[posIndex.x + 1, posIndex.y];
+                otherGem = board.allGems[(int)posIndex.x + 1, (int)posIndex.y];
                 otherGem.posIndex.x--;
                 posIndex.x++;
             }
@@ -150,9 +151,9 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle > 45 && swipeAngle <= 135 && posIndex.y < board.height - 1)
         {
-            if (board.allGlasses[posIndex.x, posIndex.y+1] == null && board.allWoods[posIndex.x, posIndex.y+1] == null)
+            if (board.allGlasses[(int)posIndex.x, (int)posIndex.y+1] == null && board.allWoods[(int)posIndex.x, (int)posIndex.y+1] == null)
             {
-                otherGem = board.allGems[posIndex.x, posIndex.y + 1];
+                otherGem = board.allGems[(int)posIndex.x, (int)posIndex.y + 1];
                 otherGem.posIndex.y--;
                 posIndex.y++;
             }
@@ -160,9 +161,9 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle < -45 && swipeAngle >= -135 && posIndex.y > 0)
         {
-            if (board.allGlasses[posIndex.x, posIndex.y-1] == null && board.allWoods[posIndex.x, posIndex.y-1] == null)
+            if (board.allGlasses[(int)posIndex.x, (int)posIndex.y-1] == null && board.allWoods[(int)posIndex.x, (int)posIndex.y-1] == null)
             {
-                otherGem = board.allGems[posIndex.x, posIndex.y - 1];
+                otherGem = board.allGems[(int)posIndex.x, (int)posIndex.y - 1];
                 otherGem.posIndex.y++;
                 posIndex.y--;
             }
@@ -171,9 +172,9 @@ public class Gem : MonoBehaviour
         else if (swipeAngle > 135 || swipeAngle < -135)
         {
             if (posIndex.x > 0) {
-                if (board.allGlasses[posIndex.x - 1, posIndex.y] == null && board.allWoods[posIndex.x - 1, posIndex.y] == null)
+                if (board.allGlasses[(int)posIndex.x - 1, (int)posIndex.y] == null && board.allWoods[(int)posIndex.x - 1, (int)posIndex.y] == null)
                 {
-                    otherGem = board.allGems[posIndex.x - 1, posIndex.y];
+                    otherGem = board.allGems[(int)posIndex.x - 1, (int)posIndex.y];
                     otherGem.posIndex.x++;
                     posIndex.x--;
                 }
@@ -182,9 +183,9 @@ public class Gem : MonoBehaviour
             
         }
 
-        board.allGems[posIndex.x, posIndex.y] = this;
+        board.allGems[(int)posIndex.x, (int)posIndex.y] = this;
         if (otherGem != null) {
-            board.allGems[otherGem.posIndex.x, otherGem.posIndex.y] = otherGem;
+            board.allGems[(int)otherGem.posIndex.x, (int)otherGem.posIndex.y] = otherGem;
 
             
             StartCoroutine(CheckMoveCo());
@@ -227,8 +228,8 @@ public class Gem : MonoBehaviour
                     otherGem.posIndex = posIndex;
                     posIndex = previousPos;
 
-                    board.allGems[posIndex.x, posIndex.y] = this;
-                    board.allGems[otherGem.posIndex.x, otherGem.posIndex.y] = otherGem;
+                    board.allGems[(int)posIndex.x, (int)posIndex.y] = this;
+                    board.allGems[(int)otherGem.posIndex.x, (int)otherGem.posIndex.y] = otherGem;
 
                     yield return new WaitForSeconds(.25f);
 
@@ -262,8 +263,8 @@ public class Gem : MonoBehaviour
         while (bombQueue.Count > 0)
         {
             Gem currentBomb = bombQueue.Dequeue();
-            int x = currentBomb.posIndex.x;
-            int y = currentBomb.posIndex.y;
+            int x = (int)currentBomb.posIndex.x;
+            int y = (int)currentBomb.posIndex.y;
 
             // Çevresindeki taşları ekle
             AddNeighboringGems(gems, x, y);
