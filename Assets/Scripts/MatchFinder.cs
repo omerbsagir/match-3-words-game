@@ -82,6 +82,7 @@ public class MatchFinder : MonoBehaviour
         }
 
         CheckForGlasses();
+        CheckForWoods();
     }
 
     
@@ -225,6 +226,63 @@ public class MatchFinder : MonoBehaviour
         }
 
         foreach(Gem g in glassGems)
+        {
+            currentMatches.Add(g);
+        }
+    }
+    public void CheckForWoods()
+    {
+        List<Gem> woodGems = new List<Gem>();
+
+        for (int i = 0; i < currentMatches.Count; i++)
+        {
+            Gem gem = currentMatches[i];
+            int x = gem.posIndex.x;
+            int y = gem.posIndex.y;
+
+
+            // Sol tarafa bak (x - 1)
+            if (x > 0 && board.allWoods[x - 1, y] != null)
+            {
+                if (!currentMatches.Contains(board.allWoods[x - 1, y]))
+                {
+                    board.allWoods[x - 1, y].isMatched = true;
+                    woodGems.Add(board.allWoods[x - 1, y]);
+                }
+            }
+
+            // Sağ tarafa bak (x + 1)
+            if (x < board.width - 1 && board.allWoods[x + 1, y] != null)
+            {
+                if (!currentMatches.Contains(board.allWoods[x + 1, y]))
+                {
+                    board.allWoods[x + 1, y].isMatched = true;
+                    woodGems.Add(board.allWoods[x + 1, y]);
+                }
+            }
+
+            // Yukarı bak (y - 1)
+            if (y > 0 && board.allWoods[x, y - 1] != null)
+            {
+                if (!currentMatches.Contains(board.allWoods[x, y - 1]))
+                {
+                    board.allWoods[x, y - 1].isMatched = true;
+                    woodGems.Add(board.allWoods[x, y - 1]);
+                }
+            }
+
+            // Aşağı bak (y + 1)
+            if (y < board.height - 1 && board.allWoods[x, y + 1] != null)
+            {
+                if (!currentMatches.Contains(board.allWoods[x, y + 1]))
+                {
+                    board.allWoods[x, y + 1].isMatched = true;
+                    woodGems.Add(board.allWoods[x, y + 1]);
+                }
+            }
+        }
+
+        foreach (Gem g in woodGems)
         {
             currentMatches.Add(g);
         }

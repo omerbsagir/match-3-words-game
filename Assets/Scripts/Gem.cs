@@ -277,7 +277,8 @@ public class Gem : MonoBehaviour
         // Çevredeki tüm bombalar ve taşlar eşleşmiş olarak işaretlendi
         board.matchFind.MarkGemsAsMatched(gems);
         board.matchFind.CheckForGlasses();
-        
+        board.matchFind.CheckForWoods();
+
     }
     // Çevredeki taşları ekleyip listeye dahil eden yardımcı fonksiyon
     private void AddNeighboringGems(List<Gem> gems, int x, int y)
