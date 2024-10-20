@@ -31,7 +31,7 @@ public class Gem : MonoBehaviour
 
     public bool hasCover=false;
 
-    public bool hasHidden=false;
+    public bool hasHidden;
 
     
 
@@ -42,8 +42,8 @@ public class Gem : MonoBehaviour
         {
             blastSize = 0;
         }
-        
-        
+        hasHidden = false;
+
     }
     void Start()
     {
@@ -56,16 +56,25 @@ public class Gem : MonoBehaviour
 
         if (Vector2.Distance(transform.position, posIndex) > .01f && !board.isHighlighting)
         {
+            if (type != GemType.hidden)
+            {
+                transform.position = Vector2.Lerp(transform.position, posIndex, board.gemSpeed * Time.deltaTime);
 
-            transform.position = Vector2.Lerp(transform.position, posIndex, board.gemSpeed * Time.deltaTime);
+            }
+            
         }
         else
         {
 
             if (!board.isHighlighting)
             {
+                if (type != GemType.hidden)
+                {
+                    transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
 
-                transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
+                }
+                
+                
             }
 
 

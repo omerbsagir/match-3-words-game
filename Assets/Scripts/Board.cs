@@ -326,6 +326,7 @@ public class Board : MonoBehaviour
 
         allHiddens[pos.x, pos.y] = hidden;
 
+        Debug.Log(realPos.x+" "+realPos.y);
         gem.SetupGem(realPos, this);
 
     }
@@ -477,9 +478,13 @@ public class Board : MonoBehaviour
             }
         }
 
-        
+        matchFind.currentMatches.Clear();
+
+        CheckHiddens();
 
         isDestroying = false;
+
+        
 
         // 4. Satırları azaltma (yok edilen taşlardan sonra düşen taşlar)
         StartCoroutine(DecreaseRowCo());
@@ -512,7 +517,7 @@ public class Board : MonoBehaviour
 
                 }
             }
-            CheckHiddens();
+            
 
         }
         else if (allWoods[(int)pos.x, (int)pos.y] != null)
