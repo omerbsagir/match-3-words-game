@@ -282,54 +282,82 @@ public class Gem : MonoBehaviour
     // Çevredeki taşları ekleyip listeye dahil eden yardımcı fonksiyon
     private void AddNeighboringGems(List<Gem> gems, int x, int y)
     {
+
+        // bir üstündeki
         if (y < board.height - 1)
         {
-            gems.Add(board.allGems[x, y + 1]);
+            gems.Add(AddGemOrWood(x,y+1));
         }
+
+        //bir altındaki
         if (y > 0)
         {
-            gems.Add(board.allGems[x, y - 1]);
+            gems.Add(AddGemOrWood(x, y - 1));
         }
+
+        //solundaki ve solundakinin üstü ve altı
         if (x > 0)
         {
-            gems.Add(board.allGems[x - 1, y]);
+            gems.Add(AddGemOrWood(x-1, y));
             if (y < board.height - 1)
             {
-                gems.Add(board.allGems[x - 1, y + 1]);
+                gems.Add(AddGemOrWood(x-1, y + 1));
             }
             if (y > 0)
             {
-                gems.Add(board.allGems[x - 1, y - 1]);
+                gems.Add(AddGemOrWood(x-1, y - 1));
             }
         }
+
+        //sağındaki ve sağındakinin üstü ve altı
         if (x < board.width - 1)
         {
-            gems.Add(board.allGems[x + 1, y]);
+            gems.Add(AddGemOrWood(x+1, y));
             if (y < board.height - 1)
             {
-                gems.Add(board.allGems[x + 1, y + 1]);
+                gems.Add(AddGemOrWood(x+1, y + 1));
             }
             if (y > 0)
             {
-                gems.Add(board.allGems[x + 1, y - 1]);
+                gems.Add(AddGemOrWood(x+1, y - 1));
             }
         }
+
+        //2 üstü
         if(y+1 < board.height - 1)
         {
-            gems.Add(board.allGems[x, y + 2]);
+            gems.Add(AddGemOrWood(x, y + 2));
         }
+
+        //2 altı
         if (y-1 > 0)
         {
-            gems.Add(board.allGems[x, y - 2]);
+            gems.Add(AddGemOrWood(x, y -2));
         }
+
+        //2 sağı
         if (x + 1 < board.height - 1)
         {
-            gems.Add(board.allGems[x+2, y]);
+            gems.Add(AddGemOrWood(x+2, y));
         }
+
+        //2 solu
         if (x - 1 > 0)
         {
-            gems.Add(board.allGems[x-2, y]);
+            gems.Add(AddGemOrWood(x-2, y));
         }
     }
 
+    private Gem AddGemOrWood(int x , int y)
+    {
+        if (board.allWoods[x,y] != null)
+        {
+            return board.allWoods[x, y];
+        }
+        else if(board.allGems[x, y] != null)
+        {
+            return board.allGems[x, y];
+        }
+        return null;
+    }
 }

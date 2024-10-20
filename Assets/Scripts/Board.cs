@@ -451,6 +451,11 @@ public class Board : MonoBehaviour
                 Destroy(allGems[pos.x, pos.y].gameObject);
                 allGems[pos.x, pos.y] = null;
             }
+            else if (allWoods[pos.x,pos.y] != null)
+            {
+                Destroy(allWoods[pos.x, pos.y].gameObject);
+                allWoods[pos.x, pos.y] = null;
+            }
         }
     }
 
