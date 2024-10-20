@@ -201,21 +201,21 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   - gemsInRow:
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
   - gemsInRow:
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
+    - {fileID: 8225667240353281198, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
   - gemsInRow:
     - {fileID: 0}
     - {fileID: 0}
@@ -258,8 +258,8 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8299558439697728185, guid: dea0da29096a24a0eaaa60ad2ffc08d9, type: 3}
+    - {fileID: 8299558439697728185, guid: dea0da29096a24a0eaaa60ad2ffc08d9, type: 3}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -271,8 +271,8 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8299558439697728185, guid: dea0da29096a24a0eaaa60ad2ffc08d9, type: 3}
+    - {fileID: 8299558439697728185, guid: dea0da29096a24a0eaaa60ad2ffc08d9, type: 3}
   - gemsInRow:
     - {fileID: 0}
     - {fileID: 0}
