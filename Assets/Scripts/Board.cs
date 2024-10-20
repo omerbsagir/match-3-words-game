@@ -143,16 +143,16 @@ public class Board : MonoBehaviour
         if (layoutGrasses[x, y] != null)
         {
             SpawnGrass(pos);
-            //SpawnHidden(pos);
+            if (layoutHiddens[x, y] != null)
+            {
+                SpawnHidden(pos);
+            }
         }
         if (layoutGlasses[x, y] != null)
         {
             SpawnGlass(pos);
         }
-        if (layoutHiddens[x, y] != null)
-        {
-            SpawnHidden(pos);
-        }
+        
 
     }
 
@@ -281,6 +281,8 @@ public class Board : MonoBehaviour
             gem.name = "Grass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasHidden = true;
             allGrasses[pos.x, pos.y] = grass;
+            allGrasses[pos.x, pos.y].hasHidden=false;
+
 
             gem.SetupGem(pos, this);
 
@@ -432,7 +434,7 @@ public class Board : MonoBehaviour
         // 1. Eşleşen taşları yeşile boyama
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
-            if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood)
+            if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood && matchFind.currentMatches[i].type != Gem.GemType.hidden && matchFind.currentMatches[i].type != Gem.GemType.grass && matchFind.currentMatches[i].type != Gem.GemType.glass)
             {
                 allGems[matchFind.currentMatches[i].posIndex.x, matchFind.currentMatches[i].posIndex.y].GetComponent<SpriteRenderer>().color = Color.green;
             }
@@ -467,17 +469,21 @@ public class Board : MonoBehaviour
                 {
                     Destroy(allGlasses[pos.x, pos.y].gameObject);
                     allGlasses[pos.x, pos.y] = null;
+
                 }
-                if (allGrasses[pos.x, pos.y] != null)
-                {
-                    Destroy(allGrasses[pos.x, pos.y].gameObject);
-                    allGrasses[pos.x, pos.y] = null;
-                }
+                
 
                 //Instantiate(allGems[pos.x, pos.y].destroyEffect, new Vector2(pos.x, pos.y), Quaternion.identity);
 
                 Destroy(allGems[pos.x, pos.y].gameObject);
                 allGems[pos.x, pos.y] = null;
+
+                if (allGrasses[pos.x, pos.y] != null)
+                {
+                    Destroy(allGrasses[pos.x, pos.y].gameObject);
+                    allGrasses[pos.x, pos.y] = null;
+
+                }
             }
             
         }
@@ -487,7 +493,7 @@ public class Board : MonoBehaviour
             allWoods[pos.x, pos.y] = null;
         }
 
-        CheckHiddens();
+        
     }
 
     
@@ -932,26 +938,5 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void CheckHiddens()
-    {
-        List<Gem> matchedHiddens = new List<Gem>();
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (allHiddens[x, y] != null)
-                {
-                    if (allGrasses[x, y] == null ) // && allGems[x,y] == null
-                    {
-                        matchedHiddens.Add(allHiddens[x, y]);
-                    }
-
-                }
-            }
-        }
-
-        matchFind.MarkGemsAsMatched(matchedHiddens);
-        DestroyMatches();
-    }
+    
 }

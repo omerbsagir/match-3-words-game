@@ -106,7 +106,7 @@ MonoBehaviour:
   destroyEffect: {fileID: 0}
   blastSize: 2
   hasCover: 0
-  hasHidden: 1
+  hasHidden: 0
 --- !u!61 &6083392066349657663
 BoxCollider2D:
   m_ObjectHideFlags: 0
