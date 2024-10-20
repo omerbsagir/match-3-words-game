@@ -277,7 +277,7 @@ public class Board : MonoBehaviour
             gem.transform.parent = transform;
             gem.name = "Glass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasCover = true;
-            allGlasses[pos.x, pos.y] = glass;
+            allGlasses[pos.x, pos.y] = gem;
 
             gem.SetupGem(pos, this);
 
@@ -292,7 +292,7 @@ public class Board : MonoBehaviour
             gem.transform.parent = transform;
             gem.name = "Grass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasHidden = true;
-            allGrasses[pos.x, pos.y] = grass;
+            allGrasses[pos.x, pos.y] = gem;
 
 
             gem.SetupGem(pos, this);
@@ -324,10 +324,10 @@ public class Board : MonoBehaviour
         allGrasses[(int)rightGrass.x, (int)rightGrass.y].hasHidden = true;
         allGrasses[(int)crossGrass.x, (int)crossGrass.y].hasHidden = true;
 
-        allHiddens[pos.x, pos.y] = hidden;
+        allHiddens[pos.x, pos.y] = gem;
 
        
-        gem.SetupGem(realPos, this);
+        gem.SetupGem(pos, this);
 
     }
     void SpawnWood(Vector2Int pos)
@@ -335,7 +335,7 @@ public class Board : MonoBehaviour
         Gem gem = Instantiate(wood, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
         gem.transform.parent = transform;
         gem.name = "Wood - " + pos.x + ", " + pos.y;
-        allWoods[pos.x, pos.y] = glass;
+        allWoods[pos.x, pos.y] = gem;
 
         gem.SetupGem(pos, this);
 
@@ -457,7 +457,7 @@ public class Board : MonoBehaviour
     private IEnumerator HandleMatchesCoroutine()
     {
         isDestroying = true;
-        // 1. Eşleşen taşları yeşile boyama
+
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
             if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood && matchFind.currentMatches[i].type != Gem.GemType.hidden && matchFind.currentMatches[i].type != Gem.GemType.grass && matchFind.currentMatches[i].type != Gem.GemType.glass)
@@ -466,10 +466,10 @@ public class Board : MonoBehaviour
             }
         }
 
-        // 2. 3 saniye boyunca bekleme (animasyon)
+
         yield return new WaitForSeconds(2f);
 
-        // 3. Eşleşen taşları yok etme
+
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
             if (matchFind.currentMatches[i] != null)
@@ -478,15 +478,9 @@ public class Board : MonoBehaviour
             }
         }
 
-        matchFind.currentMatches.Clear();
-
-        CheckHiddens();
-
         isDestroying = false;
 
         
-
-        // 4. Satırları azaltma (yok edilen taşlardan sonra düşen taşlar)
         StartCoroutine(DecreaseRowCo());
     }
 
@@ -516,6 +510,15 @@ public class Board : MonoBehaviour
                     allGrasses[(int)pos.x, (int)pos.y] = null;
 
                 }
+                if (allHiddens[(int)pos.x, (int)pos.y] != null)
+                {
+                    if (CheckHiddenNear((int)pos.x, (int)pos.y))
+                    {
+                        Destroy(allHiddens[(int)pos.x, (int)pos.y].gameObject);
+                        allHiddens[(int)pos.x, (int)pos.y] = null;
+                    }
+                    
+                }
             }
             
 
@@ -525,8 +528,9 @@ public class Board : MonoBehaviour
             Destroy(allWoods[(int)pos.x, (int)pos.y].gameObject);
             allWoods[(int)pos.x, (int)pos.y] = null;
         }
-
         
+
+
     }
 
     
@@ -971,46 +975,23 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void CheckHiddens()
+    private bool CheckHiddenNear(int x , int y)
     {
 
+        List<Vector2Int> grasses = new List<Vector2Int>();
 
-        for (int x = 0; x < width; x++)
+        grasses.Add(new Vector2Int(x, y));
+        grasses.Add(new Vector2Int(x, y + 1));
+        grasses.Add(new Vector2Int(x + 1, y));
+        grasses.Add(new Vector2Int(x + 1, y + 1));
+
+        for (int i = 0; i < 4; i++)
         {
-            for (int y = 0; y < height; y++)
+            if (allGrasses[grasses[i].x, grasses[i].y] != null && allGrasses[grasses[i].x, grasses[i].y].isMatched == false)
             {
-                if (layoutHiddens[x, y] != null)
-                {
-
-                    bool isClear = true;
-
-                    List<Vector2Int> grasses = new List<Vector2Int>();
-
-                    grasses.Add(new Vector2Int(x, y));
-                    grasses.Add(new Vector2Int(x, y + 1));
-                    grasses.Add(new Vector2Int(x + 1, y));
-                    grasses.Add(new Vector2Int(x + 1, y + 1));
-
-                    for(int i = 0; i<4; i++)
-                    {
-                        if (allGrasses[grasses[i].x, grasses[i].y] != null)
-                        {
-                            isClear = false;
-                            break;
-                        }
-                    }
-
-                    if (isClear)
-                    {
-                        Debug.Log("Silinmeli");
-                        layoutHiddens[x, y].isMatched = true;
-                        matchFind.currentMatches.Add(layoutHiddens[x, y]);
-                        DestroyMatches();
-                    }
-
-                    
-                }
+                return false;
             }
         }
+        return true;
     }
 }

@@ -338,7 +338,7 @@ MonoBehaviour:
   isHighlighting: 0
   grass: {fileID: 9086430291922750589, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
   wood: {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
-  hidden: {fileID: 8299558439697728185, guid: dea0da29096a24a0eaaa60ad2ffc08d9, type: 3}
+  hidden: {fileID: 3638202178734336658, guid: ab53b924557b743eba34bbc1c0b690b1, type: 3}
 --- !u!4 &934488873
 Transform:
   m_ObjectHideFlags: 0

@@ -54,6 +54,7 @@ public class Gem : MonoBehaviour
     void Update()
     {
 
+
         if (Vector2.Distance(transform.position, posIndex) > .01f && !board.isHighlighting)
         {
             if (type != GemType.hidden)
@@ -70,6 +71,7 @@ public class Gem : MonoBehaviour
             {
                 if (type != GemType.hidden)
                 {
+                    
                     transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
 
                 }
@@ -90,7 +92,7 @@ public class Gem : MonoBehaviour
             {
                 board.allWoods[(int)posIndex.x, (int)posIndex.y] = this;
             }
-            else if (type == GemType.wood)
+            else if (type == GemType.hidden)
             {
                 board.allHiddens[(int)posIndex.x, (int)posIndex.y] = this;
             }
@@ -293,7 +295,8 @@ public class Gem : MonoBehaviour
         board.matchFind.MarkGemsAsMatched(gems);
         board.matchFind.CheckForGlasses();
         board.matchFind.CheckForWoods();
-        //board.matchFind.CheckForGrasses();
+        board.matchFind.CheckForGrasses();
+        board.matchFind.CheckHiddens();
 
     }
     // Çevredeki taşları ekleyip listeye dahil eden yardımcı fonksiyon

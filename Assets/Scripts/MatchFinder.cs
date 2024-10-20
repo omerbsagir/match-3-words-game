@@ -83,7 +83,8 @@ public class MatchFinder : MonoBehaviour
 
         CheckForGlasses();
         CheckForWoods();
-        //CheckForGrasses();
+        CheckForGrasses();
+        CheckHiddens();
     }
 
     
@@ -346,7 +347,48 @@ public class MatchFinder : MonoBehaviour
         }
     }
 
+    public void CheckHiddens()
+    {
 
+
+        for (int x = 0; x < board.width; x++)
+        {
+            for (int y = 0; y < board.height; y++)
+            {
+                if (board.allHiddens[x, y] != null)
+                {
+
+                    bool isClear = true;
+
+                    List<Vector2Int> grasses = new List<Vector2Int>();
+
+                    grasses.Add(new Vector2Int(x, y));
+                    grasses.Add(new Vector2Int(x, y + 1));
+                    grasses.Add(new Vector2Int(x + 1, y));
+                    grasses.Add(new Vector2Int(x + 1, y + 1));
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (board.allGrasses[grasses[i].x, grasses[i].y] != null && board.allGrasses[grasses[i].x, grasses[i].y].isMatched==false)
+                        {
+                            isClear = false;
+                            break;
+                        }
+                    }
+
+                    if (isClear)
+                    {
+                        Debug.Log("Silinmeli");
+                        board.allHiddens[x, y].isMatched = true;
+                        currentMatches.Add(board.allHiddens[x, y]);
+                        
+                    }
+
+
+                }
+            }
+        }
+    }
 
     /*public void CheckForBombs()
     {
