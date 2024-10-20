@@ -458,6 +458,8 @@ public class Board : MonoBehaviour
     {
         isDestroying = true;
 
+        matchFind.CheckHiddens();
+
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
             if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood && matchFind.currentMatches[i].type != Gem.GemType.hidden && matchFind.currentMatches[i].type != Gem.GemType.grass && matchFind.currentMatches[i].type != Gem.GemType.glass)
@@ -497,9 +499,7 @@ public class Board : MonoBehaviour
                     allGlasses[(int)pos.x, (int)pos.y] = null;
 
                 }
-                
-
-                //Instantiate(allGems[pos.x, pos.y].destroyEffect, new Vector2(pos.x, pos.y), Quaternion.identity);
+               
 
                 Destroy(allGems[(int)pos.x, (int)pos.y].gameObject);
                 allGems[(int)pos.x, (int)pos.y] = null;
@@ -510,15 +510,7 @@ public class Board : MonoBehaviour
                     allGrasses[(int)pos.x, (int)pos.y] = null;
 
                 }
-                if (allHiddens[(int)pos.x, (int)pos.y] != null)
-                {
-                    if (CheckHiddenNear((int)pos.x, (int)pos.y))
-                    {
-                        Destroy(allHiddens[(int)pos.x, (int)pos.y].gameObject);
-                        allHiddens[(int)pos.x, (int)pos.y] = null;
-                    }
-                    
-                }
+               
             }
             
 
@@ -528,8 +520,16 @@ public class Board : MonoBehaviour
             Destroy(allWoods[(int)pos.x, (int)pos.y].gameObject);
             allWoods[(int)pos.x, (int)pos.y] = null;
         }
-        
 
+        if (allHiddens[(int)pos.x, (int)pos.y] != null)
+        {
+            if (CheckHiddenNear((int)pos.x, (int)pos.y))
+            {
+                Destroy(allHiddens[(int)pos.x, (int)pos.y].gameObject);
+                allHiddens[(int)pos.x, (int)pos.y] = null;
+            }
+
+        }
 
     }
 
