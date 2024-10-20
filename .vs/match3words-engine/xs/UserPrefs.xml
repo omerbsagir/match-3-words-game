@@ -2,17 +2,18 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Gem.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CameraController.cs">
     <Files>
-      <File FileName="Assets/Scripts/Board.cs" Line="549" Column="6" />
-      <File FileName="Assets/Scripts/Gem.cs" Line="20" Column="95" />
-      <File FileName="Assets/Scripts/LayoutSO.cs" Line="34" Column="22" />
-      <File FileName="Assets/Scripts/LevelManager.cs" Line="35" Column="1" />
-      <File FileName="Assets/Scripts/CameraController.cs" Line="11" Column="19" />
+      <File FileName="Assets/Scripts/Board.cs" Line="614" Column="22" />
+      <File FileName="Assets/Scripts/Gem.cs" Line="272" Column="31" />
+      <File FileName="Assets/Scripts/MatchFinder.cs" Line="270" Column="63" />
+      <File FileName="Assets/Scripts/LayoutSO.cs" Line="12" Column="38" />
+      <File FileName="Assets/Scripts/LevelManager.cs" Line="12" Column="34" />
+      <File FileName="Assets/Scripts/CameraController.cs" Line="10" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="5f806c05-2f3f-4dd1-a43e-942c7de3586a" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="51d82ccb-d719-4b25-b4bd-f39aa436b79a" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

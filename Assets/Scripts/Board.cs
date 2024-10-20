@@ -530,6 +530,12 @@ public class Board : MonoBehaviour
             }
 
         }
+        if (allGrasses[(int)pos.x, (int)pos.y] != null)
+        {
+            Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
+            allGrasses[(int)pos.x, (int)pos.y] = null;
+
+        }
 
     }
 
@@ -576,7 +582,8 @@ public class Board : MonoBehaviour
 
                             if (allGrasses[x, y - nullCounter] != null)
                             {
-                                allGems[x, y].hasHidden = true;
+                                //allGems[x, y].hasHidden = true;
+                                matchFind.currentMatches.Add(allGrasses[x, y - nullCounter]);
                             }
                             else
                             {
