@@ -31,7 +31,7 @@ public class Gem : MonoBehaviour
 
     public bool hasCover=false;
 
-    public bool hasHidden = false;
+    public bool hasHidden;
 
     
 
@@ -42,7 +42,7 @@ public class Gem : MonoBehaviour
         {
             blastSize = 0;
         }
-        
+        hasHidden = false;
         
     }
     void Start()
@@ -54,44 +54,43 @@ public class Gem : MonoBehaviour
     void Update()
     {
 
-
-        if (Vector2.Distance(transform.position, posIndex) > .01f && !board.isHighlighting)
+        if(type != GemType.hidden)
         {
-            
-            transform.position = Vector2.Lerp(transform.position, posIndex, board.gemSpeed * Time.deltaTime);
-        }
-        else
-        {
-            
-            if (!board.isHighlighting)
+            if (Vector2.Distance(transform.position, posIndex) > .01f && !board.isHighlighting)
             {
-                
-                transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
-            }
-            
 
-            if (type == GemType.glass)
-            {
-                board.allGlasses[posIndex.x, posIndex.y] = this;
-            }
-            else if (type == GemType.grass)
-            {
-                board.allGrasses[posIndex.x, posIndex.y] = this;
-            }
-            else if (type == GemType.wood)
-            {
-                board.allWoods[posIndex.x, posIndex.y] = this;
-            }
-            else if (type == GemType.hidden)
-            {
-                board.allHiddens[posIndex.x, posIndex.y] = this;
+                transform.position = Vector2.Lerp(transform.position, posIndex, board.gemSpeed * Time.deltaTime);
             }
             else
             {
-                board.allGems[posIndex.x, posIndex.y] = this;
+
+                if (!board.isHighlighting)
+                {
+
+                    transform.position = new Vector3(posIndex.x, posIndex.y, 0f);
+                }
+
+
+                if (type == GemType.glass)
+                {
+                    board.allGlasses[posIndex.x, posIndex.y] = this;
+                }
+                else if (type == GemType.grass)
+                {
+                    board.allGrasses[posIndex.x, posIndex.y] = this;
+                }
+                else if (type == GemType.wood)
+                {
+                    board.allWoods[posIndex.x, posIndex.y] = this;
+                }
+                else
+                {
+                    board.allGems[posIndex.x, posIndex.y] = this;
+                }
+
             }
-            
         }
+        
 
         if (mousePressed && Input.GetMouseButtonUp(0))
         {

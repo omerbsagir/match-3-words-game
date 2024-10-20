@@ -143,10 +143,7 @@ public class Board : MonoBehaviour
         if (layoutGrasses[x, y] != null)
         {
             SpawnGrass(pos);
-            if (layoutHiddens[x, y] != null)
-            {
-                SpawnHidden(pos);
-            }
+
         }
         if (layoutGlasses[x, y] != null)
         {
@@ -156,6 +153,20 @@ public class Board : MonoBehaviour
 
     }
 
+    private void SetupHiddens()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (layoutHiddens[x, y] != null)
+                {
+                    SpawnHidden(new Vector2Int(x,y));
+
+                }
+            }
+        }
+    }
     private void Setup()
     {
         for(int x = 0; x < width; x++)
@@ -227,6 +238,7 @@ public class Board : MonoBehaviour
 
             }
         }
+        SetupHiddens();
         
         
     }
@@ -281,7 +293,6 @@ public class Board : MonoBehaviour
             gem.name = "Grass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasHidden = true;
             allGrasses[pos.x, pos.y] = grass;
-            allGrasses[pos.x, pos.y].hasHidden=false;
 
 
             gem.SetupGem(pos, this);
@@ -291,17 +302,30 @@ public class Board : MonoBehaviour
     }
     void SpawnHidden(Vector2Int pos)
     {
-        if (allGems[pos.x, pos.y].type != Gem.GemType.bomb && allGlasses[pos.x, pos.y] == null && allGrasses[pos.x,pos.y] !=null)
-        {
-            Gem gem = Instantiate(hidden, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
-            gem.transform.parent = transform;
-            gem.name = "Hidden - " + pos.x + ", " + pos.y;
-            allGrasses[pos.x, pos.y].hasHidden = true;
-            allHiddens[pos.x, pos.y] = hidden;
 
-            gem.SetupGem(pos, this);
+        Vector2 baseGrass = new Vector2(pos.x,pos.y);
+        Vector2 upGrass = new Vector2(pos.x, pos.y+1);
+        Vector2 rightGrass = new Vector2(pos.x+1, pos.y);
+        Vector2 crossGrass = new Vector2(pos.x+1, pos.y+1);
 
-        }
+
+        float posX = ( baseGrass.x + upGrass.x + rightGrass.x + crossGrass.x ) / 4;
+        float posY = (baseGrass.y + upGrass.y + rightGrass.y + crossGrass.y) / 4;
+
+
+        Gem gem = Instantiate(hidden, new Vector3(posX, posY, 0f), Quaternion.identity);
+        gem.transform.parent = transform;
+        gem.name = "Hidden - " + pos.x + ", " + pos.y;
+
+        
+        allGrasses[(int)baseGrass.x, (int)baseGrass.y].hasHidden = true;
+        allGrasses[(int)upGrass.x, (int)upGrass.y].hasHidden = true;
+        allGrasses[(int)rightGrass.x, (int)rightGrass.y].hasHidden = true;
+        allGrasses[(int)crossGrass.x, (int)crossGrass.y].hasHidden = true;
+
+        allHiddens[pos.x, pos.y] = hidden;
+
+        gem.SetupGem(pos, this);
 
     }
     void SpawnWood(Vector2Int pos)
@@ -451,6 +475,8 @@ public class Board : MonoBehaviour
                 DestroyMatchedLetterAt(matchFind.currentMatches[i].posIndex);
             }
         }
+
+        CheckHiddens();
 
         isDestroying = false;
 
@@ -938,5 +964,43 @@ public class Board : MonoBehaviour
         }
     }
 
-    
+    private void CheckHiddens()
+    {
+
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (layoutHiddens[x, y] != null)
+                {
+
+                    bool isClear = true;
+
+                    List<Vector2Int> grasses = new List<Vector2Int>();
+
+                    grasses.Add(new Vector2Int(x, y));
+                    grasses.Add(new Vector2Int(x, y + 1));
+                    grasses.Add(new Vector2Int(x + 1, y));
+                    grasses.Add(new Vector2Int(x + 1, y + 1));
+
+                    for(int i = 0; i<4; i++)
+                    {
+                        if (allGrasses[grasses[i].x, grasses[i].y] != null)
+                        {
+                            isClear = false;
+                            break;
+                        }
+                    }
+
+                    if (isClear)
+                    {
+                        layoutHiddens[x, y].isMatched = true;
+                        matchFind.currentMatches.Add(layoutHiddens[x, y]);
+                    }
+                    
+                }
+            }
+        }
+    }
 }
