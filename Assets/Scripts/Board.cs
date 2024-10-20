@@ -124,6 +124,11 @@ public class Board : MonoBehaviour
             }
         }
 
+        if (Input.GetKey(KeyCode.S))
+        {
+            ShuffleBoard();
+        }
+
     }
 
     
@@ -404,7 +409,7 @@ public class Board : MonoBehaviour
         // 1. Eşleşen taşları yeşile boyama
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
-            if (matchFind.currentMatches[i] != null)
+            if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood)
             {
                 allGems[matchFind.currentMatches[i].posIndex.x, matchFind.currentMatches[i].posIndex.y].GetComponent<SpriteRenderer>().color = Color.green;
             }
@@ -451,11 +456,12 @@ public class Board : MonoBehaviour
                 Destroy(allGems[pos.x, pos.y].gameObject);
                 allGems[pos.x, pos.y] = null;
             }
-            else if (allWoods[pos.x,pos.y] != null)
-            {
-                Destroy(allWoods[pos.x, pos.y].gameObject);
-                allWoods[pos.x, pos.y] = null;
-            }
+            
+        }
+        else if (allWoods[pos.x, pos.y] != null)
+        {
+            Destroy(allWoods[pos.x, pos.y].gameObject);
+            allWoods[pos.x, pos.y] = null;
         }
     }
 
@@ -477,7 +483,7 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (allGems[x, y] == null)
+                if (allGems[x, y] == null && allWoods[x,y] == null)
                 {
                     nullCounter++;
                 }
@@ -654,25 +660,25 @@ public class Board : MonoBehaviour
                 if (currentGem != null && currentGem.type!=Gem.GemType.bomb && allGlasses[x,y]==null)
                 {
                     
-                    if (CanSwapAndMatch(x, y, x + 1, y) != null && allGlasses[x + 1, y] == null) 
+                    if (CanSwapAndMatch(x, y, x + 1, y) != null && allGlasses[x + 1, y] == null && allWoods[x + 1, y] == null) 
                     {
                         potentialMoveDir = "right";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x + 1, y), x + 1, y, allGems[x,y]);
                         
                     }
-                    else if (CanSwapAndMatch(x, y, x, y + 1) != null && allGlasses[x, y + 1] == null) 
+                    else if (CanSwapAndMatch(x, y, x, y + 1) != null && allGlasses[x, y + 1] == null && allWoods[x, y+1] == null) 
                     {
                         potentialMoveDir = "above";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y+1), x, y+1, allGems[x, y]);
                         
                     }
-                    else if (CanSwapAndMatch(x, y, x-1, y) != null && allGlasses[x - 1, y] == null)
+                    else if (CanSwapAndMatch(x, y, x-1, y) != null && allGlasses[x - 1, y] == null && allWoods[x - 1, y] == null)
                     {
                         potentialMoveDir = "left";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x - 1, y), x -1, y, allGems[x, y]);
                         
                     }
-                    else if (CanSwapAndMatch(x, y, x, y-1) != null && allGlasses[x, y - 1] == null) 
+                    else if (CanSwapAndMatch(x, y, x, y-1) != null && allGlasses[x, y - 1] == null && allWoods[x, y-1] == null) 
                     {
                         potentialMoveDir = "under";
                         return returnGemsAccDir(CanSwapAndMatch(x, y, x, y-1), x, y-1, allGems[x, y]);
@@ -836,7 +842,7 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (allGlasses[x, y] == null && allGrasses[x, y] == null)
+                    if (allGems[x,y]!=null && allGlasses[x, y] == null && allGrasses[x, y] == null)
                     {
                         gemsFromBoard.Add(allGems[x, y]);
                         allGems[x, y] = null;
@@ -850,7 +856,7 @@ public class Board : MonoBehaviour
                 for (int y = 0; y < height; y++)
                 {
 
-                    if (allGlasses[x, y] == null&& allGrasses[x, y] == null)
+                    if (allGlasses[x, y] == null && allGrasses[x, y] == null && allWoods[x, y] == null)
                     {
                         int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
@@ -879,7 +885,7 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (allGems[x,y].type == Gem.GemType.bomb)
+                if (allGems[x, y] != null && allGems[x,y].type == Gem.GemType.bomb)
                 {
                     isThereAnyBomb = true;
                 }
