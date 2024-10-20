@@ -61,6 +61,8 @@ public class Board : MonoBehaviour
     public Gem[,] layoutGrasses;
     public Gem[,] layoutHiddens;
 
+    public Gem hidden;
+    public Gem[,] allHiddens;
 
 
     private void Awake()
@@ -91,6 +93,7 @@ public class Board : MonoBehaviour
         allGlasses = new Gem[width, height];
         allGrasses = new Gem[width, height];
         allWoods = new Gem[width, height];
+        allHiddens = new Gem[width, height];
 
         Setup();
 
@@ -146,6 +149,10 @@ public class Board : MonoBehaviour
         {
             SpawnGlass(pos);
         }
+        if (layoutHiddens[x, y] != null)
+        {
+            SpawnHidden(pos);
+        }
 
     }
 
@@ -159,6 +166,7 @@ public class Board : MonoBehaviour
                 allGlasses[x, y] = null;
                 allGrasses[x, y] = null;
                 allWoods[x, y] = null;
+                allHiddens[x, y] = null;
 
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(tilePrefab, pos, Quaternion.identity);
@@ -273,6 +281,21 @@ public class Board : MonoBehaviour
             gem.name = "Grass - " + pos.x + ", " + pos.y;
             allGems[pos.x, pos.y].hasHidden = true;
             allGrasses[pos.x, pos.y] = grass;
+
+            gem.SetupGem(pos, this);
+
+        }
+
+    }
+    void SpawnHidden(Vector2Int pos)
+    {
+        if (allGems[pos.x, pos.y].type != Gem.GemType.bomb && allGlasses[pos.x, pos.y] == null && allGrasses[pos.x,pos.y] !=null)
+        {
+            Gem gem = Instantiate(hidden, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
+            gem.transform.parent = transform;
+            gem.name = "Hidden - " + pos.x + ", " + pos.y;
+            allGrasses[pos.x, pos.y].hasHidden = true;
+            allHiddens[pos.x, pos.y] = hidden;
 
             gem.SetupGem(pos, this);
 
@@ -463,6 +486,8 @@ public class Board : MonoBehaviour
             Destroy(allWoods[pos.x, pos.y].gameObject);
             allWoods[pos.x, pos.y] = null;
         }
+
+        CheckHiddens();
     }
 
     
@@ -905,5 +930,28 @@ public class Board : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void CheckHiddens()
+    {
+        List<Gem> matchedHiddens = new List<Gem>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (allHiddens[x, y] != null)
+                {
+                    if (allGrasses[x, y] == null ) // && allGems[x,y] == null
+                    {
+                        matchedHiddens.Add(allHiddens[x, y]);
+                    }
+
+                }
+            }
+        }
+
+        matchFind.MarkGemsAsMatched(matchedHiddens);
+        DestroyMatches();
     }
 }

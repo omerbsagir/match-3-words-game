@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
 
     private Gem otherGem;
 
-    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb,glass,grass,wood }
+    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb,glass,grass,wood , hidden}
     public GemType type;
     public string letterValue;
 
@@ -32,6 +32,8 @@ public class Gem : MonoBehaviour
     public bool hasCover=false;
 
     public bool hasHidden = false;
+
+    
 
 
     private void Awake()
@@ -80,6 +82,10 @@ public class Gem : MonoBehaviour
             {
                 board.allWoods[posIndex.x, posIndex.y] = this;
             }
+            else if (type == GemType.hidden)
+            {
+                board.allHiddens[posIndex.x, posIndex.y] = this;
+            }
             else
             {
                 board.allGems[posIndex.x, posIndex.y] = this;
@@ -115,7 +121,7 @@ public class Gem : MonoBehaviour
 
     private void CalculateAngle()
     {
-        if (type != GemType.glass && hasCover==false && type!=GemType.grass && type!= GemType.wood)
+        if (type != GemType.glass && hasCover==false && type!=GemType.grass && type!= GemType.wood && type != GemType.hidden)
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
             swipeAngle = swipeAngle * 180 / Mathf.PI;
