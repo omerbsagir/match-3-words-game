@@ -326,7 +326,7 @@ public class Board : MonoBehaviour
 
         allHiddens[pos.x, pos.y] = hidden;
 
-        Debug.Log(realPos.x+" "+realPos.y);
+       
         gem.SetupGem(realPos, this);
 
     }

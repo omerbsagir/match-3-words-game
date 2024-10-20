@@ -83,6 +83,7 @@ public class MatchFinder : MonoBehaviour
 
         CheckForGlasses();
         CheckForWoods();
+        //CheckForGrasses();
     }
 
     
@@ -287,7 +288,64 @@ public class MatchFinder : MonoBehaviour
             currentMatches.Add(g);
         }
     }
-    
+    public void CheckForGrasses()
+    {
+        List<Gem> grassGems = new List<Gem>();
+
+        for (int i = 0; i < currentMatches.Count; i++)
+        {
+            Gem gem = currentMatches[i];
+            int x = (int)gem.posIndex.x;
+            int y = (int)gem.posIndex.y;
+
+
+            // Sol tarafa bak (x - 1)
+            if (x > 0 && board.allGrasses[x - 1, y] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x - 1, y]))
+                {
+                    board.allGrasses[x - 1, y].isMatched = true;
+                    grassGems.Add(board.allGrasses[x - 1, y]);
+                }
+            }
+
+            // Sağ tarafa bak (x + 1)
+            if (x < board.width - 1 && board.allGrasses[x + 1, y] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x + 1, y]))
+                {
+                    board.allGrasses[x + 1, y].isMatched = true;
+                    grassGems.Add(board.allGrasses[x + 1, y]);
+                }
+            }
+
+            // Yukarı bak (y - 1)
+            if (y > 0 && board.allGrasses[x, y - 1] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x, y - 1]))
+                {
+                    board.allGrasses[x, y - 1].isMatched = true;
+                    grassGems.Add(board.allGrasses[x, y - 1]);
+                }
+            }
+
+            // Aşağı bak (y + 1)
+            if (y < board.height - 1 && board.allGrasses[x, y + 1] != null)
+            {
+                if (!currentMatches.Contains(board.allGems[x, y + 1]))
+                {
+                    board.allGrasses[x, y + 1].isMatched = true;
+                    grassGems.Add(board.allGrasses[x, y + 1]);
+                }
+            }
+        }
+
+        foreach (Gem g in grassGems)
+        {
+            currentMatches.Add(g);
+        }
+    }
+
 
 
     /*public void CheckForBombs()

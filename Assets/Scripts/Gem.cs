@@ -293,6 +293,7 @@ public class Gem : MonoBehaviour
         board.matchFind.MarkGemsAsMatched(gems);
         board.matchFind.CheckForGlasses();
         board.matchFind.CheckForWoods();
+        //board.matchFind.CheckForGrasses();
 
     }
     // Çevredeki taşları ekleyip listeye dahil eden yardımcı fonksiyon
