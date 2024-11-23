@@ -83,6 +83,7 @@ public class MatchFinder : MonoBehaviour
 
         CheckForGlasses();
         CheckForWoods();
+        CheckForGrasses();
         CheckHiddens();
 
     }
@@ -289,7 +290,15 @@ public class MatchFinder : MonoBehaviour
             currentMatches.Add(g);
         }
     }
-
+    public void CheckForGrasses()
+    {
+        for(int i = 0; i < currentMatches.Count; i++)
+        {
+            if (board.allGrasses[(int)(currentMatches[i].posIndex.x),(int)(currentMatches[i].posIndex.y)] != null){
+                board.allGrasses[(int)(currentMatches[i].posIndex.x), (int)(currentMatches[i].posIndex.y)].isMatched = true;
+            }
+        }
+    }
     public void CheckHiddens()
     {
         bool isClear = true;
@@ -311,17 +320,10 @@ public class MatchFinder : MonoBehaviour
                     grasses.Add(new Vector2Int(x + 1, y));
                     grasses.Add(new Vector2Int(x + 1, y + 1));
 
+                    
                     for (int i = 0; i < 4; i++)
                     {
-                        if (board.allGems[grasses[i].x, grasses[i].y] != null && board.allGems[grasses[i].x, grasses[i].y].isMatched == true)
-                        {
-                            grasses.RemoveAt(i);
-                        }
-                    }
-
-                    for (int i = 0; i < grasses.Count; i++)
-                    {
-                        if (board.allGrasses[grasses[i].x, grasses[i].y] != null)
+                        if (board.allGrasses[grasses[i].x, grasses[i].y] != null && !board.allGrasses[grasses[i].x, grasses[i].y].isMatched)
                         {
                             isClear = false;
                             break;

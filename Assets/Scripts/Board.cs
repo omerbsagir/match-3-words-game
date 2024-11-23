@@ -503,13 +503,6 @@ public class Board : MonoBehaviour
 
                 Destroy(allGems[(int)pos.x, (int)pos.y].gameObject);
                 allGems[(int)pos.x, (int)pos.y] = null;
-
-                if (allGrasses[(int)pos.x, (int)pos.y] != null)
-                {
-                    Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
-                    allGrasses[(int)pos.x, (int)pos.y] = null;
-
-                }
                
             }
             
@@ -522,10 +515,15 @@ public class Board : MonoBehaviour
         }
         if (allGrasses[(int)pos.x, (int)pos.y] != null)
         {
-            Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
-            allGrasses[(int)pos.x, (int)pos.y] = null;
+            if (allGrasses[(int)pos.x, (int)pos.y].isMatched)
+            {
+                Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
+                allGrasses[(int)pos.x, (int)pos.y] = null;
+
+            }
 
         }
+        
         if (allHiddens[(int)pos.x, (int)pos.y] != null)
         {
             if (CheckHiddenNear((int)pos.x, (int)pos.y))
@@ -994,10 +992,11 @@ public class Board : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            if (allGrasses[grasses[i].x, grasses[i].y] != null && allGems[grasses[i].x, grasses[i].y].isMatched == false)
+            if (allGrasses[grasses[i].x, grasses[i].y] != null && !allGrasses[grasses[i].x, grasses[i].y].isMatched)
             {
                 return false;
             }
+           
         }
         return true;
     }
