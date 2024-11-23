@@ -68,6 +68,7 @@ public class Board : MonoBehaviour
     public Gem hidden;
     public Gem[,] allHiddens;
 
+    public int prizeCount = 0;
 
     private void Awake()
     {
@@ -426,7 +427,7 @@ public class Board : MonoBehaviour
         // Yatay bir kelime oluşturma
         for (int x = startPos.x-1; x >= endPos.x; x--)
         {
-            if (allWoods[x,startPos.y] == null)
+            if (allWoods[x,startPos.y] == null && allGems[x, startPos.y].type != GemType.prized)
             {
                 word += allGems[x, startPos.y].letterValue;
             }
@@ -443,7 +444,7 @@ public class Board : MonoBehaviour
         for (int y = startPos.y-1; y >= endPos.y; y--)
         {
 
-            if (allWoods[startPos.x, y] == null)
+            if (allWoods[startPos.x, y] == null && allGems[startPos.x, y].type != GemType.prized)
             {
                 
                 word += allGems[startPos.x, y].letterValue;
@@ -493,7 +494,7 @@ public class Board : MonoBehaviour
     private void DestroyMatchedLetterAt(Vector2 pos)
     {
 
-        if (allGems[(int)pos.x, (int)pos.y] != null)
+        if (allGems[(int)pos.x, (int)pos.y] != null && (allGems[(int)pos.x, (int)pos.y].type != GemType.prized)
         {
             if (allGems[(int)pos.x, (int)pos.y].isMatched)
             {
@@ -934,7 +935,7 @@ public class Board : MonoBehaviour
                 for (int y = 0; y < height; y++)
                 {
 
-                    if (allGlasses[x, y] == null && allGrasses[x, y] == null && allWoods[x, y] == null)
+                    if (allGlasses[x, y] == null && allGrasses[x, y] == null && allWoods[x, y] == null && allGems[x,y].type!=GemType.prized)
                     {
                         int gemToUse = Random.Range(0, gemsFromBoard.Count);
 

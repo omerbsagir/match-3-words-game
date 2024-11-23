@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static UnityEditor.ShaderData;
 
 public class MatchFinder : MonoBehaviour
 {
@@ -85,6 +86,7 @@ public class MatchFinder : MonoBehaviour
         CheckForWoods();
         CheckForGrasses();
         CheckHiddens();
+        CheckPrized();
 
     }
 
@@ -394,6 +396,47 @@ public class MatchFinder : MonoBehaviour
                 }
             }
         }
+    }
+    public void CheckPrized()
+    {
+        for (int i = 0; i < currentMatches.Count; i++)
+        {
+
+            int x = (int)currentMatches[i].posIndex.x;
+            int y = (int)currentMatches[i].posIndex.y;
+
+            int x2 = x + 1;
+            int y2 = y;
+
+            int x3 = x - 1;
+            int y3 = y;
+
+            int x4 = x;
+            int y4 = y + 1;
+
+            int x5 = x;
+            int y5 = y - 1;
+
+            
+            if (x2 < board.width && board.allGems[x2, y2] != null && board.allGems[x2, y2].type == Gem.GemType.prized)
+            {
+                board.allGems[x2, y2].TriggerPrize(board.allGems[x2, y2]);
+            }
+            if (x3 >= 0 && board.allGems[x3, y3] != null && board.allGems[x3, y3].type == Gem.GemType.prized)
+            {
+                board.allGems[x3, y3].TriggerPrize(board.allGems[x3, y3]);
+            }
+            if (y4 < board.height && board.allGems[x4, y4] != null && board.allGems[x4, y4].type == Gem.GemType.prized)
+            {
+                board.allGems[x4, y4].TriggerPrize(board.allGems[x4, y4]);
+            }
+            if (y5 >= 0 && board.allGems[x5, y5] != null && board.allGems[x5, y5].type == Gem.GemType.prized)
+            {
+                board.allGems[x5, y5].TriggerPrize(board.allGems[x5, y5]);
+
+            }
+        }
+
     }
 
     /*public void CheckForBombs()

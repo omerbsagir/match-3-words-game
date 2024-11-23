@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
 
     private Gem otherGem;
 
-    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb,glass,grass,wood , hidden,horizontal,vertical,combo}
+    public enum GemType { a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,bomb,glass,grass,wood , hidden,horizontal,vertical,combo,prized}
     public GemType type;
     public string letterValue;
 
@@ -132,7 +132,7 @@ public class Gem : MonoBehaviour
 
     private void CalculateAngle()
     {
-        if (type != GemType.glass && hasCover==false && type!=GemType.grass && type!= GemType.wood && type != GemType.hidden)
+        if (type != GemType.glass && hasCover==false && type!=GemType.grass && type!= GemType.wood && type != GemType.hidden && type != GemType.prized)
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x);
             swipeAngle = swipeAngle * 180 / Mathf.PI;
@@ -145,13 +145,21 @@ public class Gem : MonoBehaviour
         
     }
 
+    private bool isOtherGemFixed(float x, float y)
+    {
+        if (board.allWoods[(int)x,(int)y] != null || board.allGems[(int)x, (int)y].type == GemType.prized)
+        {
+            return true;
+        }
+        return false;
+    }
     private void MovePieces()
     {
         previousPos = posIndex;
 
         if (swipeAngle < 45 && swipeAngle > -45 && posIndex.x < board.width - 1)
         {
-            if (board.allGlasses[(int)posIndex.x + 1 , (int)posIndex.y] == null && board.allWoods[(int)posIndex.x + 1, (int)posIndex.y] == null) {
+            if (board.allGlasses[(int)posIndex.x + 1 , (int)posIndex.y] == null && !isOtherGemFixed(posIndex.x + 1, posIndex.y)) {
 
                 otherGem = board.allGems[(int)posIndex.x + 1, (int)posIndex.y];
                 otherGem.posIndex.x--;
@@ -162,7 +170,7 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle > 45 && swipeAngle <= 135 && posIndex.y < board.height - 1)
         {
-            if (board.allGlasses[(int)posIndex.x, (int)posIndex.y+1] == null && board.allWoods[(int)posIndex.x, (int)posIndex.y+1] == null)
+            if (board.allGlasses[(int)posIndex.x, (int)posIndex.y+1] == null && !isOtherGemFixed(posIndex.x, posIndex.y+1))
             {
                 otherGem = board.allGems[(int)posIndex.x, (int)posIndex.y + 1];
                 otherGem.posIndex.y--;
@@ -172,7 +180,7 @@ public class Gem : MonoBehaviour
         }
         else if (swipeAngle < -45 && swipeAngle >= -135 && posIndex.y > 0)
         {
-            if (board.allGlasses[(int)posIndex.x, (int)posIndex.y-1] == null && board.allWoods[(int)posIndex.x, (int)posIndex.y-1] == null)
+            if (board.allGlasses[(int)posIndex.x, (int)posIndex.y-1] == null && !isOtherGemFixed(posIndex.x, posIndex.y-1))
             {
                 otherGem = board.allGems[(int)posIndex.x, (int)posIndex.y - 1];
                 otherGem.posIndex.y++;
@@ -183,7 +191,7 @@ public class Gem : MonoBehaviour
         else if (swipeAngle > 135 || swipeAngle < -135)
         {
             if (posIndex.x > 0) {
-                if (board.allGlasses[(int)posIndex.x - 1, (int)posIndex.y] == null && board.allWoods[(int)posIndex.x - 1, (int)posIndex.y] == null)
+                if (board.allGlasses[(int)posIndex.x - 1, (int)posIndex.y] == null && !isOtherGemFixed(posIndex.x - 1, posIndex.y))
                 {
                     otherGem = board.allGems[(int)posIndex.x - 1, (int)posIndex.y];
                     otherGem.posIndex.x++;
@@ -283,23 +291,32 @@ public class Gem : MonoBehaviour
         {
             if(board.allGems[x, i] != null)
             {
-                if (board.allGems[x, i].type == GemType.bomb)
+                if(board.allGems[x, i].type == GemType.prized)
                 {
-                    MarkBeforeExplodeBomb((board.allGems[x, i]));
+                    TriggerPrize(board.allGems[x, i]);
                 }
-                else if (board.allGems[x, i].type == GemType.horizontal)
+                else
                 {
-                    MarkHorizontalBomb((board.allGems[x, i]));
+                    if (board.allGems[x, i].type == GemType.bomb)
+                    {
+                        MarkBeforeExplodeBomb((board.allGems[x, i]));
+                    }
+                    else if (board.allGems[x, i].type == GemType.horizontal)
+                    {
+                        MarkHorizontalBomb((board.allGems[x, i]));
+                    }
+                    else if (board.allGems[x, i].type == GemType.combo)
+                    {
+                        MarkHorizontalBomb((board.allGems[x, i]));
+                    }
+                    willExplode.Add(board.allGems[x, i]);
                 }
-                else if (board.allGems[x, i].type == GemType.combo)
-                {
-                    MarkHorizontalBomb((board.allGems[x, i]));
-                }
-                willExplode.Add(board.allGems[x, i]);
+                
             }
             else if((board.allWoods[x, i] != null)){
                 willExplode.Add(board.allWoods[x, i]);
             }
+
             
         }
         board.matchFind.MarkGemsAsMatched(willExplode);
@@ -307,6 +324,7 @@ public class Gem : MonoBehaviour
         board.matchFind.CheckForWoods();
         board.matchFind.CheckForGrasses();
         board.matchFind.CheckHiddens();
+        board.matchFind.CheckPrized();
     }
 
     public void MarkHorizontalBomb(Gem horizontalBomb)
@@ -317,19 +335,28 @@ public class Gem : MonoBehaviour
         for (int i = 0; i < board.width; i++)
         {
             if((board.allGems[i, y] != null)){
-                if (board.allGems[i, y].type == GemType.bomb)
+
+                if (board.allGems[i, y].type == GemType.prized)
                 {
-                    MarkBeforeExplodeBomb((board.allGems[i, y]));
+                    TriggerPrize(board.allGems[i, y]);
                 }
-                else if (board.allGems[i, y].type == GemType.vertical)
+                else
                 {
-                    MarkVerticalBomb((board.allGems[i, y]));
+                    if (board.allGems[i, y].type == GemType.bomb)
+                    {
+                        MarkBeforeExplodeBomb((board.allGems[i, y]));
+                    }
+                    else if (board.allGems[i, y].type == GemType.vertical)
+                    {
+                        MarkVerticalBomb((board.allGems[i, y]));
+                    }
+                    else if (board.allGems[i, y].type == GemType.combo)
+                    {
+                        MarkVerticalBomb((board.allGems[i, y]));
+                    }
+                    willExplode.Add(board.allGems[i, y]);
                 }
-                else if (board.allGems[i, y].type == GemType.combo)
-                {
-                    MarkVerticalBomb((board.allGems[i, y]));
-                }
-                willExplode.Add(board.allGems[i, y]);
+                
             }
             else if (board.allWoods[i, y] != null)
             {
@@ -341,6 +368,7 @@ public class Gem : MonoBehaviour
         board.matchFind.CheckForWoods();
         board.matchFind.CheckForGrasses();
         board.matchFind.CheckHiddens();
+        board.matchFind.CheckPrized();
     }
 
     public void MarkComboBomb(Gem comboBomb)
@@ -353,16 +381,23 @@ public class Gem : MonoBehaviour
         {
             if(board.allGems[x, i] != null)
             {
-                if (board.allGems[x, i].type == GemType.bomb)
+                if (board.allGems[x, i].type == GemType.prized)
                 {
-                    MarkBeforeExplodeBomb((board.allGems[x, i]));
+                    TriggerPrize(board.allGems[x, i]);
                 }
-                else if (board.allGems[x, i].type == GemType.horizontal)
+                else
                 {
-                    MarkHorizontalBomb((board.allGems[x, i]));
+                    if (board.allGems[x, i].type == GemType.bomb)
+                    {
+                        MarkBeforeExplodeBomb((board.allGems[x, i]));
+                    }
+                    else if (board.allGems[x, i].type == GemType.horizontal)
+                    {
+                        MarkHorizontalBomb((board.allGems[x, i]));
+                    }
+                   
+                    willExplode.Add(board.allGems[x, i]);
                 }
-
-                willExplode.Add(board.allGems[x, i]);
             }
             else if(board.allWoods[x, i] != null){
 
@@ -377,16 +412,23 @@ public class Gem : MonoBehaviour
             {
                 if(board.allGems[i, y] != null)
                 {
-                    if (board.allGems[i, y].type == GemType.bomb)
+                    if (board.allGems[i, y].type == GemType.prized)
                     {
-                        MarkBeforeExplodeBomb((board.allGems[i, y]));
+                        TriggerPrize(board.allGems[i, y]);
                     }
-                    else if (board.allGems[i, y].type == GemType.vertical)
+                    else
                     {
-                        MarkVerticalBomb((board.allGems[i, y]));
+                        if (board.allGems[i, y].type == GemType.bomb)
+                        {
+                            MarkBeforeExplodeBomb((board.allGems[i, y]));
+                        }
+                        else if (board.allGems[i, y].type == GemType.vertical)
+                        {
+                            MarkVerticalBomb((board.allGems[i, y]));
+                        }
+                        
+                        willExplode.Add(board.allGems[i, y]);
                     }
-
-                    willExplode.Add(board.allGems[i, y]);
                 }
                 else if(board.allWoods[i, y] != null)
                 {
@@ -402,6 +444,7 @@ public class Gem : MonoBehaviour
         board.matchFind.CheckForWoods();
         board.matchFind.CheckForGrasses();
         board.matchFind.CheckHiddens();
+        board.matchFind.CheckPrized();
     }
 
     public void MarkBeforeExplodeBomb(Gem bomb)
@@ -442,6 +485,7 @@ public class Gem : MonoBehaviour
         board.matchFind.CheckForWoods();
         board.matchFind.CheckForGrasses();
         board.matchFind.CheckHiddens();
+        board.matchFind.CheckPrized();
 
     }
     // Çevredeki taşları ekleyip listeye dahil eden yardımcı fonksiyon
@@ -521,8 +565,23 @@ public class Gem : MonoBehaviour
         }
         else if(board.allGems[x, y] != null)
         {
-            return board.allGems[x, y];
+            if(board.allGems[x, y].type == GemType.prized)
+            {
+                TriggerPrize(board.allGems[x, y]);
+                return null;
+            }
+            else
+            {
+                return board.allGems[x, y];
+            }
+            
         }
         return null;
+    }
+
+    public void TriggerPrize(Gem gem)
+    {
+        //effect
+        board.prizeCount++;
     }
 }
