@@ -292,12 +292,62 @@ public class MatchFinder : MonoBehaviour
     }
     public void CheckForGrasses()
     {
-        for(int i = 0; i < currentMatches.Count; i++)
+        List<Gem> grass = new List<Gem>();
+
+        for (int i = 0; i < currentMatches.Count; i++)
         {
-            if (board.allGrasses[(int)(currentMatches[i].posIndex.x),(int)(currentMatches[i].posIndex.y)] != null){
-                board.allGrasses[(int)(currentMatches[i].posIndex.x), (int)(currentMatches[i].posIndex.y)].isMatched = true;
+
+            int x = (int)currentMatches[i].posIndex.x;
+            int y = (int)currentMatches[i].posIndex.y;
+
+            int x2 = x+1;
+            int y2 = y;
+
+            int x3 = x-1;
+            int y3 = y;
+
+            int x4 = x;
+            int y4 = y+1;
+
+            int x5 = x;
+            int y5 = y-1;
+
+            if (board.allGrasses[x,y] != null)
+            {
+                board.allGrasses[x, y].isMatched = true;
+                grass.Add(board.allGrasses[x, y]);
             }
+            if (x2<board.width && board.allGrasses[x2, y2] != null)
+            {
+                board.allGrasses[x2, y2].isMatched = true;
+                grass.Add(board.allGrasses[x2, y2]);
+            }
+            if (x3>=0 && board.allGrasses[x3, y3] != null)
+            {
+                board.allGrasses[x3, y3].isMatched = true;
+                grass.Add(board.allGrasses[x3, y3]);
+            }
+            if (y4 < board.height && board.allGrasses[x4, y4] != null)
+            {
+                board.allGrasses[x4, y4].isMatched = true;
+                grass.Add(board.allGrasses[x4, y4]);
+            }
+            if (y5 >= 0 && board.allGrasses[x5, y5] != null)
+            {
+                board.allGrasses[x5, y5].isMatched = true;
+                grass.Add(board.allGrasses[x5, y5]);
+            }
+
+            
         }
+
+        grass.Distinct();
+
+        foreach (Gem g in grass)
+        {
+            currentMatches.Add(g);
+        }
+
     }
     public void CheckHiddens()
     {
