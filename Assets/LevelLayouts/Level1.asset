@@ -178,9 +178,9 @@ MonoBehaviour:
   - gemsInRow:
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: -4178643256831893295, guid: b6ed71008b7124a9fb4616998c72cff7, type: 3}
-    - {fileID: 0}
+    - {fileID: 8796904943979110008, guid: bc093195b938e404ba4a814563b527aa, type: 3}
+    - {fileID: 8796904943979110008, guid: bc093195b938e404ba4a814563b527aa, type: 3}
+    - {fileID: 8796904943979110008, guid: bc093195b938e404ba4a814563b527aa, type: 3}
     - {fileID: 0}
     - {fileID: 0}
   allRowsGrass:

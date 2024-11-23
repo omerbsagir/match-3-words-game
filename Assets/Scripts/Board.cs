@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using static UnityEditor.PlayerSettings;
 using static Gem;
+using TMPro;
 
 public class Board : MonoBehaviour
 {
@@ -69,6 +70,7 @@ public class Board : MonoBehaviour
     public Gem[,] allHiddens;
 
     public int prizeCount = 0;
+    public TextMeshProUGUI prizeCountText;
 
     private void Awake()
     {
@@ -86,7 +88,7 @@ public class Board : MonoBehaviour
         layoutGrasses = levelManager.GetLevelLayoutGrass();
         layoutHiddens = levelManager.GetLevelLayoutHidden();
 
-
+        
     }
 
     void Start()
@@ -136,6 +138,8 @@ public class Board : MonoBehaviour
         {
             ShuffleBoard();
         }
+
+        prizeCountText.text = prizeCount.ToString();
 
     }
 
@@ -494,7 +498,7 @@ public class Board : MonoBehaviour
     private void DestroyMatchedLetterAt(Vector2 pos)
     {
 
-        if (allGems[(int)pos.x, (int)pos.y] != null && (allGems[(int)pos.x, (int)pos.y].type != GemType.prized)
+        if (allGems[(int)pos.x, (int)pos.y] != null && (allGems[(int)pos.x, (int)pos.y].type != GemType.prized))
         {
             if (allGems[(int)pos.x, (int)pos.y].isMatched)
             {
