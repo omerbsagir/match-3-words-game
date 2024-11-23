@@ -83,7 +83,8 @@ public class MatchFinder : MonoBehaviour
 
         CheckForGlasses();
         CheckForWoods();
-        
+        CheckHiddens();
+
     }
 
     
@@ -291,6 +292,8 @@ public class MatchFinder : MonoBehaviour
 
     public void CheckHiddens()
     {
+        bool isClear = true;
+        List<Vector2Int> grasses = new List<Vector2Int>();
 
         for (int x = 0; x < board.width; x++)
         {
@@ -301,9 +304,7 @@ public class MatchFinder : MonoBehaviour
                 if (board.allHiddens[x, y] != null)
                 {
 
-                    bool isClear = true;
-
-                    List<Vector2Int> grasses = new List<Vector2Int>();
+                    isClear = true;
 
                     grasses.Add(new Vector2Int(x, y));
                     grasses.Add(new Vector2Int(x, y + 1));
@@ -312,7 +313,15 @@ public class MatchFinder : MonoBehaviour
 
                     for (int i = 0; i < 4; i++)
                     {
-                        if (board.allGems[grasses[i].x, grasses[i].y] != null && board.allGems[grasses[i].x, grasses[i].y].isMatched==false)
+                        if (board.allGems[grasses[i].x, grasses[i].y] != null && board.allGems[grasses[i].x, grasses[i].y].isMatched == true)
+                        {
+                            grasses.RemoveAt(i);
+                        }
+                    }
+
+                    for (int i = 0; i < grasses.Count; i++)
+                    {
+                        if (board.allGrasses[grasses[i].x, grasses[i].y] != null)
                         {
                             isClear = false;
                             break;
@@ -326,6 +335,8 @@ public class MatchFinder : MonoBehaviour
                         currentMatches.Add(board.allHiddens[x, y]);
                         
                     }
+
+                    grasses.Clear();
 
 
                 }

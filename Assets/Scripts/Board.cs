@@ -458,7 +458,6 @@ public class Board : MonoBehaviour
     {
         isDestroying = true;
 
-        matchFind.CheckHiddens();
 
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
@@ -488,6 +487,7 @@ public class Board : MonoBehaviour
 
     private void DestroyMatchedLetterAt(Vector2 pos)
     {
+
         if (allGems[(int)pos.x, (int)pos.y] != null)
         {
             if (allGems[(int)pos.x, (int)pos.y].isMatched)
@@ -520,7 +520,12 @@ public class Board : MonoBehaviour
             Destroy(allWoods[(int)pos.x, (int)pos.y].gameObject);
             allWoods[(int)pos.x, (int)pos.y] = null;
         }
+        if (allGrasses[(int)pos.x, (int)pos.y] != null)
+        {
+            Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
+            allGrasses[(int)pos.x, (int)pos.y] = null;
 
+        }
         if (allHiddens[(int)pos.x, (int)pos.y] != null)
         {
             if (CheckHiddenNear((int)pos.x, (int)pos.y))
@@ -530,12 +535,7 @@ public class Board : MonoBehaviour
             }
 
         }
-        if (allGrasses[(int)pos.x, (int)pos.y] != null)
-        {
-            Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
-            allGrasses[(int)pos.x, (int)pos.y] = null;
-
-        }
+  
 
     }
 
@@ -994,7 +994,7 @@ public class Board : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            if (allGrasses[grasses[i].x, grasses[i].y] != null && allGrasses[grasses[i].x, grasses[i].y].isMatched == false)
+            if (allGrasses[grasses[i].x, grasses[i].y] != null && allGems[grasses[i].x, grasses[i].y].isMatched == false)
             {
                 return false;
             }
