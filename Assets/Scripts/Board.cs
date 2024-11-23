@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static UnityEditor.PlayerSettings;
+using static Gem;
 
 public class Board : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class Board : MonoBehaviour
     public BoardState currentState = BoardState.move;
 
     public Gem bomb;
+    public Gem verticalBomb;
+    public Gem horizontalBomb;
+    public Gem comboBomb;
     public float bombChance = 2f;
 
     public int letterCountFM;
@@ -198,7 +202,19 @@ public class Board : MonoBehaviour
                     {
                         if (layoutGems[x, y].type == Gem.GemType.bomb)
                         {
-                            SpawnBomb(startPos);
+                            SpawnGem(startPos,bomb);
+                        }
+                        if (layoutGems[x, y].type == Gem.GemType.vertical)
+                        {
+                            SpawnGem(startPos, verticalBomb);
+                        }
+                        if (layoutGems[x, y].type == Gem.GemType.horizontal)
+                        {
+                            SpawnGem(startPos, horizontalBomb);
+                        }
+                        if (layoutGems[x, y].type == Gem.GemType.combo)
+                        {
+                            SpawnGem(startPos, comboBomb);
                         }
                         else
                         {
@@ -257,18 +273,7 @@ public class Board : MonoBehaviour
 
 
     }
-    void SpawnBomb(Vector2Int pos)
-    {
-        
-        Gem gem = Instantiate(bomb, new Vector3(pos.x, pos.y + height, 0f), Quaternion.identity);
-        gem.transform.parent = transform;
-        gem.name = "Gem - " + pos.x + ", " + pos.y;
-        allGems[pos.x, pos.y] = gem;
-
-        gem.SetupGem(pos, this);
-
-
-    }
+    
     void SpawnGlass(Vector2Int pos)
     {
         if(allGems[pos.x, pos.y].type != Gem.GemType.bomb)
@@ -621,7 +626,7 @@ public class Board : MonoBehaviour
         {
             foreach (Gem g in movedBombs)
             {
-                g.MarkBeforeExplodeBomb();
+                g.MarkBeforeExplodeBomb(g);
             }
             movedBombs.Clear();
         }
@@ -650,7 +655,7 @@ public class Board : MonoBehaviour
 
                     if (Random.Range(0f, 100f) < bombChance)
                     {
-                        SpawnBomb(startPos);
+                        SpawnGem(startPos,bomb);
                     }
                     else
                     {
@@ -730,7 +735,7 @@ public class Board : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 Gem currentGem = allGems[x, y];
-                if (currentGem != null && currentGem.type!=Gem.GemType.bomb && allGlasses[x,y]==null)
+                if (currentGem != null && currentGem.type!=Gem.GemType.bomb && currentGem.type != Gem.GemType.vertical && currentGem.type != Gem.GemType.horizontal && currentGem.type != Gem.GemType.combo && allGlasses[x,y]==null)
                 {
                     
                     if (CanSwapAndMatch(x, y, x + 1, y) != null && allGlasses[x + 1, y] == null && allWoods[x + 1, y] == null) 
@@ -958,7 +963,7 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (allGems[x, y] != null && allGems[x,y].type == Gem.GemType.bomb)
+                if (allGems[x, y] != null && ( allGems[x,y].type == Gem.GemType.bomb || allGems[x, y].type == GemType.vertical || allGems[x, y].type == GemType.horizontal || allGems[x, y].type == GemType.combo))
                 {
                     isThereAnyBomb = true;
                 }
