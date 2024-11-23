@@ -330,6 +330,9 @@ MonoBehaviour:
   levelManager: {fileID: 0}
   currentState: 1
   bomb: {fileID: 4746503529716403414, guid: 47b30bf13b09f4b78acccfcbd0bb489d, type: 3}
+  verticalBomb: {fileID: 3053521296124857691, guid: 2947c14a6c37f4527932815750f53d14, type: 3}
+  horizontalBomb: {fileID: 2915290535418197973, guid: 0a03e7f88b4324aca9185d5fce3fb7de, type: 3}
+  comboBomb: {fileID: 4530300042574970979, guid: ba1bb25c52b234502986f16089aa1716, type: 3}
   bombChance: 1
   letterCountFM: 0
   maxIdleTime: 3

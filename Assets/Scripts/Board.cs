@@ -204,15 +204,15 @@ public class Board : MonoBehaviour
                         {
                             SpawnGem(startPos,bomb);
                         }
-                        if (layoutGems[x, y].type == Gem.GemType.vertical)
+                        else if (layoutGems[x, y].type == Gem.GemType.vertical)
                         {
                             SpawnGem(startPos, verticalBomb);
                         }
-                        if (layoutGems[x, y].type == Gem.GemType.horizontal)
+                        else if (layoutGems[x, y].type == Gem.GemType.horizontal)
                         {
                             SpawnGem(startPos, horizontalBomb);
                         }
-                        if (layoutGems[x, y].type == Gem.GemType.combo)
+                        else if (layoutGems[x, y].type == Gem.GemType.combo)
                         {
                             SpawnGem(startPos, comboBomb);
                         }
