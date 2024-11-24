@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class LevelNeedsManager : MonoBehaviour
 {
+    public static LevelNeedsManager Instance;
+
     public Transform goalsParent;
     public TextMeshProUGUI moveCount;
     public GameObject goalPrefab;
@@ -30,6 +32,11 @@ public class LevelNeedsManager : MonoBehaviour
     private GameObject prizedPrefab;
     private int remainingPrizedCount;
 
+
+    public void Awake()
+    {
+        Instance = this;
+    }
 
     public void SetLevelNeeds(int level)
     {

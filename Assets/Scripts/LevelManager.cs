@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     public LayoutSO[] allLayouts;
     public LevelGoalsSO[] allLevelGoals;
 
-    public void Start()
+    public void Awake()
     {
         Instance = this;
     }

@@ -69,8 +69,7 @@ public class Board : MonoBehaviour
     public Gem hidden;
     public Gem[,] allHiddens;
 
-    public int prizeCount = 0;
-    public TextMeshProUGUI prizeCountText;
+    
 
     private void Awake()
     {
@@ -139,7 +138,7 @@ public class Board : MonoBehaviour
             ShuffleBoard();
         }
 
-        prizeCountText.text = prizeCount.ToString();
+        
 
     }
 
@@ -260,7 +259,8 @@ public class Board : MonoBehaviour
             }
         }
         SetupHiddens();
-        
+
+        LevelNeedsManager.Instance.SetLevelNeeds(LevelManager.Instance.level);
         
     }
     
@@ -546,8 +546,6 @@ public class Board : MonoBehaviour
   
 
     }
-
-    
 
     
 
