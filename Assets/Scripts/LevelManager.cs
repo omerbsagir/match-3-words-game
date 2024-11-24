@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
 
     public LevelSize[] widthAndHeights;
     public LayoutSO[] allLayouts;
+    public LevelGoalsSO[] allLevelGoals;
 
     public Gem[,] GetLevelLayoutWood()
     {

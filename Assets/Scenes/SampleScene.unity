@@ -744,6 +744,8 @@ MonoBehaviour:
     h: 7
   allLayouts:
   - {fileID: 11400000, guid: d425f96985f6c46b28acbb2b2186b978, type: 2}
+  allLevelGoals:
+  - {fileID: 11400000, guid: edb96dc3bf16a4fde9342f307fce9eb5, type: 2}
 --- !u!4 &1843743962
 Transform:
   m_ObjectHideFlags: 0
