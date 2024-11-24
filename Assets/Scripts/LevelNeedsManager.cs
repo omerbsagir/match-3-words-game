@@ -14,6 +14,8 @@ public class LevelNeedsManager : MonoBehaviour
 
     private LevelGoalsSO currentGoals;
 
+    public int remainingMoveCount;
+
     private GameObject letterPrefab;
     public int remainingLetterCount;
 
@@ -43,6 +45,7 @@ public class LevelNeedsManager : MonoBehaviour
         currentGoals = LevelManager.Instance.allLevelGoals[level - 1];
 
         moveCount.text = currentGoals.moveLimit.ToString();
+        remainingMoveCount = currentGoals.moveLimit;
 
         remainingLetterCount = currentGoals.matchCount.count;
         remainingGlassCount = currentGoals.glassCount.count;
@@ -93,6 +96,8 @@ public class LevelNeedsManager : MonoBehaviour
     private void Update()
     {
         // ŞİMDİLİK BÖYLE DAHA SONRA ANİMASYON İLE DÜŞÜRÜCEZ
+
+        moveCount.text = remainingMoveCount.ToString();
 
         if (letterPrefab != null && letterPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {

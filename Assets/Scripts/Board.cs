@@ -928,7 +928,7 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (allGems[x,y]!=null && allGlasses[x, y] == null && allGrasses[x, y] == null)
+                    if (allGems[x,y]!=null && allGlasses[x, y] == null && allGrasses[x, y] == null && allGems[x,y].type != GemType.prized)
                     {
                         gemsFromBoard.Add(allGems[x, y]);
                         allGems[x, y] = null;
@@ -941,8 +941,7 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-
-                    if (allGlasses[x, y] == null && allGrasses[x, y] == null && allWoods[x, y] == null && allGems[x,y].type!=GemType.prized)
+                    if (allGems[x, y] == null)
                     {
                         int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
@@ -957,7 +956,7 @@ public class Board : MonoBehaviour
                         allGems[x, y] = gemsFromBoard[gemToUse];
                         gemsFromBoard.RemoveAt(gemToUse);
                     }
-                    
+
                 }
             }
 

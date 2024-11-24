@@ -108,11 +108,14 @@ public class Gem : MonoBehaviour
         {
             mousePressed = false;
 
-            if (board.currentState == Board.BoardState.move) // && board.roundMan.roundTime > 0
+            if (board.currentState == Board.BoardState.move ) // && board.roundMan.roundTime > 0
             {
+                
+
                 finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 if (Vector2.Distance(firstTouchPosition, finalTouchPosition) < 0.01f && ( type == GemType.bomb || type == GemType.vertical || type == GemType.horizontal || type == GemType.combo))
                 {
+                    LevelNeedsManager.Instance.remainingMoveCount--;
                     StartCoroutine(CheckMoveCo());
                 }
                 else
@@ -139,6 +142,7 @@ public class Gem : MonoBehaviour
 
             if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
             {
+                LevelNeedsManager.Instance.remainingMoveCount--;
                 MovePieces();
             }
         }
