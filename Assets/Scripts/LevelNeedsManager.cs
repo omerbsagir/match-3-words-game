@@ -14,23 +14,23 @@ public class LevelNeedsManager : MonoBehaviour
 
     private LevelGoalsSO currentGoals;
 
-    private GameObject matchPrefab;
-    private int remainingMatchCount;
+    private GameObject letterPrefab;
+    public int remainingLetterCount;
 
     private GameObject glassPrefab;
-    private int remainingGlassCount;
+    public int remainingGlassCount;
 
     private GameObject grassPrefab;
-    private int remainingGrassCount;
+    public int remainingGrassCount;
 
     private GameObject hiddenPrefab;
-    private int remainingHiddenCount;
+    public int remainingHiddenCount;
 
     private GameObject woodPrefab;
-    private int remainingWoodCount;
+    public int remainingWoodCount;
 
     private GameObject prizedPrefab;
-    private int remainingPrizedCount;
+    public int remainingPrizedCount;
 
 
     public void Awake()
@@ -44,7 +44,7 @@ public class LevelNeedsManager : MonoBehaviour
 
         moveCount.text = currentGoals.moveLimit.ToString();
 
-        remainingMatchCount = currentGoals.matchCount.count;
+        remainingLetterCount = currentGoals.matchCount.count;
         remainingGlassCount = currentGoals.glassCount.count;
         remainingGrassCount = currentGoals.grassCount.count;
         remainingHiddenCount = currentGoals.hiddenCount.count;
@@ -55,9 +55,9 @@ public class LevelNeedsManager : MonoBehaviour
 
         if (currentGoals.matchCount.count > 0)
         {
-            matchPrefab = Instantiate(goalPrefab, goalsParent);
-            matchPrefab.transform.GetChild(0).GetComponent<RawImage>().texture = currentGoals.matchCount.image.texture;
-            matchPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingMatchCount.ToString();
+            letterPrefab = Instantiate(goalPrefab, goalsParent);
+            letterPrefab.transform.GetChild(0).GetComponent<RawImage>().texture = currentGoals.matchCount.image.texture;
+            letterPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingLetterCount.ToString();
         }
         if (currentGoals.glassCount.count > 0)
         {
@@ -94,9 +94,9 @@ public class LevelNeedsManager : MonoBehaviour
     {
         // ŞİMDİLİK BÖYLE DAHA SONRA ANİMASYON İLE DÜŞÜRÜCEZ
 
-        if (matchPrefab != null && matchPrefab.transform.GetChild(1).GetComponent<Text>() != null)
+        if (letterPrefab != null && letterPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {
-            matchPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingMatchCount.ToString();
+            letterPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingLetterCount.ToString();
         }
 
         if (glassPrefab != null && glassPrefab.transform.GetChild(1).GetComponent<Text>() != null)

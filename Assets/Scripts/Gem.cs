@@ -582,6 +582,6 @@ public class Gem : MonoBehaviour
     public void TriggerPrize(Gem gem)
     {
         //effect
-        
+        LevelNeedsManager.Instance.remainingPrizedCount--;
     }
 }

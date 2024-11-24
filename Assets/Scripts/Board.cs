@@ -507,13 +507,15 @@ public class Board : MonoBehaviour
                 {
                     Destroy(allGlasses[(int)pos.x, (int)pos.y].gameObject);
                     allGlasses[(int)pos.x, (int)pos.y] = null;
+                    LevelNeedsManager.Instance.remainingGlassCount--;
 
                 }
                
 
                 Destroy(allGems[(int)pos.x, (int)pos.y].gameObject);
                 allGems[(int)pos.x, (int)pos.y] = null;
-               
+                LevelNeedsManager.Instance.remainingLetterCount--;
+
             }
             
 
@@ -522,6 +524,7 @@ public class Board : MonoBehaviour
         {
             Destroy(allWoods[(int)pos.x, (int)pos.y].gameObject);
             allWoods[(int)pos.x, (int)pos.y] = null;
+            LevelNeedsManager.Instance.remainingWoodCount--;
         }
         if (allGrasses[(int)pos.x, (int)pos.y] != null)
         {
@@ -529,6 +532,7 @@ public class Board : MonoBehaviour
             {
                 Destroy(allGrasses[(int)pos.x, (int)pos.y].gameObject);
                 allGrasses[(int)pos.x, (int)pos.y] = null;
+                LevelNeedsManager.Instance.remainingGrassCount--;
 
             }
 
@@ -540,6 +544,7 @@ public class Board : MonoBehaviour
             {
                 Destroy(allHiddens[(int)pos.x, (int)pos.y].gameObject);
                 allHiddens[(int)pos.x, (int)pos.y] = null;
+                LevelNeedsManager.Instance.remainingHiddenCount--;
             }
 
         }
