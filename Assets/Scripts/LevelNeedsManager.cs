@@ -38,6 +38,7 @@ public class LevelNeedsManager : MonoBehaviour
     public void Awake()
     {
         Instance = this;
+        
     }
 
     public void SetLevelNeeds(int level)
@@ -98,35 +99,91 @@ public class LevelNeedsManager : MonoBehaviour
         // ŞİMDİLİK BÖYLE DAHA SONRA ANİMASYON İLE DÜŞÜRÜCEZ
 
         moveCount.text = remainingMoveCount.ToString();
+        //move count 0 ise durdur oyunu 
 
         if (letterPrefab != null && letterPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {
-            letterPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingLetterCount.ToString();
+            //Efekt eklenicek ayrı fonksiyona taşırız
+            if (remainingLetterCount <= 0)
+            {
+                Destroy(letterPrefab);
+            }
+            else
+            {
+                letterPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingLetterCount.ToString();
+            }
+            
         }
 
         if (glassPrefab != null && glassPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {
-            glassPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingGlassCount.ToString();
+            //Efekt eklenicek ayrı fonksiyona taşırız
+            if (remainingGlassCount <= 0)
+            {
+                Destroy(glassPrefab);
+            }
+            else
+            {
+                glassPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingGlassCount.ToString();
+
+            }
+            
         }
 
         if (grassPrefab != null && grassPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {
-            grassPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingGrassCount.ToString();
+            //Efekt eklenicek ayrı fonksiyona taşırız
+            if (remainingGrassCount <= 0)
+            {
+                Destroy(grassPrefab);
+            }
+            else
+            {
+                grassPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingGrassCount.ToString();
+            }
+            
         }
 
         if (hiddenPrefab != null && hiddenPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {
-            hiddenPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingHiddenCount.ToString();
+            //Efekt eklenicek ayrı fonksiyona taşırız
+            if (remainingHiddenCount <= 0)
+            {
+                Destroy(hiddenPrefab);
+            }
+            else
+            {
+                hiddenPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingHiddenCount.ToString();
+            }
+            
         }
 
         if (woodPrefab != null && woodPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {
-            woodPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingWoodCount.ToString();
+            //Efekt eklenicek ayrı fonksiyona taşırız
+            if (remainingWoodCount <= 0)
+            {
+                Destroy(woodPrefab);
+            }
+            else
+            {
+                woodPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingWoodCount.ToString();
+            }
+            
         }
 
         if (prizedPrefab != null && prizedPrefab.transform.GetChild(1).GetComponent<Text>() != null)
         {
-            prizedPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingPrizedCount.ToString();
+            //Efekt eklenicek ayrı fonksiyona taşırız
+            if (remainingPrizedCount <= 0)
+            {
+                Destroy(prizedPrefab);
+            }
+            else
+            {
+                prizedPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingPrizedCount.ToString();
+            }
+            
         }
     }
 

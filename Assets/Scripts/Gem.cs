@@ -142,7 +142,7 @@ public class Gem : MonoBehaviour
 
             if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
             {
-                LevelNeedsManager.Instance.remainingMoveCount--;
+                
                 MovePieces();
             }
         }
@@ -210,7 +210,7 @@ public class Gem : MonoBehaviour
         if (otherGem != null) {
             board.allGems[(int)otherGem.posIndex.x, (int)otherGem.posIndex.y] = otherGem;
 
-            
+            LevelNeedsManager.Instance.remainingMoveCount--;
             StartCoroutine(CheckMoveCo());
         }
         else
