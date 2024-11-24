@@ -67,6 +67,7 @@ public class Board : MonoBehaviour
     public Gem[,] layoutHiddens;
 
     public bool[,] layoutIsPoisoned;
+    public List<Gem> allreadyPoisoned;
 
     public Gem hidden;
     public Gem[,] allHiddens;
@@ -1022,6 +1023,8 @@ public class Board : MonoBehaviour
 
     public void CheckThePoison()
     {
+        Debug.Log("Girdi");
+
         List<Gem> poisonedGems = new List<Gem>();
         for (int x = 0; x < width; x++)
         {
@@ -1035,29 +1038,34 @@ public class Board : MonoBehaviour
         }
         foreach(Gem g in poisonedGems)
         {
-            int x = (int)g.posIndex.x;
-            int y = (int)g.posIndex.y;
+            if (!allreadyPoisoned.Contains(g))
+            {
+                int x = (int)g.posIndex.x;
+                int y = (int)g.posIndex.y;
 
-            if (x+1<width && allGems[x + 1, y]!=null && !allGems[x + 1, y].hasCover && !allGems[x + 1, y].hasHidden)
-            {
-                allGems[x + 1, y].PoisonTheGem();
+                if (x + 1 < width && allGems[x + 1, y] != null && !allGems[x + 1, y].hasCover && !allGems[x + 1, y].hasHidden && !allGems[x + 1, y].isPoisoned)
+                {
+                    allGems[x + 1, y].PoisonTheGem();
+                }
+                else if (x - 1 >= 0 && allGems[x - 1, y] != null && !allGems[x - 1, y].hasCover && !allGems[x - 1, y].hasHidden && !allGems[x - 1, y].isPoisoned)
+                {
+                    allGems[x - 1, y].PoisonTheGem();
+                }
+                else if (y + 1 < height && allGems[x, y + 1] != null && !allGems[x, y + 1].hasCover && !allGems[x, y + 1].hasHidden && !allGems[x, y + 1].isPoisoned)
+                {
+                    allGems[x, y + 1].PoisonTheGem();
+                }
+                else if (y - 1 >= 0 && allGems[x, y - 1] != null && !allGems[x, y - 1].hasCover && !allGems[x, y - 1].hasHidden && !allGems[x, y - 1].isPoisoned)
+                {
+                    allGems[x, y - 1].PoisonTheGem();
+                }
+                else
+                {
+                    Debug.Log("Zehirlenmeye uygun gem yok");
+                }
+                allreadyPoisoned.Add(g);
             }
-            else if(x - 1 >= 0 && allGems[x-1, y] != null && !allGems[x - 1, y].hasCover && !allGems[x - 1, y].hasHidden)
-            {
-                allGems[x - 1, y].PoisonTheGem();
-            }
-            else if (y + 1 < height && allGems[x, y+1] != null && !allGems[x, y+1].hasCover && !allGems[x , y+1].hasHidden)
-            {
-                allGems[x, y+1].PoisonTheGem();
-            }
-            else if (y- 1 >= 0 && allGems[x , y-1] != null && !allGems[x, y-1].hasCover && !allGems[x, y-1].hasHidden)
-            {
-                allGems[x, y-1].PoisonTheGem();
-            }
-            else
-            {
-                Debug.Log("Zehirlenmeye uygun gem yok");
-            }
+            
 
         }
     }
