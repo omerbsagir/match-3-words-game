@@ -13,11 +13,21 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   moveLimit: 30
-  matchCount: 10
-  glassCount: 12
-  grassCount: 8
-  hiddenCount: 1
-  hiddenGem: {fileID: 3638202178734336658, guid: ab53b924557b743eba34bbc1c0b690b1, type: 3}
-  woodCount: 3
-  prizedCount: 10
-  prizedGem: {fileID: 8796904943979110008, guid: bc093195b938e404ba4a814563b527aa, type: 3}
+  matchCount:
+    image: {fileID: 21300000, guid: d3d882b892d2044999cfb456726e3b28, type: 3}
+    count: 10
+  glassCount:
+    image: {fileID: 21300000, guid: 6260fc66a481f405c965312562c59b60, type: 3}
+    count: 12
+  grassCount:
+    image: {fileID: 21300000, guid: 3bc16401bddd941e39ecac1691571bb9, type: 3}
+    count: 8
+  hiddenCount:
+    image: {fileID: 21300000, guid: 2b5a8fdf4ce194d46b3ef4f77cf4d00e, type: 3}
+    count: 1
+  woodCount:
+    image: {fileID: 21300000, guid: a1c25a5517fd147b5aa893d7385e24cb, type: 3}
+    count: 3
+  prizedCount:
+    image: {fileID: 21300000, guid: eb82f259b1b969b4796c3419a825a00c, type: 3}
+    count: 10

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance;
 
     public int level = 1;
     public int totalLevelCounts = 10;
@@ -11,6 +13,11 @@ public class LevelManager : MonoBehaviour
     public LevelSize[] widthAndHeights;
     public LayoutSO[] allLayouts;
     public LevelGoalsSO[] allLevelGoals;
+
+    public void Start()
+    {
+        Instance = this;
+    }
 
     public Gem[,] GetLevelLayoutWood()
     {
@@ -42,6 +49,7 @@ public class LevelManager : MonoBehaviour
 
         return wAndH;
     }
+
 
     [System.Serializable]
     public class LevelSize

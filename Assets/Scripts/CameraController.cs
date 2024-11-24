@@ -11,7 +11,8 @@ public class CameraController : MonoBehaviour
         float x = FindObjectOfType<Board>().GetComponent<Board>().width / 2;
         float y = FindObjectOfType<Board>().GetComponent<Board>().height / 2;
 
-        transform.position = new Vector3(x-0.5f,y, transform.position.z);
+        transform.position = new Vector3(x,y, transform.position.z);
+        gameObject.GetComponent<Camera>().orthographicSize = (x + y)+1;
     }
 
 }
