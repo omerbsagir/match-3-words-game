@@ -13,11 +13,14 @@ public class MatchFinder : MonoBehaviour
 
     private WordDatabase wd;
 
+    public List<Word> currentWords;
+
     private void Awake()
     {
         wd = FindObjectOfType<WordDatabase>();
         letterCountForMatch--;
         board = FindObjectOfType<Board>();
+        currentWords = new List<Word>();
     }
 
     private void Start()
@@ -44,15 +47,16 @@ public class MatchFinder : MonoBehaviour
 
                     string horizontalWordR = GetWordFromGems(horizontalGemsRight);
                     string horizontalWordL = GetWordFromGems(horizontalGemsLeft);
-                    string reverseHorizontalWordR = new string(horizontalWordR.Reverse().ToArray());
-                    string reverseHorizontalWordL = new string(horizontalWordL.Reverse().ToArray());
+                    
 
-                    if (IsValidWord(horizontalWordR) || IsValidWord(reverseHorizontalWordR))
+                    if (IsValidWord(horizontalWordR))
                     {
+                        currentWords.Add(new Word(horizontalGemsRight));
                         MarkGemsAsMatched(horizontalGemsRight);
                     }
-                    if (IsValidWord(horizontalWordL) || IsValidWord(reverseHorizontalWordL))
+                    if (IsValidWord(horizontalWordL))
                     {
+                        currentWords.Add(new Word(horizontalGemsLeft));
                         MarkGemsAsMatched(horizontalGemsLeft);
                     }
 
@@ -62,15 +66,16 @@ public class MatchFinder : MonoBehaviour
 
                     string verticalWordA = GetWordFromGems(verticalGemsAbove);
                     string verticalWordU = GetWordFromGems(verticalGemsUnder);
-                    string reverseVerticalWordA = new string(verticalWordA.Reverse().ToArray());
-                    string reverseVerticalWordU = new string(verticalWordU.Reverse().ToArray());
+                
 
-                    if (IsValidWord(verticalWordA) || IsValidWord(reverseVerticalWordA))
+                    if (IsValidWord(verticalWordA))
                     {
+                        currentWords.Add(new Word(verticalGemsAbove));
                         MarkGemsAsMatched(verticalGemsAbove);
                     }
-                    if (IsValidWord(verticalWordU) || IsValidWord(reverseVerticalWordU))
+                    if (IsValidWord(verticalWordU))
                     {
+                        currentWords.Add(new Word(verticalGemsUnder));
                         MarkGemsAsMatched(verticalGemsUnder);
                     }
                 }
@@ -87,6 +92,17 @@ public class MatchFinder : MonoBehaviour
         CheckForGrasses();
         CheckHiddens();
         CheckPrized();
+
+        if (currentWords != null)
+        {
+            Debug.Log("CurrentWords Listesini uzunluğu " + currentWords.Count);
+            foreach (Word w in currentWords)
+            {
+                w.Yazdir();
+            }
+        }
+        
+        
 
     }
 
@@ -488,4 +504,20 @@ public class MatchFinder : MonoBehaviour
 
         currentMatches = currentMatches.Distinct().ToList();
     }*/
+}
+public class Word
+{
+    public List<Gem> letters;
+
+    public Word(List<Gem> letters)
+    {
+        this.letters = letters;
+    }
+    public void Yazdir()
+    {
+        foreach(Gem g in letters)
+        {
+            Debug.Log(g.letterValue+" "+g);
+        }
+    }
 }

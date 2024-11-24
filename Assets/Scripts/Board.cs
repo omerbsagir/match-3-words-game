@@ -476,7 +476,7 @@ public class Board : MonoBehaviour
     {
         isDestroying = true;
 
-
+        //aşağıdaki yerine ekrana getiricez kelimeleri
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
             if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood && matchFind.currentMatches[i].type != Gem.GemType.hidden && matchFind.currentMatches[i].type != Gem.GemType.grass && matchFind.currentMatches[i].type != Gem.GemType.glass)
@@ -486,7 +486,7 @@ public class Board : MonoBehaviour
         }
 
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.5f);
 
 
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
@@ -1023,7 +1023,6 @@ public class Board : MonoBehaviour
 
     public void CheckThePoison()
     {
-        Debug.Log("Girdi");
 
         List<Gem> poisonedGems = new List<Gem>();
         for (int x = 0; x < width; x++)
