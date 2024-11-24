@@ -33,6 +33,7 @@ public class Gem : MonoBehaviour
 
     public bool hasHidden;
 
+    public bool isPoisoned = false;
     
 
 
@@ -287,6 +288,8 @@ public class Gem : MonoBehaviour
             MarkComboBomb(this);
             board.DestroyMatches();
         }
+
+        board.CheckThePoison();
     }
     public void MarkVerticalBomb(Gem verticalBomb)
     {
@@ -589,5 +592,11 @@ public class Gem : MonoBehaviour
     {
         //effect
         LevelNeedsManager.Instance.remainingPrizedCount--;
+    }
+
+    public void PoisonTheGem()
+    {
+        isPoisoned = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.black;
     }
 }

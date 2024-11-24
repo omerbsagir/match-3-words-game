@@ -770,6 +770,7 @@ MonoBehaviour:
   goalsParent: {fileID: 1187590291}
   moveCount: {fileID: 23955623}
   goalPrefab: {fileID: 512256697933666655, guid: ac630484d9d154ef4a5bd7e00e0621d0, type: 3}
+  remainingMoveCount: 0
   remainingLetterCount: 0
   remainingGlassCount: 0
   remainingGrassCount: 0

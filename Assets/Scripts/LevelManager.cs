@@ -39,6 +39,10 @@ public class LevelManager : MonoBehaviour
     {
         return allLayouts[level - 1].GetLayoutHidden();
     }
+    public bool[,] GetLevelLayoutPoison()
+    {
+        return allLayouts[level - 1].GetLayoutPoison();
+    }
 
     public int[] GetLevelDimensions()
     {

@@ -11,6 +11,7 @@ public class LayoutSO : ScriptableObject
     public LayoutRow[] allRowsGrass;
     public LayoutRow[] allRowsHidden;
 
+    public Poison[] layoutIsPoisoned;
 
     public Gem[,] GetLayoutWood()
     {
@@ -122,11 +123,39 @@ public class LayoutSO : ScriptableObject
 
         return theLayout;
     }
+    public bool[,] GetLayoutPoison()
+    {
+        bool[,] theLayout = new bool[layoutIsPoisoned[0].isPoisoned.Length, layoutIsPoisoned.Length];
+
+        for (int y = 0; y < layoutIsPoisoned.Length; y++)
+        {
+            for (int x = 0; x < layoutIsPoisoned[y].isPoisoned.Length; x++)
+            {
+                if (x < theLayout.GetLength(0))
+                {
+                    if (layoutIsPoisoned[y].isPoisoned[x] == false)
+                    {
+                        theLayout[x, layoutIsPoisoned.Length - 1 - y] = false;
+                    }
+                    else
+                    {
+                        theLayout[x, layoutIsPoisoned.Length - 1 - y] = true;
+                    }
+                }
+            }
+        }
+        return theLayout;
+    }
 }
 
 [System.Serializable]
 public class LayoutRow
 {
     public Gem[] gemsInRow;
+}
+[System.Serializable]
+public class Poison
+{
+    public bool[] isPoisoned;
 }
 
