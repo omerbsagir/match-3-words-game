@@ -93,15 +93,6 @@ public class MatchFinder : MonoBehaviour
         CheckHiddens();
         CheckPrized();
 
-        if (currentWords != null)
-        {
-            Debug.Log("CurrentWords Listesini uzunluğu " + currentWords.Count);
-            foreach (Word w in currentWords)
-            {
-                w.Yazdir();
-            }
-        }
-        
         
 
     }
@@ -513,11 +504,14 @@ public class Word
     {
         this.letters = letters;
     }
-    public void Yazdir()
+    public string ToWord()
     {
+        string s="";
+
         foreach(Gem g in letters)
         {
-            Debug.Log(g.letterValue+" "+g);
+            s += g.letterValue.ToUpper();
         }
+        return s;
     }
 }

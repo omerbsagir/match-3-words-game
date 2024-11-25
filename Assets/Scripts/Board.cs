@@ -72,7 +72,7 @@ public class Board : MonoBehaviour
     public Gem hidden;
     public Gem[,] allHiddens;
 
-
+    public TextMeshProUGUI wordText;
 
     private void Awake()
     {
@@ -581,11 +581,13 @@ public class Board : MonoBehaviour
             foreach (Gem g in w.letters)
             {
                 g.GetComponent<SpriteRenderer>().color = Color.green;
+                wordText.text += g.letterValue.ToUpper();
                 yield return new WaitForSeconds(.2f);
             }
             yield return new WaitForSeconds(.5f);
+            wordText.text = "";
         }
-
+        
         matchFind.currentWords.Clear();
 
 
@@ -1098,4 +1100,6 @@ public class Board : MonoBehaviour
 
         }
     }
+
+    
 }
