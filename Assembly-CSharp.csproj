@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/MatchFinder.cs" />
+    <Compile Include="Assets/Scripts/LevelNeedsManager.cs" />
     <Compile Include="Assets/Scripts/Gem.cs" />
     <Compile Include="Assets/Scripts/Board.cs" />
     <Compile Include="Assets/Scripts/LevelManager.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="Assets/Scripts/CameraController.cs" />
     <Compile Include="Assets/Scripts/LetterSelector.cs" />
     <Compile Include="Assets/Scripts/LevelGoalsSO.cs" />
-    <Compile Include="Assets/Scripts/LevelNeedsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/Resources/words.txt" />

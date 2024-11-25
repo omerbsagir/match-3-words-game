@@ -72,7 +72,7 @@ public class Board : MonoBehaviour
     public Gem hidden;
     public Gem[,] allHiddens;
 
-    
+
 
     private void Awake()
     {
@@ -477,17 +477,29 @@ public class Board : MonoBehaviour
         isDestroying = true;
 
         //aşağıdaki yerine ekrana getiricez kelimeleri
-        for (int i = 0; i < matchFind.currentMatches.Count; i++)
+        /*for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
             if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood && matchFind.currentMatches[i].type != Gem.GemType.hidden && matchFind.currentMatches[i].type != Gem.GemType.grass && matchFind.currentMatches[i].type != Gem.GemType.glass)
             {
                 allGems[(int)matchFind.currentMatches[i].posIndex.x, (int)matchFind.currentMatches[i].posIndex.y].GetComponent<SpriteRenderer>().color = Color.green;
             }
+        }*/
+
+        float toplamTime=0f;
+
+        foreach (Word w in matchFind.currentWords)
+        {
+            foreach (Gem g in w.letters)
+            {
+                toplamTime += .2f;
+            }
         }
 
+        StartCoroutine(DisplayTheWord());
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(toplamTime);
 
+        toplamTime = 0f;
 
         for (int i = 0; i < matchFind.currentMatches.Count; i++)
         {
@@ -560,6 +572,22 @@ public class Board : MonoBehaviour
 
     }
 
+    private IEnumerator DisplayTheWord()
+    {
+        
+        foreach(Word w in matchFind.currentWords)
+        {
+            foreach (Gem g in w.letters)
+            {
+                g.GetComponent<SpriteRenderer>().color = Color.green;
+                yield return new WaitForSeconds(.2f);
+            }
+        }
+
+        matchFind.currentWords.Clear();
+
+
+    }
     
 
 
