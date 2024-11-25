@@ -493,6 +493,7 @@ public class Board : MonoBehaviour
             {
                 toplamTime += .2f;
             }
+            toplamTime += .5f;
         }
 
         StartCoroutine(DisplayTheWord());
@@ -582,6 +583,7 @@ public class Board : MonoBehaviour
                 g.GetComponent<SpriteRenderer>().color = Color.green;
                 yield return new WaitForSeconds(.2f);
             }
+            yield return new WaitForSeconds(.5f);
         }
 
         matchFind.currentWords.Clear();
@@ -964,7 +966,7 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (allGems[x,y]!=null && allGlasses[x, y] == null && allGrasses[x, y] == null && allGems[x,y].type != GemType.prized)
+                    if (allGems[x,y]!=null && allGlasses[x, y] == null && allGrasses[x, y] == null && allGems[x,y].type != GemType.prized && allGems[x, y].isPoisoned == false)
                     {
                         gemsFromBoard.Add(allGems[x, y]);
                         allGems[x, y] = null;
@@ -977,7 +979,7 @@ public class Board : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (allGems[x, y] == null)
+                    if (allGems[x, y] == null && allWoods[x,y] == null)
                     {
                         int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
