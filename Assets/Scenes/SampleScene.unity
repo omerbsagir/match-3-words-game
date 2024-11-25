@@ -1319,6 +1319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentMatches: []
   letterCountForMatch: 4
+  middleGems: []
 --- !u!4 &2017307479
 Transform:
   m_ObjectHideFlags: 0

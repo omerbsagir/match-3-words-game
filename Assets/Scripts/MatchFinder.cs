@@ -14,6 +14,7 @@ public class MatchFinder : MonoBehaviour
     private WordDatabase wd;
 
     public List<Word> currentWords;
+    public List<Vector2Int> middleGems;
 
     private void Awake()
     {
@@ -52,11 +53,13 @@ public class MatchFinder : MonoBehaviour
                     if (IsValidWord(horizontalWordR))
                     {
                         currentWords.Add(new Word(horizontalGemsRight));
+                        middleGems.Add(new Word(horizontalGemsRight).MiddleGem());
                         MarkGemsAsMatched(horizontalGemsRight);
                     }
                     if (IsValidWord(horizontalWordL))
                     {
                         currentWords.Add(new Word(horizontalGemsLeft));
+                        middleGems.Add(new Word(horizontalGemsLeft).MiddleGem());
                         MarkGemsAsMatched(horizontalGemsLeft);
                     }
 
@@ -71,11 +74,13 @@ public class MatchFinder : MonoBehaviour
                     if (IsValidWord(verticalWordA))
                     {
                         currentWords.Add(new Word(verticalGemsAbove));
+                        middleGems.Add(new Word(verticalGemsAbove).MiddleGem());
                         MarkGemsAsMatched(verticalGemsAbove);
                     }
                     if (IsValidWord(verticalWordU))
                     {
                         currentWords.Add(new Word(verticalGemsUnder));
+                        middleGems.Add(new Word(verticalGemsUnder).MiddleGem());
                         MarkGemsAsMatched(verticalGemsUnder);
                     }
                 }
@@ -92,8 +97,6 @@ public class MatchFinder : MonoBehaviour
         CheckForGrasses();
         CheckHiddens();
         CheckPrized();
-
-        
 
     }
 
@@ -504,14 +507,9 @@ public class Word
     {
         this.letters = letters;
     }
-    public string ToWord()
+    public Vector2Int MiddleGem()
     {
-        string s="";
-
-        foreach(Gem g in letters)
-        {
-            s += g.letterValue.ToUpper();
-        }
-        return s;
+        Vector2 temp = letters[(int)(letters.Count - 1) / 2].posIndex;
+        return new Vector2Int((int)temp.x, (int)temp.y);
     }
 }

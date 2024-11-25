@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4143117750412198752}
   - component: {fileID: 2915290535418197973}
   - component: {fileID: 8301608564371451499}
+  - component: {fileID: 417821449}
   m_Layer: 0
   m_Name: horizontalBomb
   m_TagString: Untagged
@@ -107,6 +108,7 @@ MonoBehaviour:
   blastSize: 2
   hasCover: 0
   hasHidden: 0
+  isPoisoned: 0
 --- !u!61 &8301608564371451499
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -133,3 +135,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.24047, y: 0.85}
   m_EdgeRadius: 0
+--- !u!95 &417821449
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618997198847832247}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b9debceeba374990ac6cbf64d5a392c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0

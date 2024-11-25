@@ -599,4 +599,5 @@ public class Gem : MonoBehaviour
         isPoisoned = true;
         gameObject.GetComponent<SpriteRenderer>().color = Color.black;
     }
+
 }

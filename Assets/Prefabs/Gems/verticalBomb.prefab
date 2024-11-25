@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4281295554138044910}
   - component: {fileID: 3053521296124857691}
   - component: {fileID: 8151591442604053733}
+  - component: {fileID: 2170094952542993724}
   m_Layer: 0
   m_Name: verticalBomb
   m_TagString: Untagged
@@ -107,6 +108,7 @@ MonoBehaviour:
   blastSize: 2
   hasCover: 0
   hasHidden: 0
+  isPoisoned: 0
 --- !u!61 &8151591442604053733
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -133,3 +135,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.85, y: 1.8928523}
   m_EdgeRadius: 0
+--- !u!95 &2170094952542993724
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468927077319789113}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 07619ff0724104426aeed2c267a5c739, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0

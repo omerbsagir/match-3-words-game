@@ -123,7 +123,7 @@ public class Board : MonoBehaviour
         else
         {
             idleTime += Time.deltaTime; // Kullanıcı hareketsizse süreyi artır
-            if (idleTime >= maxIdleTime)
+            if (idleTime >= maxIdleTime && currentState == BoardState.move)
             {
                 ShowPotentialMatch(); // Belirlenen süreyi geçince potansiyel eşleşmeyi göster
                 
@@ -476,14 +476,6 @@ public class Board : MonoBehaviour
     {
         isDestroying = true;
 
-        //aşağıdaki yerine ekrana getiricez kelimeleri
-        /*for (int i = 0; i < matchFind.currentMatches.Count; i++)
-        {
-            if (matchFind.currentMatches[i] != null && matchFind.currentMatches[i].type != Gem.GemType.wood && matchFind.currentMatches[i].type != Gem.GemType.hidden && matchFind.currentMatches[i].type != Gem.GemType.grass && matchFind.currentMatches[i].type != Gem.GemType.glass)
-            {
-                allGems[(int)matchFind.currentMatches[i].posIndex.x, (int)matchFind.currentMatches[i].posIndex.y].GetComponent<SpriteRenderer>().color = Color.green;
-            }
-        }*/
 
         float toplamTime=0f;
 
@@ -507,6 +499,8 @@ public class Board : MonoBehaviour
             if (matchFind.currentMatches[i] != null)
             {
                 DestroyMatchedLetterAt(matchFind.currentMatches[i].posIndex);
+                if(matchFind.currentMatches[i].type != GemType.wood && matchFind.currentMatches[i].type != GemType.glass && matchFind.currentMatches[i].type != GemType.grass )
+                yield return new WaitForSeconds(.025f);
             }
         }
 
@@ -601,6 +595,27 @@ public class Board : MonoBehaviour
     {
         yield return new WaitForSeconds(.2f);
 
+        if (matchFind.middleGems != null) // 5 harf olunca combo gelicek onu da eklicez
+        {
+            foreach (Vector2Int v in matchFind.middleGems)
+            {
+                int rand = Random.Range(0, 2);
+                if (rand == 0)
+                {
+                    SpawnGem(v, horizontalBomb);
+                }
+                else
+                {
+                    SpawnGem(v, verticalBomb);
+                }
+            }
+        }
+        matchFind.middleGems.Clear();
+
+        yield return new WaitForSeconds(.25f);
+
+
+
         int nullCounter = 0;
         
 
@@ -692,6 +707,9 @@ public class Board : MonoBehaviour
 
     private void RefillBoard()
     {
+
+        
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -728,8 +746,8 @@ public class Board : MonoBehaviour
                 }
             }
         }
-       
 
+        
         
     }
 
@@ -1101,5 +1119,5 @@ public class Board : MonoBehaviour
         }
     }
 
-    
+   
 }
