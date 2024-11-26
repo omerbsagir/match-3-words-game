@@ -48,7 +48,7 @@ public class MatchFinder : MonoBehaviour
 
                     string horizontalWordR = GetWordFromGems(horizontalGemsRight);
                     string horizontalWordL = GetWordFromGems(horizontalGemsLeft);
-                    
+
 
                     if (IsValidWord(horizontalWordR))
                     {
@@ -56,7 +56,7 @@ public class MatchFinder : MonoBehaviour
                         middleGems.Add(new Word(horizontalGemsRight).MiddleGem());
                         MarkGemsAsMatched(horizontalGemsRight);
                     }
-                    if (IsValidWord(horizontalWordL))
+                    else if (IsValidWord(horizontalWordL))
                     {
                         currentWords.Add(new Word(horizontalGemsLeft));
                         middleGems.Add(new Word(horizontalGemsLeft).MiddleGem());
@@ -69,7 +69,7 @@ public class MatchFinder : MonoBehaviour
 
                     string verticalWordA = GetWordFromGems(verticalGemsAbove);
                     string verticalWordU = GetWordFromGems(verticalGemsUnder);
-                
+
 
                     if (IsValidWord(verticalWordA))
                     {
@@ -77,12 +77,13 @@ public class MatchFinder : MonoBehaviour
                         middleGems.Add(new Word(verticalGemsAbove).MiddleGem());
                         MarkGemsAsMatched(verticalGemsAbove);
                     }
-                    if (IsValidWord(verticalWordU))
+                    else if (IsValidWord(verticalWordU))
                     {
                         currentWords.Add(new Word(verticalGemsUnder));
                         middleGems.Add(new Word(verticalGemsUnder).MiddleGem());
                         MarkGemsAsMatched(verticalGemsUnder);
                     }
+
                 }
             }
         }
