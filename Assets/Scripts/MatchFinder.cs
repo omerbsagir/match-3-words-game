@@ -184,8 +184,12 @@ public class MatchFinder : MonoBehaviour
     {
         foreach (Gem gem in gems)
         {
-            gem.isMatched = true;
-            currentMatches.Add(gem);
+            if (gem != null)
+            {
+                gem.isMatched = true;
+                currentMatches.Add(gem);
+            }
+            
         }
     }
 

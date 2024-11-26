@@ -480,11 +480,15 @@ public class Gem : MonoBehaviour
             // Eğer çevresindeki bir taş bomba ise, onu da tetiklenecekler arasına ekle
             foreach (Gem gem in gems)
             {
-                if (gem.type == GemType.bomb && !processedBombs.Contains(gem))
+                if (gem != null)
                 {
-                    bombQueue.Enqueue(gem);
-                    processedBombs.Add(gem);
+                    if (gem.type == GemType.bomb && !processedBombs.Contains(gem))
+                    {
+                        bombQueue.Enqueue(gem);
+                        processedBombs.Add(gem);
+                    }
                 }
+                
             }
         }
 
