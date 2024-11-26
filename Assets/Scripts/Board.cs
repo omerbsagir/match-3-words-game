@@ -74,6 +74,8 @@ public class Board : MonoBehaviour
 
     public TextMeshProUGUI wordText;
 
+    public int givenHorizontalOrVerticalBombCount=0;
+
     private void Awake()
     {
         wd = FindObjectOfType<WordDatabase>();
@@ -599,15 +601,26 @@ public class Board : MonoBehaviour
         {
             foreach (Vector2Int v in matchFind.middleGems)
             {
-                int rand = Random.Range(0, 2);
-                if (rand == 0)
+                if (givenHorizontalOrVerticalBombCount == 3)
                 {
-                    SpawnGem(v, horizontalBomb);
+                    SpawnGem(v, comboBomb);
+                    givenHorizontalOrVerticalBombCount=0;
                 }
                 else
                 {
-                    SpawnGem(v, verticalBomb);
+                    int rand = Random.Range(0, 2);
+                    if (rand == 0)
+                    {
+                        SpawnGem(v, horizontalBomb);
+                        givenHorizontalOrVerticalBombCount++;
+                    }
+                    else
+                    {
+                        SpawnGem(v, verticalBomb);
+                        givenHorizontalOrVerticalBombCount++;
+                    }
                 }
+                
             }
         }
         matchFind.middleGems.Clear();

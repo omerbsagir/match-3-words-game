@@ -104,6 +104,7 @@ public class MatchFinder : MonoBehaviour
     public List<Gem> GetHorizontalGemsRight(int startX, int y)
     {
 
+        
         if ((startX + letterCountForMatch) < board.width)
         {
             List<Gem> gems = new List<Gem>();
@@ -394,7 +395,6 @@ public class MatchFinder : MonoBehaviour
 
                     if (isClear)
                     {
-                        Debug.Log("Silinmeli");
                         board.allHiddens[x, y].isMatched = true;
                         currentMatches.Add(board.allHiddens[x, y]);
                         

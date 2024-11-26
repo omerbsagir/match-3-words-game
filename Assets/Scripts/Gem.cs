@@ -249,7 +249,7 @@ public class Gem : MonoBehaviour
 
             if (otherGem != null)
             {
-                if (!isMatched && !otherGem.isMatched)
+                if (!isMatched && !otherGem.isMatched && otherGem.type!= GemType.bomb && otherGem.type != GemType.vertical && otherGem.type != GemType.horizontal && otherGem.type != GemType.combo)
                 {
                     otherGem.posIndex = posIndex;
                     posIndex = previousPos;
@@ -261,6 +261,12 @@ public class Gem : MonoBehaviour
 
                     board.currentState = Board.BoardState.move;
                 }
+                else
+                {
+                    Debug.Log(otherGem.type.ToString());
+                    Debug.Log(otherGem.posIndex);
+                    MarkWhichBomb(otherGem);
+                }
                 board.DestroyMatches();
             }
             else
@@ -268,33 +274,47 @@ public class Gem : MonoBehaviour
                 board.currentState = Board.BoardState.move;
             }
         }
-        else if(type == GemType.bomb)
+        else
         {
-            MarkBeforeExplodeBomb(this);
+            MarkWhichBomb(this);
+            if (otherGem != null)
+            {
+                MarkWhichBomb(otherGem);
+            }
             board.DestroyMatches();
         }
-        else if (type == GemType.vertical)
-        {
-            MarkVerticalBomb(this);
-            board.DestroyMatches();
-        }
-        else if (type == GemType.horizontal)
-        {
-            MarkHorizontalBomb(this);
-            board.DestroyMatches();
-        }
-        else if (type == GemType.combo)
-        {
-            MarkComboBomb(this);
-            board.DestroyMatches();
-        }
+       
+        
 
         board.CheckThePoison();
     }
+    public void MarkWhichBomb(Gem g)
+    {
+        GemType t = g.type;
+
+        if (t == GemType.bomb)
+        {
+            MarkBeforeExplodeBomb(g);
+        }
+        else if(t == GemType.vertical)
+        {
+            MarkVerticalBomb(g);
+        }
+        else if (t == GemType.horizontal)
+        {
+            MarkHorizontalBomb(g);
+        }
+        else if (t == GemType.combo)
+        {
+            MarkComboBomb(g);
+        }
+        
+    }
     public void MarkVerticalBomb(Gem verticalBomb)
     {
+        Debug.Log("girdi");
         List<Gem> willExplode = new List<Gem>();
-        int x = (int)this.posIndex.x;
+        int x = (int)verticalBomb.posIndex.x;
 
         for(int i = 0; i < board.height; i++)
         {
@@ -310,14 +330,7 @@ public class Gem : MonoBehaviour
                     {
                         MarkBeforeExplodeBomb((board.allGems[x, i]));
                     }
-                    else if (board.allGems[x, i].type == GemType.horizontal)
-                    {
-                        MarkHorizontalBomb((board.allGems[x, i]));
-                    }
-                    else if (board.allGems[x, i].type == GemType.combo)
-                    {
-                        MarkHorizontalBomb((board.allGems[x, i]));
-                    }
+                    
                     willExplode.Add(board.allGems[x, i]);
                 }
                 
@@ -328,6 +341,7 @@ public class Gem : MonoBehaviour
 
             
         }
+        
         board.matchFind.MarkGemsAsMatched(willExplode);
         board.matchFind.CheckForGlasses();
         board.matchFind.CheckForWoods();
@@ -339,7 +353,7 @@ public class Gem : MonoBehaviour
     public void MarkHorizontalBomb(Gem horizontalBomb)
     {
         List<Gem> willExplode = new List<Gem>();
-        int y = (int)this.posIndex.y;
+        int y = (int)horizontalBomb.posIndex.y;
 
         for (int i = 0; i < board.width; i++)
         {
@@ -355,14 +369,7 @@ public class Gem : MonoBehaviour
                     {
                         MarkBeforeExplodeBomb((board.allGems[i, y]));
                     }
-                    else if (board.allGems[i, y].type == GemType.vertical)
-                    {
-                        MarkVerticalBomb((board.allGems[i, y]));
-                    }
-                    else if (board.allGems[i, y].type == GemType.combo)
-                    {
-                        MarkVerticalBomb((board.allGems[i, y]));
-                    }
+                    
                     willExplode.Add(board.allGems[i, y]);
                 }
                 
@@ -383,8 +390,8 @@ public class Gem : MonoBehaviour
     public void MarkComboBomb(Gem comboBomb)
     {
         List<Gem> willExplode = new List<Gem>();
-        int x = (int)this.posIndex.x;
-        int y = (int)this.posIndex.y;
+        int x = (int)comboBomb.posIndex.x;
+        int y = (int)comboBomb.posIndex.y;
 
         for (int i = 0; i < board.height; i++)
         {
@@ -400,11 +407,7 @@ public class Gem : MonoBehaviour
                     {
                         MarkBeforeExplodeBomb((board.allGems[x, i]));
                     }
-                    else if (board.allGems[x, i].type == GemType.horizontal)
-                    {
-                        MarkHorizontalBomb((board.allGems[x, i]));
-                    }
-                   
+                    
                     willExplode.Add(board.allGems[x, i]);
                 }
             }
@@ -431,11 +434,8 @@ public class Gem : MonoBehaviour
                         {
                             MarkBeforeExplodeBomb((board.allGems[i, y]));
                         }
-                        else if (board.allGems[i, y].type == GemType.vertical)
-                        {
-                            MarkVerticalBomb((board.allGems[i, y]));
-                        }
                         
+
                         willExplode.Add(board.allGems[i, y]);
                     }
                 }
@@ -497,7 +497,66 @@ public class Gem : MonoBehaviour
         board.matchFind.CheckPrized();
 
     }
-    // Çevredeki taşları ekleyip listeye dahil eden yardımcı fonksiyon
+
+    public void MarkSatir(int y)
+    {
+        List<Gem> willExplode = new List<Gem>();
+        for (int i = 0;i<board.width; i++)
+        {
+            if ((board.allGems[i, y] != null))
+            {
+
+                if (board.allGems[i, y].type == GemType.prized)
+                {
+                    TriggerPrize(board.allGems[i, y]);
+                }
+                else
+                {
+                    if (board.allGems[i, y].type == GemType.bomb)
+                    {
+                        MarkBeforeExplodeBomb((board.allGems[i, y]));
+                    }
+
+                    willExplode.Add(board.allGems[i, y]);
+                }
+
+            }
+            else if (board.allWoods[i, y] != null)
+            {
+                willExplode.Add(board.allWoods[i, y]);
+            }
+        }
+    }
+    public void MarkSutun(int x)
+    {
+        List<Gem> willExplode = new List<Gem>();
+        for (int i = 0; i < board.height; i++)
+        {
+            if ((board.allGems[x, i] != null))
+            {
+
+                if (board.allGems[x, i].type == GemType.prized)
+                {
+                    TriggerPrize(board.allGems[x,i]);
+                }
+                else
+                {
+                    if (board.allGems[x,i].type == GemType.bomb)
+                    {
+                        MarkBeforeExplodeBomb((board.allGems[x,i]));
+                    }
+
+                    willExplode.Add(board.allGems[x,i]);
+                }
+
+            }
+            else if (board.allWoods[x,i] != null)
+            {
+                willExplode.Add(board.allWoods[x,i]);
+            }
+        }
+    }
+
     private void AddNeighboringGems(List<Gem> gems, int x, int y)
     {
 
