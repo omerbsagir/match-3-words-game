@@ -197,54 +197,58 @@ public class MatchFinder : MonoBehaviour
     {
         List<Gem> glassGems = new List<Gem>();
 
-        for (int i = 0; i < currentMatches.Count; i++)
+        foreach (Word w in currentWords)
         {
-            Gem gem = currentMatches[i];
-            int x = (int)gem.posIndex.x;
-            int y = (int)gem.posIndex.y;
-
-
-            // Sol tarafa bak (x - 1)
-            if (x > 0 && board.allGlasses[x - 1, y] != null && board.allGems[x - 1, y] != null)
+            foreach (Gem g in w.letters)
             {
-                if (!currentMatches.Contains(board.allGems[x - 1, y]))
+                
+                int x = (int)g.posIndex.x;
+                int y = (int)g.posIndex.y;
+
+
+                // Sol tarafa bak (x - 1)
+                if (x > 0 && board.allGlasses[x - 1, y] != null && board.allGems[x - 1, y] != null)
                 {
-                    board.allGems[x - 1, y].isMatched = true;
-                    glassGems.Add(board.allGems[x - 1, y]);
+                    if (!currentMatches.Contains(board.allGems[x - 1, y]))
+                    {
+                        board.allGems[x - 1, y].isMatched = true;
+                        glassGems.Add(board.allGems[x - 1, y]);
+                    }
                 }
-            }
 
-            // Sağ tarafa bak (x + 1)
-            if (x < board.width - 1 && board.allGlasses[x + 1, y] != null && board.allGems[x + 1, y] != null)
-            {
-                if (!currentMatches.Contains(board.allGems[x + 1, y]))
+                // Sağ tarafa bak (x + 1)
+                if (x < board.width - 1 && board.allGlasses[x + 1, y] != null && board.allGems[x + 1, y] != null)
                 {
-                    board.allGems[x + 1, y].isMatched = true;
-                    glassGems.Add(board.allGems[x + 1, y]);
+                    if (!currentMatches.Contains(board.allGems[x + 1, y]))
+                    {
+                        board.allGems[x + 1, y].isMatched = true;
+                        glassGems.Add(board.allGems[x + 1, y]);
+                    }
                 }
-            }
 
-            // Yukarı bak (y - 1)
-            if (y > 0 && board.allGlasses[x, y - 1] != null && board.allGems[x, y - 1] != null)
-            {
-                if (!currentMatches.Contains(board.allGems[x, y - 1]))
+                // Yukarı bak (y - 1)
+                if (y > 0 && board.allGlasses[x, y - 1] != null && board.allGems[x, y - 1] != null)
                 {
-                    board.allGems[x, y-1].isMatched = true;
-                    glassGems.Add(board.allGems[x, y - 1]);
+                    if (!currentMatches.Contains(board.allGems[x, y - 1]))
+                    {
+                        board.allGems[x, y - 1].isMatched = true;
+                        glassGems.Add(board.allGems[x, y - 1]);
+                    }
                 }
-            }
 
-            // Aşağı bak (y + 1)
-            if (y < board.height - 1 && board.allGlasses[x, y + 1] != null && board.allGems[x, y + 1] != null)
-            {
-                if (!currentMatches.Contains(board.allGems[x, y + 1]))
+                // Aşağı bak (y + 1)
+                if (y < board.height - 1 && board.allGlasses[x, y + 1] != null && board.allGems[x, y + 1] != null)
                 {
-                    board.allGems[x, y+1].isMatched = true;
-                    glassGems.Add(board.allGems[x, y + 1]);
+                    if (!currentMatches.Contains(board.allGems[x, y + 1]))
+                    {
+                        board.allGems[x, y + 1].isMatched = true;
+                        glassGems.Add(board.allGems[x, y + 1]);
+                    }
                 }
             }
         }
 
+        
         foreach(Gem g in glassGems)
         {
             currentMatches.Add(g);
@@ -254,53 +258,59 @@ public class MatchFinder : MonoBehaviour
     {
         List<Gem> woodGems = new List<Gem>();
 
-        for (int i = 0; i < currentMatches.Count; i++)
+
+        foreach (Word w in currentWords)
         {
-            Gem gem = currentMatches[i];
-            int x = (int)gem.posIndex.x;
-            int y = (int)gem.posIndex.y;
-
-
-            // Sol tarafa bak (x - 1)
-            if (x > 0 && board.allWoods[x - 1, y] != null)
+            foreach (Gem g in w.letters)
             {
-                if (!currentMatches.Contains(board.allWoods[x - 1, y]))
+                
+                int x = (int)g.posIndex.x;
+                int y = (int)g.posIndex.y;
+
+
+                // Sol tarafa bak (x - 1)
+                if (x > 0 && board.allWoods[x - 1, y] != null)
                 {
-                    board.allWoods[x - 1, y].isMatched = true;
-                    woodGems.Add(board.allWoods[x - 1, y]);
+                    if (!currentMatches.Contains(board.allWoods[x - 1, y]))
+                    {
+                        board.allWoods[x - 1, y].isMatched = true;
+                        woodGems.Add(board.allWoods[x - 1, y]);
+                    }
                 }
-            }
 
-            // Sağ tarafa bak (x + 1)
-            if (x < board.width - 1 && board.allWoods[x + 1, y] != null)
-            {
-                if (!currentMatches.Contains(board.allWoods[x + 1, y]))
+                // Sağ tarafa bak (x + 1)
+                if (x < board.width - 1 && board.allWoods[x + 1, y] != null)
                 {
-                    board.allWoods[x + 1, y].isMatched = true;
-                    woodGems.Add(board.allWoods[x + 1, y]);
+                    if (!currentMatches.Contains(board.allWoods[x + 1, y]))
+                    {
+                        board.allWoods[x + 1, y].isMatched = true;
+                        woodGems.Add(board.allWoods[x + 1, y]);
+                    }
                 }
-            }
 
-            // Yukarı bak (y - 1)
-            if (y > 0 && board.allWoods[x, y - 1] != null)
-            {
-                if (!currentMatches.Contains(board.allWoods[x, y - 1]))
+                // Yukarı bak (y - 1)
+                if (y > 0 && board.allWoods[x, y - 1] != null)
                 {
-                    board.allWoods[x, y - 1].isMatched = true;
-                    woodGems.Add(board.allWoods[x, y - 1]);
+                    if (!currentMatches.Contains(board.allWoods[x, y - 1]))
+                    {
+                        board.allWoods[x, y - 1].isMatched = true;
+                        woodGems.Add(board.allWoods[x, y - 1]);
+                    }
                 }
-            }
 
-            // Aşağı bak (y + 1)
-            if (y < board.height - 1 && board.allWoods[x, y + 1] != null)
-            {
-                if (!currentMatches.Contains(board.allWoods[x, y + 1]))
+                // Aşağı bak (y + 1)
+                if (y < board.height - 1 && board.allWoods[x, y + 1] != null)
                 {
-                    board.allWoods[x, y + 1].isMatched = true;
-                    woodGems.Add(board.allWoods[x, y + 1]);
+                    if (!currentMatches.Contains(board.allWoods[x, y + 1]))
+                    {
+                        board.allWoods[x, y + 1].isMatched = true;
+                        woodGems.Add(board.allWoods[x, y + 1]);
+                    }
                 }
             }
         }
+
+        
 
         foreach (Gem g in woodGems)
         {
@@ -313,51 +323,64 @@ public class MatchFinder : MonoBehaviour
 
         for (int i = 0; i < currentMatches.Count; i++)
         {
-
             int x = (int)currentMatches[i].posIndex.x;
             int y = (int)currentMatches[i].posIndex.y;
 
-            int x2 = x+1;
-            int y2 = y;
-
-            int x3 = x-1;
-            int y3 = y;
-
-            int x4 = x;
-            int y4 = y+1;
-
-            int x5 = x;
-            int y5 = y-1;
-
-            if (board.allGrasses[x,y] != null)
+            if (board.allGrasses[x, y] != null)
             {
                 board.allGrasses[x, y].isMatched = true;
                 grass.Add(board.allGrasses[x, y]);
             }
-            if (x2<board.width && board.allGrasses[x2, y2] != null)
-            {
-                board.allGrasses[x2, y2].isMatched = true;
-                grass.Add(board.allGrasses[x2, y2]);
-            }
-            if (x3>=0 && board.allGrasses[x3, y3] != null)
-            {
-                board.allGrasses[x3, y3].isMatched = true;
-                grass.Add(board.allGrasses[x3, y3]);
-            }
-            if (y4 < board.height && board.allGrasses[x4, y4] != null)
-            {
-                board.allGrasses[x4, y4].isMatched = true;
-                grass.Add(board.allGrasses[x4, y4]);
-            }
-            if (y5 >= 0 && board.allGrasses[x5, y5] != null)
-            {
-                board.allGrasses[x5, y5].isMatched = true;
-                grass.Add(board.allGrasses[x5, y5]);
-            }
-
-            
         }
 
+        foreach (Word w in currentWords)
+        {
+            foreach(Gem g in w.letters)
+            {
+                int x = (int)g.posIndex.x;
+                int y = (int)g.posIndex.y;
+
+                int x2 = x + 1;
+                int y2 = y;
+
+                int x3 = x - 1;
+                int y3 = y;
+
+                int x4 = x;
+                int y4 = y + 1;
+
+                int x5 = x;
+                int y5 = y - 1;
+
+                if (board.allGrasses[x, y] != null)
+                {
+                    board.allGrasses[x, y].isMatched = true;
+                    grass.Add(board.allGrasses[x, y]);
+                }
+                if (x2 < board.width && board.allGrasses[x2, y2] != null)
+                {
+                    board.allGrasses[x2, y2].isMatched = true;
+                    grass.Add(board.allGrasses[x2, y2]);
+                }
+                if (x3 >= 0 && board.allGrasses[x3, y3] != null)
+                {
+                    board.allGrasses[x3, y3].isMatched = true;
+                    grass.Add(board.allGrasses[x3, y3]);
+                }
+                if (y4 < board.height && board.allGrasses[x4, y4] != null)
+                {
+                    board.allGrasses[x4, y4].isMatched = true;
+                    grass.Add(board.allGrasses[x4, y4]);
+                }
+                if (y5 >= 0 && board.allGrasses[x5, y5] != null)
+                {
+                    board.allGrasses[x5, y5].isMatched = true;
+                    grass.Add(board.allGrasses[x5, y5]);
+                }
+            }
+        }
+
+        
         grass.Distinct();
 
         foreach (Gem g in grass)

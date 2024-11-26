@@ -34,11 +34,11 @@ public class LevelNeedsManager : MonoBehaviour
     private GameObject prizedPrefab;
     public int remainingPrizedCount;
 
+    private bool isGameOver = false; // Oyun durumunu takip eden bayrak
 
     public void Awake()
     {
         Instance = this;
-        
     }
 
     public void SetLevelNeeds(int level)
@@ -54,8 +54,6 @@ public class LevelNeedsManager : MonoBehaviour
         remainingHiddenCount = currentGoals.hiddenCount.count;
         remainingWoodCount = currentGoals.woodCount.count;
         remainingPrizedCount = currentGoals.prizedCount.count;
-
-
 
         if (currentGoals.matchCount.count > 0)
         {
@@ -94,99 +92,66 @@ public class LevelNeedsManager : MonoBehaviour
             prizedPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingPrizedCount.ToString();
         }
     }
+
     private void Update()
     {
-        // ŞİMDİLİK BÖYLE DAHA SONRA ANİMASYON İLE DÜŞÜRÜCEZ
+        if (isGameOver)
+            return; // Oyun bitmişse işlemleri durdur
 
+        // Kalan hamle sayısını güncelle
         moveCount.text = remainingMoveCount.ToString();
-        //move count 0 ise durdur oyunu 
 
-        if (letterPrefab != null && letterPrefab.transform.GetChild(1).GetComponent<Text>() != null)
+        // Gereksinimlerden biri tamamlandıysa ilgili prefab'ı yok et
+        UpdateGoalUI();
+
+        // Oyun durumu kontrolü
+        if (remainingMoveCount <= 0 || AreAllGoalsCompleted())
         {
-            //Efekt eklenicek ayrı fonksiyona taşırız
-            if (remainingLetterCount <= 0)
-            {
-                Destroy(letterPrefab);
-            }
-            else
-            {
-                letterPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingLetterCount.ToString();
-            }
-            
-        }
-
-        if (glassPrefab != null && glassPrefab.transform.GetChild(1).GetComponent<Text>() != null)
-        {
-            //Efekt eklenicek ayrı fonksiyona taşırız
-            if (remainingGlassCount <= 0)
-            {
-                Destroy(glassPrefab);
-            }
-            else
-            {
-                glassPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingGlassCount.ToString();
-
-            }
-            
-        }
-
-        if (grassPrefab != null && grassPrefab.transform.GetChild(1).GetComponent<Text>() != null)
-        {
-            //Efekt eklenicek ayrı fonksiyona taşırız
-            if (remainingGrassCount <= 0)
-            {
-                Destroy(grassPrefab);
-            }
-            else
-            {
-                grassPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingGrassCount.ToString();
-            }
-            
-        }
-
-        if (hiddenPrefab != null && hiddenPrefab.transform.GetChild(1).GetComponent<Text>() != null)
-        {
-            //Efekt eklenicek ayrı fonksiyona taşırız
-            if (remainingHiddenCount <= 0)
-            {
-                Destroy(hiddenPrefab);
-            }
-            else
-            {
-                hiddenPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingHiddenCount.ToString();
-            }
-            
-        }
-
-        if (woodPrefab != null && woodPrefab.transform.GetChild(1).GetComponent<Text>() != null)
-        {
-            //Efekt eklenicek ayrı fonksiyona taşırız
-            if (remainingWoodCount <= 0)
-            {
-                Destroy(woodPrefab);
-            }
-            else
-            {
-                woodPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingWoodCount.ToString();
-            }
-            
-        }
-
-        if (prizedPrefab != null && prizedPrefab.transform.GetChild(1).GetComponent<Text>() != null)
-        {
-            //Efekt eklenicek ayrı fonksiyona taşırız
-            if (remainingPrizedCount <= 0)
-            {
-                Destroy(prizedPrefab);
-            }
-            else
-            {
-                prizedPrefab.transform.GetChild(1).GetComponent<Text>().text = remainingPrizedCount.ToString();
-            }
-            
+            EndGame();
         }
     }
 
-    
-    
+    private void UpdateGoalUI()
+    {
+        UpdateGoalPrefab(letterPrefab, ref remainingLetterCount);
+        UpdateGoalPrefab(glassPrefab, ref remainingGlassCount);
+        UpdateGoalPrefab(grassPrefab, ref remainingGrassCount);
+        UpdateGoalPrefab(hiddenPrefab, ref remainingHiddenCount);
+        UpdateGoalPrefab(woodPrefab, ref remainingWoodCount);
+        UpdateGoalPrefab(prizedPrefab, ref remainingPrizedCount);
+    }
+
+    private void UpdateGoalPrefab(GameObject prefab, ref int remainingCount)
+    {
+        if (prefab != null && prefab.transform.GetChild(1).GetComponent<Text>() != null)
+        {
+            if (remainingCount <= 0)
+            {
+                Destroy(prefab);
+            }
+            else
+            {
+                prefab.transform.GetChild(1).GetComponent<Text>().text = remainingCount.ToString();
+            }
+        }
+    }
+
+    private bool AreAllGoalsCompleted()
+    {
+        return remainingLetterCount <= 0 &&
+               remainingGlassCount <= 0 &&
+               remainingGrassCount <= 0 &&
+               remainingHiddenCount <= 0 &&
+               remainingWoodCount <= 0 &&
+               remainingPrizedCount <= 0;
+    }
+
+    private void EndGame()
+    {
+        isGameOver = true; // Oyun durumu güncellendi
+        Debug.Log("Oyun Bitti!"); // Konsola mesaj yazdır
+
+        // Oyun bitiş animasyonu veya durumu burada işlenebilir
+        Time.timeScale = 0; // Oyun duraklatıldı
+    }
 }

@@ -527,7 +527,6 @@ public class Board : MonoBehaviour
                     LevelNeedsManager.Instance.remainingGlassCount--;
 
                 }
-               
 
                 Destroy(allGems[(int)pos.x, (int)pos.y].gameObject);
                 allGems[(int)pos.x, (int)pos.y] = null;
