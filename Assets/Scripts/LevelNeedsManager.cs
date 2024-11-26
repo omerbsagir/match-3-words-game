@@ -36,6 +36,8 @@ public class LevelNeedsManager : MonoBehaviour
 
     private bool isGameOver = false; // Oyun durumunu takip eden bayrak
 
+    public GameObject gameOverPanel;
+
     public void Awake()
     {
         Instance = this;
@@ -150,8 +152,9 @@ public class LevelNeedsManager : MonoBehaviour
     {
         isGameOver = true; // Oyun durumu güncellendi
         Debug.Log("Oyun Bitti!"); // Konsola mesaj yazdır
-
+        gameOverPanel.SetActive(true);
         // Oyun bitiş animasyonu veya durumu burada işlenebilir
         Time.timeScale = 0; // Oyun duraklatıldı
     }
+    
 }
