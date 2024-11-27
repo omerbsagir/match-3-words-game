@@ -95,15 +95,25 @@ public class LevelNeedsManager : MonoBehaviour
 
     private void Update()
     {
-        
-        moveCount.text = remainingMoveCount.ToString();
-
-        UpdateGoalUI();
-
-        if (remainingMoveCount <= 0 || AreAllGoalsCompleted())
+        if (!LevelManager.Instance.hasGameEnded)
         {
-            LevelManager.Instance.isGameOver = true;
+            moveCount.text = remainingMoveCount.ToString();
+
+            UpdateGoalUI();
+
+            if (remainingMoveCount <= 0 )
+            {
+                LevelManager.Instance.isLevelPassed = false;
+                LevelManager.Instance.isGameOver = true;
+                
+            }
+            else if (AreAllGoalsCompleted())
+            {
+                LevelManager.Instance.isLevelPassed = true;
+                LevelManager.Instance.isGameOver = true;
+            }
         }
+        
     }
 
     private void UpdateGoalUI()

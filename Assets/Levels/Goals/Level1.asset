@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f41c1ed3d834050bd518eaf6414e10, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  moveLimit: 5
+  moveLimit: 30
   matchCount:
     image: {fileID: 21300000, guid: d3d882b892d2044999cfb456726e3b28, type: 3}
     count: 10

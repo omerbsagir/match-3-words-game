@@ -12,8 +12,17 @@ public class LevelManager : MonoBehaviour
 
     public LevelSO[] allLevels;
 
+    [HideInInspector]
     public bool isGameOver = false;
+    [HideInInspector]
     public bool isLevelPassed = false;
+    [HideInInspector]
+    public bool hasGameEnded=false;
+
+    [SerializeField]
+    private GameObject gameOverPanel;
+    [SerializeField]
+    private GameObject levelPassPanel;
 
     public void Awake()
     {
@@ -69,7 +78,7 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if (isGameOver)
+        if (isGameOver && !hasGameEnded)
         {
             EndGame();
             return;
@@ -77,12 +86,26 @@ public class LevelManager : MonoBehaviour
     }
     private IEnumerator waitBeforeEnd()
     {
-        yield return new WaitForSeconds(2f);
         Board.Instance.currentState = Board.BoardState.wait;
+        yield return new WaitForSeconds(2f);
+
+        hasGameEnded = true;
+        SetGameOverPanel();
     }
     private void EndGame()
     {
         StartCoroutine(waitBeforeEnd());
-        Debug.Log("Game over");
+        
+    }
+    private void SetGameOverPanel()
+    {
+        if (isLevelPassed)
+        {
+            levelPassPanel.SetActive(true);
+        }
+        else
+        {
+            gameOverPanel.SetActive(true);
+        }
     }
 }
