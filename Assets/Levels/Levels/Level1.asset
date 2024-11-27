@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f159c736e789461983e397fbe885cef, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  width: 7
-  height: 7
+  width: 5
+  height: 5
   tilePrefab: {fileID: 1318605603561836967, guid: 201e8010f96294a8d93f26e48231bbc2, type: 3}
   bombChance: 2
   letterCountFM: 4
-  layout: {fileID: 11400000, guid: d425f96985f6c46b28acbb2b2186b978, type: 2}
-  goals: {fileID: 11400000, guid: edb96dc3bf16a4fde9342f307fce9eb5, type: 2}
+  layout: {fileID: 11400000, guid: a16669509cd1c439c9559fdfaf529bed, type: 2}
+  goals: {fileID: 11400000, guid: 2158f00432350487d8ef9b0b56990ef4, type: 2}
   cameraDetails:
-    x: 3
-    y: 4.5
-    ortoSize: 7
+    x: 2
+    y: 3
+    ortoSize: 5.5

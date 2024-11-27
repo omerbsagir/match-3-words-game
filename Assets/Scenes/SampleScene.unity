@@ -1807,10 +1807,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 1
-  totalLevelCounts: 2
+  totalLevelCounts: 1
   allLevels:
   - {fileID: 11400000, guid: 2fb2dc692b3ed48688724c0250982da5, type: 2}
-  - {fileID: 11400000, guid: 8b844a75a914b421b972454d2302edae, type: 2}
   isGameOver: 0
   isLevelPassed: 0
   hasGameEnded: 0

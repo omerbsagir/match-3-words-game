@@ -11,9 +11,13 @@ public class Board : MonoBehaviour
 {
     public static Board Instance;
 
-    public int width, height;  // levele özgü 
+    [HideInInspector]
+    public int width, height;  // levele özgü
+    [HideInInspector]
     public GameObject tilePrefab; // levele özgü
-    public float bombChance = 2f; // levele özgü 
+    [HideInInspector]
+    public float bombChance = 2f; // levele özgü
+    [HideInInspector]
     public int letterCountFM; // levele özgü
 
     public Gem[] gems;
@@ -51,6 +55,7 @@ public class Board : MonoBehaviour
     private WordDatabase wd;
 
     public enum BoardState { wait, move }
+    [HideInInspector]
     public BoardState currentState = BoardState.move;
     public float gemSpeed;
     private float idleTime = 0f;
@@ -59,6 +64,7 @@ public class Board : MonoBehaviour
     private bool isThereAnyBomb = false;
     List<Gem> movedBombs = new List<Gem>();
     private string potentialMoveDir = null;
+    [HideInInspector]
     public bool isHighlighting = false;
     public List<Gem> allreadyPoisoned;
     public int givenHorizontalOrVerticalBombCount = 0;

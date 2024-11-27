@@ -17,21 +17,27 @@ public class LevelNeedsManager : MonoBehaviour
     public int remainingMoveCount;
 
     private GameObject letterPrefab;
+    [HideInInspector]
     public int remainingLetterCount;
 
     private GameObject glassPrefab;
+    [HideInInspector]
     public int remainingGlassCount;
 
     private GameObject grassPrefab;
+    [HideInInspector]
     public int remainingGrassCount;
 
     private GameObject hiddenPrefab;
+    [HideInInspector]
     public int remainingHiddenCount;
 
     private GameObject woodPrefab;
+    [HideInInspector]
     public int remainingWoodCount;
 
     private GameObject prizedPrefab;
+    [HideInInspector]
     public int remainingPrizedCount;
 
 
