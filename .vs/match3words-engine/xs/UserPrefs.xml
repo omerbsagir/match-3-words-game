@@ -1,19 +1,22 @@
 ﻿<Properties StartupConfiguration="{3990C09B-BE0E-88BD-5CF7-DA48C79D6195}|">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LevelSO.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Board.cs" Line="15" Column="45" />
+      <File FileName="Assets/Scripts/Gem.cs" Line="348" Column="9" />
+      <File FileName="Assets/Scripts/MatchFinder.cs" Line="70" Column="14" />
+      <File FileName="Assets/Scripts/LayoutSO.cs" Line="138" Column="78" />
+      <File FileName="Assets/Scripts/LevelManager.cs" Line="47" Column="38" />
+      <File FileName="Assets/Scripts/CameraController.cs" Line="11" Column="9" />
+      <File FileName="Assets/Scripts/LevelGoalsSO.cs" Line="6" Column="20" />
+      <File FileName="Assets/Scripts/LevelNeedsManager.cs" Line="159" Column="5" />
+      <File FileName="Assets/Scripts/LevelSO.cs" Line="9" Column="31" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="8f123ea6-0806-4a09-be52-2e550a5abcfc" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CameraController.cs">
-    <Files>
-      <File FileName="Assets/Scripts/Board.cs" Line="614" Column="22" />
-      <File FileName="Assets/Scripts/Gem.cs" Line="272" Column="31" />
-      <File FileName="Assets/Scripts/MatchFinder.cs" Line="270" Column="63" />
-      <File FileName="Assets/Scripts/LayoutSO.cs" Line="12" Column="38" />
-      <File FileName="Assets/Scripts/LevelManager.cs" Line="12" Column="34" />
-      <File FileName="Assets/Scripts/CameraController.cs" Line="10" Column="6" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="5f806c05-2f3f-4dd1-a43e-942c7de3586a" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

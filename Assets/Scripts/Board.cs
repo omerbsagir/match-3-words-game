@@ -9,13 +9,35 @@ using TMPro;
 
 public class Board : MonoBehaviour
 {
-    public int width, height;
-    public GameObject tilePrefab;
+    public int width, height;  // levele özgü 
+    public GameObject tilePrefab; // levele özgü
+    public float bombChance = 2f; // levele özgü 
+    public int letterCountFM; // levele özgü
 
     public Gem[] gems;
-    public Gem[,] allGems;
+    public Gem bomb;
+    public Gem verticalBomb;
+    public Gem horizontalBomb;
+    public Gem comboBomb;
+    public Gem glass;
+    public Gem grass;
+    public Gem wood;
+    public Gem hidden;
 
-    public float gemSpeed;
+    public Gem[,] allGems; // levele özgü
+    public Gem[,] allGlasses; // levele özgü
+    public Gem[,] allGrasses; // levele özgü 
+    public Gem[,] allWoods; // levele özgü
+    public Gem[,] allHiddens; // levele özgü 
+
+    public Gem[,] layoutGems; // levele özgü 
+    public Gem[,] layoutGlasses; // levele özgü 
+    public Gem[,] layoutGrasses; // levele özgü
+    public Gem[,] layoutWoods; // levele özgü
+    public Gem[,] layoutHiddens; // levele özgü 
+    public bool[,] layoutIsPoisoned; // levele özgü 
+
+    // SCRİPTE ÖZEL AŞAĞIDAKİLER
 
     [HideInInspector]
     public MatchFinder matchFind;
@@ -23,58 +45,24 @@ public class Board : MonoBehaviour
     public LetterSelector letterSelector;
     [HideInInspector]
     public LevelManager levelManager;
-
     private List<string> wordDatabase = new List<string>();
     private WordDatabase wd;
 
     public enum BoardState { wait, move }
     public BoardState currentState = BoardState.move;
-
-    public Gem bomb;
-    public Gem verticalBomb;
-    public Gem horizontalBomb;
-    public Gem comboBomb;
-    public float bombChance = 2f;
-
-    public int letterCountFM;
-
+    public float gemSpeed;
     private float idleTime = 0f;
     public float maxIdleTime = 3f;
-
-    private bool isDestroying=false;
+    private bool isDestroying = false;
     private bool isThereAnyBomb = false;
-
     List<Gem> movedBombs = new List<Gem>();
-
-    public Gem glass;
-    public float glassChance = 2f;
-    public Gem[,] allGlasses;
-
-    private string potentialMoveDir=null;
-
+    private string potentialMoveDir = null;
     public bool isHighlighting = false;
-
-    public Gem grass;
-    public Gem[,] allGrasses;
-
-    public Gem wood;
-    public Gem[,] allWoods;
-
-    public Gem[,] layoutWoods;
-    public Gem[,] layoutGlasses;
-    public Gem[,] layoutGems;
-    public Gem[,] layoutGrasses;
-    public Gem[,] layoutHiddens;
-
-    public bool[,] layoutIsPoisoned;
     public List<Gem> allreadyPoisoned;
-
-    public Gem hidden;
-    public Gem[,] allHiddens;
-
+    public int givenHorizontalOrVerticalBombCount = 0;
     public TextMeshProUGUI wordText;
 
-    public int givenHorizontalOrVerticalBombCount=0;
+    
 
     private void Awake()
     {
@@ -83,6 +71,18 @@ public class Board : MonoBehaviour
         letterSelector = FindObjectOfType<LetterSelector>();
         levelManager = FindObjectOfType<LevelManager>();
 
+    }
+
+    void Start()
+    {
+
+        SetLevel();
+        Setup();
+
+    }
+
+    public void SetLevel()
+    {
         width = levelManager.GetLevelDimensions()[0];
         height = levelManager.GetLevelDimensions()[1];
 
@@ -92,12 +92,7 @@ public class Board : MonoBehaviour
         layoutGrasses = levelManager.GetLevelLayoutGrass();
         layoutHiddens = levelManager.GetLevelLayoutHidden();
         layoutIsPoisoned = levelManager.GetLevelLayoutPoison();
-        
-    }
 
-    void Start()
-    {
-        
         wordDatabase = wd.wordList;
         letterCountFM = matchFind.letterCountForMatch;
         allGems = new Gem[width, height];
@@ -105,11 +100,8 @@ public class Board : MonoBehaviour
         allGrasses = new Gem[width, height];
         allWoods = new Gem[width, height];
         allHiddens = new Gem[width, height];
-
-        Setup();
-
-        
     }
+
 
     private void Update()
     {

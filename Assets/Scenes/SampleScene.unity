@@ -892,6 +892,8 @@ MonoBehaviour:
   width: 0
   height: 0
   tilePrefab: {fileID: 1318605603561836967, guid: 201e8010f96294a8d93f26e48231bbc2, type: 3}
+  bombChance: 1
+  letterCountFM: 0
   gems:
   - {fileID: 1811424436053167969, guid: fcbf879ad4ec04e10ab66b7b72e327b7, type: 3}
   - {fileID: 274507794063454269, guid: c4fcac3942cfd4638b7ee574d13bad9d, type: 3}
@@ -920,27 +922,24 @@ MonoBehaviour:
   - {fileID: 7443014014236345905, guid: f975c8be6e9af4a9d8cb15b21bd8f826, type: 3}
   - {fileID: 3201782477045796786, guid: d00796c88108b430eafd5cd3dcafe64e, type: 3}
   - {fileID: 4031018568515847642, guid: 57cf5cf8652ee407abd81b97fd09fbf3, type: 3}
-  gemSpeed: 20
-  matchFind: {fileID: 0}
-  letterSelector: {fileID: 0}
-  levelManager: {fileID: 0}
-  currentState: 1
   bomb: {fileID: 4746503529716403414, guid: 47b30bf13b09f4b78acccfcbd0bb489d, type: 3}
   verticalBomb: {fileID: 3053521296124857691, guid: 2947c14a6c37f4527932815750f53d14, type: 3}
   horizontalBomb: {fileID: 2915290535418197973, guid: 0a03e7f88b4324aca9185d5fce3fb7de, type: 3}
   comboBomb: {fileID: 4530300042574970979, guid: ba1bb25c52b234502986f16089aa1716, type: 3}
-  bombChance: 1
-  letterCountFM: 0
-  maxIdleTime: 3
   glass: {fileID: 99940956368895492, guid: b0b7f50d1db63440db0993cf4474aec3, type: 3}
-  glassChance: 5
-  isHighlighting: 0
   grass: {fileID: 9086430291922750589, guid: 739ce6a7029694388ae0e9510f761927, type: 3}
   wood: {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
-  allreadyPoisoned: []
   hidden: {fileID: 3638202178734336658, guid: ab53b924557b743eba34bbc1c0b690b1, type: 3}
-  wordText: {fileID: 954752114}
+  matchFind: {fileID: 0}
+  letterSelector: {fileID: 0}
+  levelManager: {fileID: 0}
+  currentState: 1
+  gemSpeed: 20
+  maxIdleTime: 3
+  isHighlighting: 0
+  allreadyPoisoned: []
   givenHorizontalOrVerticalBombCount: 0
+  wordText: {fileID: 954752114}
 --- !u!4 &934488873
 Transform:
   m_ObjectHideFlags: 0
@@ -1400,17 +1399,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   totalLevelCounts: 2
-  widthAndHeights:
-  - w: 7
-    h: 7
-  - w: 8
-    h: 8
-  allLayouts:
-  - {fileID: 11400000, guid: d425f96985f6c46b28acbb2b2186b978, type: 2}
-  - {fileID: 11400000, guid: 9cd725881b83949548846695bb5b8b33, type: 2}
-  allLevelGoals:
-  - {fileID: 11400000, guid: edb96dc3bf16a4fde9342f307fce9eb5, type: 2}
-  - {fileID: 11400000, guid: 61bf6a805a25b403391a5cf4d8fdc414, type: 2}
+  allLevels:
+  - {fileID: 11400000, guid: 2fb2dc692b3ed48688724c0250982da5, type: 2}
+  - {fileID: 11400000, guid: 8b844a75a914b421b972454d2302edae, type: 2}
 --- !u!4 &1843743962
 Transform:
   m_ObjectHideFlags: 0

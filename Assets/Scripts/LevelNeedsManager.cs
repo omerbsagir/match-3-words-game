@@ -45,7 +45,7 @@ public class LevelNeedsManager : MonoBehaviour
 
     public void SetLevelNeeds(int level)
     {
-        currentGoals = LevelManager.Instance.allLevelGoals[level - 1];
+        currentGoals = LevelManager.Instance.allLevels[level - 1].goals;
 
         moveCount.text = currentGoals.moveLimit.ToString();
         remainingMoveCount = currentGoals.moveLimit;

@@ -46,11 +46,6 @@ public class Gem : MonoBehaviour
         hasHidden = false;
 
     }
-    void Start()
-    {
-        
-    }
-
     
     void Update()
     {

@@ -10,9 +10,8 @@ public class LevelManager : MonoBehaviour
     public int level = 1;
     public int totalLevelCounts = 10;
 
-    public LevelSize[] widthAndHeights;
-    public LayoutSO[] allLayouts;
-    public LevelGoalsSO[] allLevelGoals;
+    public LevelSO[] allLevels;
+
 
     public void Awake()
     {
@@ -21,50 +20,49 @@ public class LevelManager : MonoBehaviour
 
     public Gem[,] GetLevelLayoutWood()
     {
-        return allLayouts[level - 1].GetLayoutWood();
+        return allLevels[level - 1].layout.GetLayoutWood();
     }
     public Gem[,] GetLevelLayoutGlass()
     {
-        return allLayouts[level - 1].GetLayoutGlass();
+        return allLevels[level - 1].layout.GetLayoutGlass();
     }
     public Gem[,] GetLevelLayoutGems()
     {
-        return allLayouts[level - 1].GetLayoutGems();
+        return allLevels[level - 1].layout.GetLayoutGems();
     }
     public Gem[,] GetLevelLayoutGrass()
     {
-        return allLayouts[level - 1].GetLayoutGrass();
+        return allLevels[level - 1].layout.GetLayoutGrass();
     }
     public Gem[,] GetLevelLayoutHidden()
     {
-        return allLayouts[level - 1].GetLayoutHidden();
+        return allLevels[level - 1].layout.GetLayoutHidden();
     }
     public bool[,] GetLevelLayoutPoison()
     {
-        return allLayouts[level - 1].GetLayoutPoison();
+        return allLevels[level - 1].layout.GetLayoutPoison();
     }
 
     public int[] GetLevelDimensions()
     {
         int[] wAndH = new int[2];
 
-        wAndH[0] = widthAndHeights[level - 1].w;
-        wAndH[1] = widthAndHeights[level - 1].h;
+        wAndH[0] = allLevels[level - 1].width;
+        wAndH[1] = allLevels[level - 1].height;
 
         return wAndH;
     }
-
-
-    [System.Serializable]
-    public class LevelSize
+    public GameObject getTilePrefab()
     {
-        public int w;
-        public int h;
-
-        public LevelSize(int width, int height)
-        {
-            this.w = width;
-            this.h = height;
-        }
+        return allLevels[level - 1].tilePrefab;
     }
+    public float getBombChance()
+    {
+        return allLevels[level - 1].bombChance;
+    }
+    public int getLetterCountFM()
+    {
+        return allLevels[level - 1].letterCountFM;
+    }
+
 }

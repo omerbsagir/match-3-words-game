@@ -41,78 +41,24 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
   - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
+    - {fileID: 4848207178394034111, guid: 411d4ff5e5e0e4295b439e5fe4a4d692, type: 3}
   allRowsGlass:
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   - gemsInRow:
     - {fileID: 0}
     - {fileID: 0}
@@ -204,61 +150,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   allRowsGrass:
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   - gemsInRow:
     - {fileID: 0}
     - {fileID: 0}
@@ -350,37 +242,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - gemsInRow:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
   layoutIsPoisoned:
-  - isPoisoned: 0000000000000000
-  - isPoisoned: 0000000000000000
-  - isPoisoned: 0000000000000000
   - isPoisoned: 0000000000000000
   - isPoisoned: 0000000000000000
   - isPoisoned: 0000000000000000
