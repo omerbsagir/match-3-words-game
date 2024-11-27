@@ -19,3 +19,7 @@ MonoBehaviour:
   letterCountFM: 4
   layout: {fileID: 11400000, guid: d425f96985f6c46b28acbb2b2186b978, type: 2}
   goals: {fileID: 11400000, guid: edb96dc3bf16a4fde9342f307fce9eb5, type: 2}
+  cameraDetails:
+    x: 3
+    y: 4.5
+    ortoSize: 7

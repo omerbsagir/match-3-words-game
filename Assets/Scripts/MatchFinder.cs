@@ -117,6 +117,7 @@ public class MatchFinder : MonoBehaviour
                 gems.Add(board.allGems[x, y]);
             }
             return gems;
+
         }
         return null;
         
@@ -181,7 +182,8 @@ public class MatchFinder : MonoBehaviour
 
     public bool IsValidWord(string word)
     {
-        return wordDatabase.Contains(word.ToLower()); // Küçük harfe çevirip kontrol et
+        
+        return wordDatabase.Contains(word.ToLower());
     }
 
     public void MarkGemsAsMatched(List<Gem> gems)
@@ -192,6 +194,7 @@ public class MatchFinder : MonoBehaviour
             {
                 gem.isMatched = true;
                 currentMatches.Add(gem);
+
             }
             
         }

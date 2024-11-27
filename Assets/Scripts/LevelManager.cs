@@ -75,13 +75,16 @@ public class LevelManager : MonoBehaviour
     {
         return allLevels[level - 1].letterCountFM-1;
     }
+    public CameraDetails GetCameraDetails()
+    {
+        return allLevels[level - 1].cameraDetails;
+    }
 
     private void Update()
     {
         if (isGameOver && !hasGameEnded)
         {
             EndGame();
-            return;
         }
     }
     private IEnumerator waitBeforeEnd()

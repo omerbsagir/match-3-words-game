@@ -8,15 +8,14 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        float width = LevelManager.Instance.GetLevelDimensions()[0];
-        float height = LevelManager.Instance.GetLevelDimensions()[1];
+        SetCamera();
 
-        float x = (width - 1) / 2f;
-        float y = (height / 2f) + 1f;
-
-        transform.position = new Vector3(x, y, transform.position.z);
-        gameObject.GetComponent<Camera>().orthographicSize = (width + height) / 2f;
-
+    }
+    public void SetCamera()
+    {
+        CameraDetails cd = LevelManager.Instance.GetCameraDetails();
+        transform.position = new Vector3(cd.x, cd.y, transform.position.z);
+        gameObject.GetComponent<Camera>().orthographicSize = cd.ortoSize;
     }
 
 }

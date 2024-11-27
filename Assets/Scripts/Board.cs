@@ -207,29 +207,7 @@ public class Board : MonoBehaviour
                 {
                     if (layoutGems[x,y] != null)
                     {
-                        
-                        if (layoutGems[x, y].type == Gem.GemType.bomb)
-                        {
-                            SpawnGem(startPos,bomb);
-                        }
-                        else if (layoutGems[x, y].type == Gem.GemType.vertical)
-                        {
-                            SpawnGem(startPos, verticalBomb);
-                        }
-                        else if (layoutGems[x, y].type == Gem.GemType.horizontal)
-                        {
-                            SpawnGem(startPos, horizontalBomb);
-                        }
-                        else if (layoutGems[x, y].type == Gem.GemType.combo)
-                        {
-                            SpawnGem(startPos, comboBomb);
-                        }
-                        else
-                        {
-                            SpawnGem(startPos, layoutGems[x, y]);
-                            
-                        }
-                        
+                        SpawnGem(startPos, layoutGems[x, y]);
 
                     }
                     else
@@ -381,7 +359,6 @@ public class Board : MonoBehaviour
     }
     bool MatchesAtWord(Vector2Int startPos, Gem gemToCheck)
     {
-
         Vector2Int endPosH = new Vector2Int();
         Vector2Int endPosV = new Vector2Int();
 
@@ -390,40 +367,37 @@ public class Board : MonoBehaviour
         string wordRH = "";
         string wordRV = "";
 
-        if (startPos.x > letterCountFM-1)
+        // Yatay kelime kontrolü (sağa doğru)
+        if (startPos.x > 0) // 'startPos.x' tahtanın sol sınırından daha büyük olmalı
         {
-            int x = startPos.x - letterCountFM;
+            int x = startPos.x - 1;
             endPosH = new Vector2Int(x, startPos.y);
 
-            if (endPosH != null)
-            {
-                wordH = GetWordFromPositionsHorizontal(startPos, endPosH,gemToCheck);
- 
-                wordRH = new string(wordH.Reverse().ToArray());
-            }
+            // Eğer geçerli yatay kelime oluşturulabiliyorsa
+            wordH = GetWordFromPositionsHorizontal(startPos, endPosH, gemToCheck);
+            wordRH = new string(wordH.Reverse().ToArray()); // Yatay kelimenin tersini al
         }
 
-        if (startPos.y > letterCountFM - 1)
+        // Dikey kelime kontrolü (aşağı doğru)
+        if (startPos.y > 0) // 'startPos.y' tahtanın üst sınırından daha büyük olmalı
         {
-            int y = startPos.y - letterCountFM;
+            int y = startPos.y - 1;
             endPosV = new Vector2Int(startPos.x, y);
 
-            if (endPosH != null)
-            {
-                wordV = GetWordFromPositionsVertical(startPos, endPosV,gemToCheck);
-
-                wordRV = new string(wordV.Reverse().ToArray());
-            }
+            // Eğer geçerli dikey kelime oluşturulabiliyorsa
+            wordV = GetWordFromPositionsVertical(startPos, endPosV, gemToCheck);
+            wordRV = new string(wordV.Reverse().ToArray()); // Dikey kelimenin tersini al
         }
 
-
-
+        // Eğer herhangi bir kelime geçerliyse (hem normal hem ters kontrol ediliyor)
         if (IsValidWord(wordH) || IsValidWord(wordV) || IsValidWord(wordRH) || IsValidWord(wordRV))
         {
-            return true;
+            return true; // Eşleşme bulundu
         }
-        return false;
+
+        return false; // Eşleşme bulunamadı
     }
+
 
     public bool IsValidWord(string word)
     {
@@ -572,9 +546,13 @@ public class Board : MonoBehaviour
         {
             foreach (Gem g in w.letters)
             {
-                g.GetComponent<SpriteRenderer>().color = Color.green;
-                wordText.text += g.letterValue.ToUpper();
-                yield return new WaitForSeconds(.2f);
+                if (g != null)
+                {
+                    g.GetComponent<SpriteRenderer>().color = Color.green;
+                    wordText.text += g.letterValue.ToUpper();
+                    yield return new WaitForSeconds(.2f);
+                }
+                
             }
             yield return new WaitForSeconds(.5f);
             wordText.text = "";
@@ -935,6 +913,7 @@ public class Board : MonoBehaviour
         }
 
     }
+
 
     void HighlightGems(List<Gem> gems, string potMoveDirection)
     {

@@ -101,16 +101,16 @@ public class LevelNeedsManager : MonoBehaviour
 
             UpdateGoalUI();
 
-            if (remainingMoveCount <= 0 )
-            {
-                LevelManager.Instance.isLevelPassed = false;
-                LevelManager.Instance.isGameOver = true;
-                
-            }
-            else if (AreAllGoalsCompleted())
+            if (AreAllGoalsCompleted())
             {
                 LevelManager.Instance.isLevelPassed = true;
                 LevelManager.Instance.isGameOver = true;
+            }
+            else if (remainingMoveCount <= 0)
+            {
+                LevelManager.Instance.isLevelPassed = false;
+                LevelManager.Instance.isGameOver = true;
+
             }
         }
         

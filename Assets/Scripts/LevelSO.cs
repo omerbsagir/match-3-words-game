@@ -15,5 +15,12 @@ public class LevelSO : ScriptableObject
     public LayoutSO layout;
     public LevelGoalsSO goals;
 
+    public CameraDetails cameraDetails;
     
+}
+
+[System.Serializable]
+public class CameraDetails
+{
+    public float x, y,ortoSize;
 }
