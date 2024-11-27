@@ -6,10 +6,12 @@ using static UnityEditor.ShaderData;
 
 public class MatchFinder : MonoBehaviour
 {
+    public static MatchFinder Instance;
+
     private Board board;
     public List<Gem> currentMatches = new List<Gem>();
     private List<string> wordDatabase = new List<string>();
-    public int letterCountForMatch;
+    private int letterCountForMatch;
 
     private WordDatabase wd;
 
@@ -18,16 +20,17 @@ public class MatchFinder : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         wd = FindObjectOfType<WordDatabase>();
-        letterCountForMatch--;
-        board = FindObjectOfType<Board>();
+        board = Board.Instance;
         currentWords = new List<Word>();
     }
 
     private void Start()
     {
         wordDatabase = wd.wordList;
-        
+        letterCountForMatch = LevelManager.Instance.getLetterCountFM();
     }
 
     public void FindAllMatches()

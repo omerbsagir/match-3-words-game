@@ -34,17 +34,15 @@ public class LevelNeedsManager : MonoBehaviour
     private GameObject prizedPrefab;
     public int remainingPrizedCount;
 
-    private bool isGameOver = false; // Oyun durumunu takip eden bayrak
-
-    public GameObject gameOverPanel;
 
     public void Awake()
     {
         Instance = this;
     }
 
-    public void SetLevelNeeds(int level)
+    public void SetLevelNeeds()
     {
+        int level = LevelManager.Instance.level;
         currentGoals = LevelManager.Instance.allLevels[level - 1].goals;
 
         moveCount.text = currentGoals.moveLimit.ToString();
@@ -97,19 +95,14 @@ public class LevelNeedsManager : MonoBehaviour
 
     private void Update()
     {
-        if (isGameOver)
-            return; // Oyun bitmişse işlemleri durdur
-
-        // Kalan hamle sayısını güncelle
+        
         moveCount.text = remainingMoveCount.ToString();
 
-        // Gereksinimlerden biri tamamlandıysa ilgili prefab'ı yok et
         UpdateGoalUI();
 
-        // Oyun durumu kontrolü
         if (remainingMoveCount <= 0 || AreAllGoalsCompleted())
         {
-            EndGame();
+            LevelManager.Instance.isGameOver = true;
         }
     }
 
@@ -148,13 +141,5 @@ public class LevelNeedsManager : MonoBehaviour
                remainingPrizedCount <= 0;
     }
 
-    private void EndGame()
-    {
-        isGameOver = true; // Oyun durumu güncellendi
-        Debug.Log("Oyun Bitti!"); // Konsola mesaj yazdır
-        gameOverPanel.SetActive(true);
-        // Oyun bitiş animasyonu veya durumu burada işlenebilir
-        Time.timeScale = 0; // Oyun duraklatıldı
-    }
     
 }

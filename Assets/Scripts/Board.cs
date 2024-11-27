@@ -9,6 +9,8 @@ using TMPro;
 
 public class Board : MonoBehaviour
 {
+    public static Board Instance;
+
     public int width, height;  // levele özgü 
     public GameObject tilePrefab; // levele özgü
     public float bombChance = 2f; // levele özgü 
@@ -66,6 +68,8 @@ public class Board : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         wd = FindObjectOfType<WordDatabase>();
         matchFind = FindObjectOfType<MatchFinder>();
         letterSelector = FindObjectOfType<LetterSelector>();
@@ -94,12 +98,14 @@ public class Board : MonoBehaviour
         layoutIsPoisoned = levelManager.GetLevelLayoutPoison();
 
         wordDatabase = wd.wordList;
-        letterCountFM = matchFind.letterCountForMatch;
+        letterCountFM = levelManager.getLetterCountFM();
         allGems = new Gem[width, height];
         allGlasses = new Gem[width, height];
         allGrasses = new Gem[width, height];
         allWoods = new Gem[width, height];
         allHiddens = new Gem[width, height];
+
+        LevelNeedsManager.Instance.SetLevelNeeds();
     }
 
 
@@ -262,7 +268,6 @@ public class Board : MonoBehaviour
         }
         SetupHiddens();
 
-        LevelNeedsManager.Instance.SetLevelNeeds(LevelManager.Instance.level);
         
     }
     

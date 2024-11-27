@@ -258,8 +258,6 @@ public class Gem : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(otherGem.type.ToString());
-                    Debug.Log(otherGem.posIndex);
                     MarkWhichBomb(otherGem);
                 }
                 board.DestroyMatches();
@@ -307,7 +305,7 @@ public class Gem : MonoBehaviour
     }
     public void MarkVerticalBomb(Gem verticalBomb)
     {
-        Debug.Log("girdi");
+        
         List<Gem> willExplode = new List<Gem>();
         int x = (int)verticalBomb.posIndex.x;
 
@@ -497,64 +495,7 @@ public class Gem : MonoBehaviour
 
     }
 
-    public void MarkSatir(int y)
-    {
-        List<Gem> willExplode = new List<Gem>();
-        for (int i = 0;i<board.width; i++)
-        {
-            if ((board.allGems[i, y] != null))
-            {
-
-                if (board.allGems[i, y].type == GemType.prized)
-                {
-                    TriggerPrize(board.allGems[i, y]);
-                }
-                else
-                {
-                    if (board.allGems[i, y].type == GemType.bomb)
-                    {
-                        MarkBeforeExplodeBomb((board.allGems[i, y]));
-                    }
-
-                    willExplode.Add(board.allGems[i, y]);
-                }
-
-            }
-            else if (board.allWoods[i, y] != null)
-            {
-                willExplode.Add(board.allWoods[i, y]);
-            }
-        }
-    }
-    public void MarkSutun(int x)
-    {
-        List<Gem> willExplode = new List<Gem>();
-        for (int i = 0; i < board.height; i++)
-        {
-            if ((board.allGems[x, i] != null))
-            {
-
-                if (board.allGems[x, i].type == GemType.prized)
-                {
-                    TriggerPrize(board.allGems[x,i]);
-                }
-                else
-                {
-                    if (board.allGems[x,i].type == GemType.bomb)
-                    {
-                        MarkBeforeExplodeBomb((board.allGems[x,i]));
-                    }
-
-                    willExplode.Add(board.allGems[x,i]);
-                }
-
-            }
-            else if (board.allWoods[x,i] != null)
-            {
-                willExplode.Add(board.allWoods[x,i]);
-            }
-        }
-    }
+    
 
     private void AddNeighboringGems(List<Gem> gems, int x, int y)
     {

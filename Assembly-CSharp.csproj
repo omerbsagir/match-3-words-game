@@ -63,10 +63,10 @@
     <Compile Include="Assets/Scripts/LevelManager.cs" />
     <Compile Include="Assets/Scripts/LayoutSO.cs" />
     <Compile Include="Assets/Scripts/WordDatabase.cs" />
+    <Compile Include="Assets/Scripts/LevelSO.cs" />
     <Compile Include="Assets/Scripts/CameraController.cs" />
     <Compile Include="Assets/Scripts/LetterSelector.cs" />
     <Compile Include="Assets/Scripts/LevelGoalsSO.cs" />
-    <Compile Include="Assets/Scripts/LevelSO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/Resources/words.txt" />

@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
 
     public LevelSO[] allLevels;
 
+    public bool isGameOver = false;
+    public bool isLevelPassed = false;
 
     public void Awake()
     {
@@ -62,7 +64,25 @@ public class LevelManager : MonoBehaviour
     }
     public int getLetterCountFM()
     {
-        return allLevels[level - 1].letterCountFM;
+        return allLevels[level - 1].letterCountFM-1;
     }
 
+    private void Update()
+    {
+        if (isGameOver)
+        {
+            EndGame();
+            return;
+        }
+    }
+    private IEnumerator waitBeforeEnd()
+    {
+        yield return new WaitForSeconds(2f);
+        Board.Instance.currentState = Board.BoardState.wait;
+    }
+    private void EndGame()
+    {
+        StartCoroutine(waitBeforeEnd());
+        Debug.Log("Game over");
+    }
 }
