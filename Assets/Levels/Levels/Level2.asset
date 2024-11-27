@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f159c736e789461983e397fbe885cef, type: 3}
+  m_Name: Level2
+  m_EditorClassIdentifier: 
+  width: 5
+  height: 5
+  tilePrefab: {fileID: 1318605603561836967, guid: 201e8010f96294a8d93f26e48231bbc2, type: 3}
+  bombChance: 2
+  letterCountFM: 4
+  layout: {fileID: 11400000, guid: 4bfd79ab6272245158f6fe657c06bfa4, type: 2}
+  goals: {fileID: 11400000, guid: 3e119eba42cb0456c894c77e1323a370, type: 2}
+  cameraDetails:
+    x: 2
+    y: 3
+    ortoSize: 5.5
