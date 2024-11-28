@@ -501,7 +501,7 @@ public class Gem : MonoBehaviour
     {
 
         // bir üstündeki
-        if (y < board.height - 1)
+        if (y < board.height - 1)          //  5  6
         {
             gems.Add(AddGemOrWood(x,y+1));
         }
@@ -553,7 +553,7 @@ public class Gem : MonoBehaviour
         }
 
         //2 sağı
-        if (x + 1 < board.height - 1)
+        if (x + 1 < board.width - 1)
         {
             gems.Add(AddGemOrWood(x+2, y));
         }
