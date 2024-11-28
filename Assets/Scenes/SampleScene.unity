@@ -1139,8 +1139,6 @@ MonoBehaviour:
   gemSpeed: 20
   maxIdleTime: 3
   isHighlighting: 0
-  allreadyPoisoned: []
-  givenHorizontalOrVerticalBombCount: 0
   wordText: {fileID: 954752114}
 --- !u!4 &934488873
 Transform:
@@ -1807,10 +1805,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 2
-  totalLevelCounts: 2
+  totalLevelCounts: 4
   allLevels:
   - {fileID: 11400000, guid: 2fb2dc692b3ed48688724c0250982da5, type: 2}
+  - {fileID: 11400000, guid: 6f2bd1d9509cf42788a6fa3122d27af0, type: 2}
   - {fileID: 11400000, guid: bbd940cf77f83497f81f26ba3fb5b31d, type: 2}
+  - {fileID: 11400000, guid: 2f4e95a48c2e3434b99be2ffcd734214, type: 2}
   isGameOver: 0
   isLevelPassed: 0
   hasGameEnded: 0

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80f41c1ed3d834050bd518eaf6414e10, type: 3}
-  m_Name: Level_2_Goals
+  m_Name: Level_3_Goals
   m_EditorClassIdentifier: 
   moveLimit: 20
   matchCount:
-    image: {fileID: 21300000, guid: d3d882b892d2044999cfb456726e3b28, type: 3}
-    count: 40
+    image: {fileID: 0}
+    count: 0
   glassCount:
     image: {fileID: 0}
     count: 0
   grassCount:
-    image: {fileID: 0}
-    count: 0
+    image: {fileID: 21300000, guid: 3bc16401bddd941e39ecac1691571bb9, type: 3}
+    count: 5
   hiddenCount:
     image: {fileID: 0}
     count: 0

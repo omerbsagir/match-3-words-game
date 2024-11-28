@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f159c736e789461983e397fbe885cef, type: 3}
-  m_Name: Level2
+  m_Name: Level4
   m_EditorClassIdentifier: 
   width: 5
   height: 6
   tilePrefab: {fileID: 1318605603561836967, guid: 201e8010f96294a8d93f26e48231bbc2, type: 3}
   bombChance: 2
   letterCountFM: 4
-  layout: {fileID: 11400000, guid: c0f035dc4d20a430fbab960bfbe9d23e, type: 2}
-  goals: {fileID: 11400000, guid: c170dacfd595d4435a9d66447b520bef, type: 2}
+  layout: {fileID: 11400000, guid: e62bd3d1e3ed54c0387bb162fd84e2ad, type: 2}
+  goals: {fileID: 11400000, guid: 484baa0774b654056b42f182d948a769, type: 2}
   cameraDetails:
     x: 2
     y: 3.83

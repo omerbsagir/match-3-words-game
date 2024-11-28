@@ -66,8 +66,8 @@ public class Board : MonoBehaviour
     private string potentialMoveDir = null;
     [HideInInspector]
     public bool isHighlighting = false;
-    public List<Gem> allreadyPoisoned;
-    public int givenHorizontalOrVerticalBombCount = 0;
+    private List<Gem> allreadyPoisoned;
+    private int givenHorizontalOrVerticalBombCount = 0;
     public TextMeshProUGUI wordText;
 
     
