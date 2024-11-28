@@ -238,6 +238,7 @@ give
 gore
 grim
 gulf
+grit
 gale
 gear
 gold
@@ -249,14 +250,12 @@ gash
 germ
 gape
 gilt
-grit
 gown
 goat
 glow
 gush
 gown
 glow
-gore
 gawk
 gore
 gale
@@ -495,7 +494,6 @@ nice
 nail
 nods
 nook
-noon
 nail
 nose
 note
@@ -540,7 +538,6 @@ omeg
 oval
 omen
 omit
-otto
 ohms
 oops
 omeg

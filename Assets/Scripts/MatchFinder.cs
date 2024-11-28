@@ -91,10 +91,10 @@ public class MatchFinder : MonoBehaviour
             }
         }
 
-        if (currentMatches.Count > 0)
+        /*if (currentMatches.Count > 0)
         {
             currentMatches = currentMatches.Distinct().ToList();
-        }
+        }*/
 
         CheckForGlasses();
         CheckForWoods();

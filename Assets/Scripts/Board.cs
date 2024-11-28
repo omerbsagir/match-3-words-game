@@ -373,35 +373,35 @@ public class Board : MonoBehaviour
         string wordRH = "";
         string wordRV = "";
 
-        // Yatay kelime kontrolü (sağa doğru)
-        if (startPos.x > 0) // 'startPos.x' tahtanın sol sınırından daha büyük olmalı
+        
+        if (startPos.x >= letterCountFM) 
         {
-            int x = startPos.x - 1;
+            int x = startPos.x - letterCountFM;
             endPosH = new Vector2Int(x, startPos.y);
 
-            // Eğer geçerli yatay kelime oluşturulabiliyorsa
+            
             wordH = GetWordFromPositionsHorizontal(startPos, endPosH, gemToCheck);
-            wordRH = new string(wordH.Reverse().ToArray()); // Yatay kelimenin tersini al
+            wordRH = new string(wordH.Reverse().ToArray()); 
         }
 
-        // Dikey kelime kontrolü (aşağı doğru)
-        if (startPos.y > 0) // 'startPos.y' tahtanın üst sınırından daha büyük olmalı
+        
+        if (startPos.y >= letterCountFM)
         {
-            int y = startPos.y - 1;
+            int y = startPos.y - letterCountFM;
             endPosV = new Vector2Int(startPos.x, y);
 
-            // Eğer geçerli dikey kelime oluşturulabiliyorsa
+            
             wordV = GetWordFromPositionsVertical(startPos, endPosV, gemToCheck);
-            wordRV = new string(wordV.Reverse().ToArray()); // Dikey kelimenin tersini al
+            wordRV = new string(wordV.Reverse().ToArray()); 
         }
 
-        // Eğer herhangi bir kelime geçerliyse (hem normal hem ters kontrol ediliyor)
+        
         if (IsValidWord(wordH) || IsValidWord(wordV) || IsValidWord(wordRH) || IsValidWord(wordRV))
         {
-            return true; // Eşleşme bulundu
+            return true; 
         }
 
-        return false; // Eşleşme bulunamadı
+        return false; 
     }
 
 
@@ -547,8 +547,10 @@ public class Board : MonoBehaviour
 
     private IEnumerator DisplayTheWord()
     {
+        List<Word> tempWords = new List<Word>();
+        tempWords = matchFind.currentWords;
         
-        foreach(Word w in matchFind.currentWords)
+        foreach(Word w in tempWords)
         {
             foreach (Gem g in w.letters)
             {
@@ -563,7 +565,8 @@ public class Board : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             wordText.text = "";
         }
-        
+
+        tempWords.Clear();
         matchFind.currentWords.Clear();
 
 
@@ -678,6 +681,7 @@ public class Board : MonoBehaviour
         yield return new WaitForSeconds(.25f);
         
         matchFind.FindAllMatches();
+
         if (movedBombs.Count > 0)
         {
             foreach (Gem g in movedBombs)
