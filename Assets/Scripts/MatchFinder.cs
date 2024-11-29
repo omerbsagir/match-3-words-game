@@ -31,6 +31,7 @@ public class MatchFinder : MonoBehaviour
     {
         wordDatabase = wd.wordList;
         letterCountForMatch = LevelManager.Instance.getLetterCountFM();
+
     }
 
     public void FindAllMatches()
@@ -108,7 +109,6 @@ public class MatchFinder : MonoBehaviour
     public List<Gem> GetHorizontalGemsRight(int startX, int y)
     {
 
-        
         if ((startX + letterCountForMatch) < board.width)
         {
             List<Gem> gems = new List<Gem>();
@@ -182,7 +182,6 @@ public class MatchFinder : MonoBehaviour
 
     public bool IsValidWord(string word)
     {
-        
         return wordDatabase.Contains(word.ToLower());
     }
 

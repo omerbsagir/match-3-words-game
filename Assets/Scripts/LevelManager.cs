@@ -23,6 +23,10 @@ public class LevelManager : MonoBehaviour
     private GameObject gameOverPanel;
     [SerializeField]
     private GameObject levelPassPanel;
+    [SerializeField]
+    private GameObject loadingPanel;
+
+    private bool openTheCurtains=false;
 
     public void Awake()
     {   
@@ -36,11 +40,15 @@ public class LevelManager : MonoBehaviour
 
     public void SetEverythingForLevel()
     {
+        loadingPanel.SetActive(true);
         Board.Instance.SetLevel();
         LevelNeedsManager.Instance.SetLevelNeeds();
         CameraController.Instance.SetCamera();
     }
-
+    public void OpenTheCurtains()
+    {
+        loadingPanel.SetActive(false);
+    }
     public Gem[,] GetLevelLayoutWood()
     {
         return allLevels[level - 1].layout.GetLayoutWood();
@@ -94,6 +102,12 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
+        if (Board.Instance.isBoardReady && !openTheCurtains)
+        {
+            openTheCurtains = true;
+            OpenTheCurtains();
+        }
+
         if (isGameOver && !hasGameEnded)
         {
             hasGameEnded = true;

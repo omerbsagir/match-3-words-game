@@ -69,7 +69,9 @@ public class Board : MonoBehaviour
     private List<Gem> allreadyPoisoned;
     private int givenHorizontalOrVerticalBombCount = 0;
     public TextMeshProUGUI wordText;
-    
+
+    public bool isBoardReady = false;
+
 
     private void Awake()
     {
@@ -85,13 +87,12 @@ public class Board : MonoBehaviour
     void Start()
     {
 
-        SetLevel();
-        Setup();
-
     }
 
     public void SetLevel()
     {
+        isBoardReady = false;
+
         width = levelManager.GetLevelDimensions()[0];
         height = levelManager.GetLevelDimensions()[1];
 
@@ -109,7 +110,8 @@ public class Board : MonoBehaviour
         allGrasses = new Gem[width, height];
         allWoods = new Gem[width, height];
         allHiddens = new Gem[width, height];
-        
+
+        Setup();
     }
 
 
@@ -144,9 +146,8 @@ public class Board : MonoBehaviour
         {
             ShuffleBoard();
         }
-
+       
         
-
     }
 
     
@@ -222,6 +223,7 @@ public class Board : MonoBehaviour
 
                         SpawnGem(startPos, gems[gemToUse]);
 
+
                         while ((MatchesAtSame(startPos) || MatchesAtWord(startPos)) && iterations < 100)
                         {
                             Destroy(allGems[x, y].gameObject);
@@ -254,11 +256,57 @@ public class Board : MonoBehaviour
 
             }
         }
+        
         SetupHiddens();
 
+        StartCoroutine(ProcessMatches());
+ 
+    }
+
+    private IEnumerator WaitAndFindMatches()
+    {
+        yield return new WaitForSeconds(1f); // Ekstra güvenlik için kısa bir bekleme
+        matchFind.FindAllMatches();
         
     }
-    
+
+    private IEnumerator ProcessMatches()
+    {
+        do
+        {
+            yield return StartCoroutine(WaitAndFindMatches()); // Coroutine tamamlanmasını bekler
+            foreach (Word w in matchFind.currentWords)
+            {
+                foreach (Gem g in w.letters)
+                {
+                    Debug.Log((int)g.posIndex.x + " " + (int)g.posIndex.y);
+
+                    if (layoutGems[(int)g.posIndex.x, (int)g.posIndex.y] == null)
+                    {
+
+                        int gemToUse = letterSelector.GetRandomLetter();
+
+                        Destroy(allGems[(int)g.posIndex.x, (int)g.posIndex.y].gameObject);
+                        allGems[(int)g.posIndex.x, (int)g.posIndex.y] = null;
+
+                        SpawnGem(new Vector2Int((int)g.posIndex.x, (int)g.posIndex.y), gems[gemToUse]);
+                    }
+                }
+            }
+
+            // Eşleşme verilerini temizle
+            matchFind.currentMatches.Clear();
+            matchFind.currentWords.Clear();
+            matchFind.middleGems.Clear();
+
+            yield return null; // Bir sonraki kareyi bekle
+
+        } while (matchFind.currentWords.Count > 0);
+
+        yield return new WaitForSeconds(.5f);
+        isBoardReady = true;
+    }
+
 
     void SpawnGem(Vector2Int pos,Gem gemToSpawn)
     {
@@ -370,36 +418,131 @@ public class Board : MonoBehaviour
     }
     bool MatchesAtWord(Vector2Int startPos)
     {
+        
         int x = startPos.x;
         int y = startPos.y;
 
+
         Gem currentGem = allGems[x,y];
+
+        
 
         if (currentGem != null)
         {
             // Yatay kelime kontrolü
-            List<Gem> horizontalGemsRight = matchFind.GetHorizontalGemsRight(x, y);
-            List<Gem> horizontalGemsLeft = matchFind.GetHorizontalGemsLeft(x, y);
 
-            string wordH = matchFind.GetWordFromGems(horizontalGemsRight);
-            string wordRH = matchFind.GetWordFromGems(horizontalGemsLeft);
-
-
-            // Dikey kelime kontrolü
-            List<Gem> verticalGemsAbove = matchFind.GetVerticalGemsAbove(x, y);
-            List<Gem> verticalGemsUnder = matchFind.GetVerticalGemsUnder(x, y);
-
-            string wordV = matchFind.GetWordFromGems(verticalGemsAbove);
-            string wordRV = matchFind.GetWordFromGems(verticalGemsUnder);
-
-            if (matchFind.IsValidWord(wordH) || matchFind.IsValidWord(wordV) || matchFind.IsValidWord(wordRH) || matchFind.IsValidWord(wordRV))
+            
+            if (x >= letterCountFM)
             {
-                return true;
+                List<Gem> horizontalGemsLeft = GetHorizontalGemsLeft(x, y);
+                string wordH = GetWordFromGems(horizontalGemsLeft);
+                string wordRH = new string(wordH.Reverse().ToArray());
+
+                //Debug.Log(wordH);
+
+                if (IsValidWord(wordH) || IsValidWord(wordRH))
+                {
+                    return true;
+                }
             }
+            if (y >= letterCountFM) {
+
+                List<Gem> verticalGemsUnder = GetVerticalGemsUnder(x, y);
+                string wordV = GetWordFromGems(verticalGemsUnder);
+                string wordRV = new string(wordV.Reverse().ToArray());
+
+                if (IsValidWord(wordV) || IsValidWord(wordRV))
+                {
+                    return true;
+                }
+            }
+
+            
         }
 
         return false; 
     }
+
+    public List<Gem> GetHorizontalGemsRight(int startX, int y)
+    {
+
+        if ((startX + letterCountFM) < width)
+        {
+            List<Gem> gems = new List<Gem>();
+            for (int x = startX; x <= startX + letterCountFM && allGems[x, y] != null; x++)
+            {
+                gems.Add(allGems[x, y]);
+            }
+            return gems;
+
+        }
+        return null;
+
+    }
+    public List<Gem> GetHorizontalGemsLeft(int startX, int y)
+    {
+
+        if ((startX - letterCountFM) >= 0 )
+        {
+            List<Gem> gems = new List<Gem>();
+            for (int x = startX; x >= startX - letterCountFM && allGems[x, y] != null; x--)
+            {
+                gems.Add(allGems[x, y]);
+            }
+            return gems;
+        }
+        return null;
+    }
+
+    public List<Gem> GetVerticalGemsAbove(int x, int startY)
+    {
+        if ((startY + letterCountFM) < height)
+        {
+            List<Gem> gems = new List<Gem>();
+            for (int y = startY; y <= startY + letterCountFM && allGems[x, y] != null; y++)
+            {
+                gems.Add(allGems[x, y]);
+            }
+            return gems;
+        }
+        return null;
+    }
+    public List<Gem> GetVerticalGemsUnder(int x, int startY)
+    {
+        if ((startY - letterCountFM) >= 0)
+        {
+            List<Gem> gems = new List<Gem>();
+            for (int y = startY; y >= startY - letterCountFM && allGems[x, y] != null; y--)
+            {
+                gems.Add(allGems[x, y]);
+            }
+            return gems;
+        }
+        return null;
+    }
+
+    public string GetWordFromGems(List<Gem> gems)
+    {
+        string word = "";
+
+        if (gems != null)
+        {
+            foreach (Gem gem in gems)
+            {
+                word += gem.letterValue; // 'letter' taşın temsil ettiği harf
+            }
+        }
+
+        return word;
+    }
+
+    public bool IsValidWord(string word)
+    {
+        return wordDatabase.Contains(word.ToLower());
+    }
+
+
+
 
 
     public void DestroyMatches()
@@ -686,6 +829,7 @@ public class Board : MonoBehaviour
 
                         while ((MatchesAtSame(startPos) || MatchesAtWord(startPos)) && iterations < 100)
                         {
+                            Destroy(allGems[x, y].gameObject);
                             allGems[x, y] = null;
 
                             letterToUse = letterSelector.GetRandomLetter();
@@ -971,6 +1115,7 @@ public class Board : MonoBehaviour
                         int iterations = 0;
                         while ((MatchesAtSame(startPos) || MatchesAtWord(startPos)) && iterations < 100)
                         {
+                            Destroy(allGems[x, y].gameObject);
                             allGems[x, y] = null;
 
                             gemToUse = letterSelector.GetRandomLetter();
