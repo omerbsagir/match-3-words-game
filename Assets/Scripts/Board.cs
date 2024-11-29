@@ -279,7 +279,7 @@ public class Board : MonoBehaviour
             {
                 foreach (Gem g in w.letters)
                 {
-                    Debug.Log((int)g.posIndex.x + " " + (int)g.posIndex.y);
+                   
 
                     if (layoutGems[(int)g.posIndex.x, (int)g.posIndex.y] == null)
                     {
@@ -398,6 +398,27 @@ public class Board : MonoBehaviour
     bool MatchesAtSame(Vector2Int posToCheck)
     {
         Gem gemToCheck = allGems[posToCheck.x, posToCheck.y];
+        if (posToCheck.x > 0 && allGems[posToCheck.x - 1, posToCheck.y] != null)
+        {
+            if (allGems[posToCheck.x - 1, posToCheck.y].type == gemToCheck.type) //&& allGems[posToCheck.x - 2, posToCheck.y].type == gemToCheck.type
+            {
+                return true;
+            }
+        }
+
+        if (posToCheck.y > 0 && allGems[posToCheck.x, posToCheck.y - 1] != null)
+        {
+            if (allGems[posToCheck.x, posToCheck.y - 1].type == gemToCheck.type) //&& allGems[posToCheck.x, posToCheck.y - 2].type == gemToCheck.type
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    bool MatchesAtSame(Vector2Int posToCheck,Gem gemToCheck)
+    {
+        
         if (posToCheck.x > 0 && allGems[posToCheck.x - 1, posToCheck.y] != null)
         {
             if (allGems[posToCheck.x - 1, posToCheck.y].type == gemToCheck.type) //&& allGems[posToCheck.x - 2, posToCheck.y].type == gemToCheck.type
@@ -1094,6 +1115,7 @@ public class Board : MonoBehaviour
                     if (allGems[x,y]!=null && allGlasses[x, y] == null && allGrasses[x, y] == null && allGems[x,y].type != GemType.prized && allGems[x, y].isPoisoned == false)
                     {
                         gemsFromBoard.Add(allGems[x, y]);
+
                         allGems[x, y] = null;
                     }
                     
@@ -1106,30 +1128,17 @@ public class Board : MonoBehaviour
                 {
                     if (allGems[x, y] == null && allWoods[x,y] == null)
                     {
-                        Vector2Int startPos = new Vector2Int(x, y);
-
                         int gemToUse = Random.Range(0, gemsFromBoard.Count);
 
-                        SpawnGem(startPos, gemsFromBoard[gemToUse]);
-
                         int iterations = 0;
-                        while ((MatchesAtSame(startPos) || MatchesAtWord(startPos)) && iterations < 100)
+                        while (MatchesAtSame(new Vector2Int(x, y), gemsFromBoard[gemToUse]) && iterations < 100 && gemsFromBoard.Count > 1)
                         {
-                            Destroy(allGems[x, y].gameObject);
-                            allGems[x, y] = null;
-
-                            gemToUse = letterSelector.GetRandomLetter();
-
-                            SpawnGem(startPos, gems[gemToUse]);
-
+                            gemToUse = Random.Range(0, gemsFromBoard.Count);
                             iterations++;
-
-                            if (iterations == 99)
-                            {
-                                Debug.Log("sıçıyor");
-                            }
                         }
 
+                        gemsFromBoard[gemToUse].SetupGem(new Vector2Int(x, y), this);
+                        allGems[x, y] = gemsFromBoard[gemToUse];
                         gemsFromBoard.RemoveAt(gemToUse);
                     }
 

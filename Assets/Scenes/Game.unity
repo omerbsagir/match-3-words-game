@@ -2099,7 +2099,7 @@ MonoBehaviour:
   hasGameEnded: 0
   gameOverPanel: {fileID: 917090703}
   levelPassPanel: {fileID: 446856850}
-  loadingPanel: {fileID: 0}
+  loadingPanel: {fileID: 1716095687}
 --- !u!4 &1843743962
 Transform:
   m_ObjectHideFlags: 0
