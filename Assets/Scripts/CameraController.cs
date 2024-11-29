@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance;
     // her level için kamera değerleri belirle ona göre ayarla
 
+    private void Awake()
+    {
+        
+        Instance = this;
+        
+    }
     private void Start()
     {
         SetCamera();

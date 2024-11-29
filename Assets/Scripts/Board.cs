@@ -111,7 +111,6 @@ public class Board : MonoBehaviour
         allWoods = new Gem[width, height];
         allHiddens = new Gem[width, height];
 
-        LevelNeedsManager.Instance.SetLevelNeeds();
     }
 
 

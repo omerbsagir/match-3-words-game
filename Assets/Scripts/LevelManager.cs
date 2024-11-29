@@ -7,8 +7,8 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
 
-    public int level = 1;
-    public int totalLevelCounts = 10;
+    public int level;
+    public int totalLevelCount;
 
     public LevelSO[] allLevels;
 
@@ -25,8 +25,20 @@ public class LevelManager : MonoBehaviour
     private GameObject levelPassPanel;
 
     public void Awake()
-    {
+    {   
         Instance = this;
+    }
+
+    public void Start()
+    {
+        SetEverythingForLevel();
+    }
+
+    public void SetEverythingForLevel()
+    {
+        Board.Instance.SetLevel();
+        LevelNeedsManager.Instance.SetLevelNeeds();
+        CameraController.Instance.SetCamera();
     }
 
     public Gem[,] GetLevelLayoutWood()
@@ -84,15 +96,16 @@ public class LevelManager : MonoBehaviour
     {
         if (isGameOver && !hasGameEnded)
         {
+            hasGameEnded = true;
             EndGame();
         }
     }
     private IEnumerator waitBeforeEnd()
     {
         Board.Instance.currentState = Board.BoardState.wait;
+
         yield return new WaitForSeconds(2f);
 
-        hasGameEnded = true;
         SetGameOverPanel();
     }
     private void EndGame()
@@ -102,8 +115,18 @@ public class LevelManager : MonoBehaviour
     }
     private void SetGameOverPanel()
     {
+        Debug.Log("Fonksiyona Girdi");
         if (isLevelPassed)
         {
+            Debug.Log(level);
+            if (level < totalLevelCount)
+            {
+                this.level++;
+            }
+            else
+            {
+                Debug.Log("Level kalmadı kardeş");
+            }
             levelPassPanel.SetActive(true);
         }
         else

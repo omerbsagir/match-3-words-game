@@ -67,6 +67,7 @@
     <Compile Include="Assets/Scripts/CameraController.cs" />
     <Compile Include="Assets/Scripts/LetterSelector.cs" />
     <Compile Include="Assets/Scripts/LevelGoalsSO.cs" />
+    <Compile Include="Assets/Scripts/Şimdilik/MenuManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/Resources/words.txt" />
