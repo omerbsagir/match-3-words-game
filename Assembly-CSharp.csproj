@@ -56,21 +56,21 @@
     <Analyzer Include="/Applications/Visual Studio.app/Contents/MonoBundle/Addins/MonoDevelop.Unity/Analyzers/Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets/Scripts/MatchFinder.cs" />
-    <Compile Include="Assets/Scripts/LevelNeedsManager.cs" />
-    <Compile Include="Assets/Scripts/Gem.cs" />
-    <Compile Include="Assets/Scripts/Board.cs" />
-    <Compile Include="Assets/Scripts/LevelManager.cs" />
-    <Compile Include="Assets/Scripts/LayoutSO.cs" />
-    <Compile Include="Assets/Scripts/WordDatabase.cs" />
-    <Compile Include="Assets/Scripts/LevelSO.cs" />
-    <Compile Include="Assets/Scripts/CameraController.cs" />
-    <Compile Include="Assets/Scripts/Şimdilik/MenuManager.cs" />
-    <Compile Include="Assets/Scripts/LetterSelector.cs" />
-    <Compile Include="Assets/Scripts/LevelGoalsSO.cs" />
+    <Compile Include="Assets/EngineScripts/MatchFinder.cs" />
+    <Compile Include="Assets/EngineScripts/LevelNeedsManager.cs" />
+    <Compile Include="Assets/EngineScripts/Gem.cs" />
+    <Compile Include="Assets/EngineScripts/Board.cs" />
+    <Compile Include="Assets/EngineScripts/LevelManager.cs" />
+    <Compile Include="Assets/EngineScripts/LayoutSO.cs" />
+    <Compile Include="Assets/EngineScripts/WordDatabase.cs" />
+    <Compile Include="Assets/EngineScripts/LevelSO.cs" />
+    <Compile Include="Assets/EngineScripts/CameraController.cs" />
+    <Compile Include="Assets/EngineScripts/Şimdilik/MenuManager.cs" />
+    <Compile Include="Assets/EngineScripts/LetterSelector.cs" />
+    <Compile Include="Assets/EngineScripts/LevelGoalsSO.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets/Resources/words.txt" />
+    <None Include="Assets/EngineResources/words.txt" />
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
